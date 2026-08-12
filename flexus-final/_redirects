@@ -1,0 +1,13 @@
+/success        /thanks.html          200
+/thanks         /thanks.html          200
+/request-sample  /request-sample.html  200
+/resources      /resources.html       200
+/ap             /ap.html              200
+/cp             /cp.html              200
+/installers       /installers.html      200
+/stormwater-bmp   /stormwater-bmp.html  200
+/leed-specification  /leed-specification.html  200
+/municipal-rfp    /municipal-rfp.html   200
+/budget-estimator /budget-estimator.html 200
+/cost-calculator  /budget-estimator.html 200
+/pricing          /budget-estimator.html 200

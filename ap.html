@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architectural Permeable Pavement | LEED & CSI Division 32 Spec | Flexus AP</title>
+<meta name="description" content="Flexus AP is an architectural-grade permeable pavement system for campuses, botanical gardens, and design-led landscape architecture. LEED-eligible, ADA-aligned, and submittal-ready with CSI Division 32 specification. Four curated aggregate blends. Stone and recycled rubber composite.">
+<meta name="keywords" content="architectural permeable paving, decorative permeable pavement, landscape architecture permeable surface, LEED permeable paving, CSI Division 32 permeable, ASCE 68-18 pedestrian, campus pedestrian paving specification, botanical garden permeable path, university campus paving, resin bound aggregate paving, stone blend permeable surface, sustainable site permeable, green infrastructure landscape architecture, specifier permeable pavement">
+<link rel="canonical" href="https://www.flexusco.com/ap">
+<meta property="og:type" content="website"><meta property="og:url" content="https://www.flexusco.com/ap">
+<meta property="og:title" content="Architectural Permeable Pavement | LEED & CSI Division 32 Spec | Flexus AP">
+<meta property="og:description" content="Architectural-grade permeable pavement for campuses, gardens, and design-led landscape architecture. LEED-eligible, ADA-aligned, CSI Division 32 spec. Four curated stone blends.">
+<meta property="og:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
+<meta property="og:site_name" content="Flexus™">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Architectural Permeable Pavement | LEED & CSI Division 32 Spec | Flexus AP">
+<meta name="twitter:description" content="Architectural-grade permeable pavement for campuses, gardens, and design-led landscape architecture. LEED-eligible, ADA-aligned, CSI Division 32 spec.">
+<meta name="twitter:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
+<link rel="stylesheet" href="/site.css">
+<style>
+/* Install split */
+.install-split { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); min-height:480px; }
+.install-split-copy { padding:72px 6vw; display:flex; flex-direction:column; justify-content:center; max-width:540px; }
+.install-split-photo { overflow:hidden; min-height:360px; }
+.install-split-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* AP-200 gallery */
+.ap-gallery { position:relative; width:100%; height:100%; overflow:hidden; }
+.ap-gallery-track { display:flex; width:100%; height:100%; transition:transform .45s cubic-bezier(.4,0,.2,1); touch-action:pan-y; }
+.ap-gallery-slide { flex:0 0 100%; width:100%; height:100%; }
+.ap-gallery-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+.ap-gallery-arrow { position:absolute; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:50%; border:none; background:rgba(10,12,10,.42); backdrop-filter:blur(4px); color:#fff; font-size:16px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center; z-index:3; transition:background .15s ease; }
+.ap-gallery-arrow:hover { background:rgba(10,12,10,.68); }
+.ap-gallery-arrow:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+.ap-gallery-arrow.prev { left:14px; }
+.ap-gallery-arrow.next { right:14px; }
+.ap-gallery-dots { position:absolute; left:0; right:0; bottom:16px; z-index:3; display:flex; justify-content:center; gap:8px; }
+.ap-gallery-dot { position:relative; width:7px; height:7px; padding:0; border-radius:50%; border:1.5px solid rgba(255,255,255,.9); background:rgba(255,255,255,.25); cursor:pointer; }
+.ap-gallery-dot::before { content:''; position:absolute; top:50%; left:50%; width:32px; height:32px; transform:translate(-50%,-50%); }
+.ap-gallery-dot.active { background:#fff; }
+.ap-gallery-dot:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+
+/* Lift decision cards */
+.lift-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:4px; }
+.lift-card { border:1px solid var(--line); border-radius:var(--radius); padding:22px 20px; background:#fff; }
+.lift-card.recommended { border-color:var(--text); }
+.lift-card-tag { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; font-family:var(--mono); }
+.lift-card-name { font-size:18px; font-weight:500; letter-spacing:-.3px; color:var(--text); margin-bottom:4px; }
+.lift-card-thick { font-size:13px; color:var(--muted); margin-bottom:14px; }
+.lift-card-use { font-size:13.5px; color:var(--text); font-weight:600; margin-bottom:6px; }
+.lift-card-desc { font-size:13px; color:var(--muted); line-height:1.55; margin-bottom:14px; }
+.lift-card-when { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.lift-card-when-list { margin:0; padding:0; list-style:none; }
+.lift-card-when-list li { font-size:12.5px; color:var(--muted); padding:4px 0; border-top:1px solid var(--line); line-height:1.45; }
+.lift-card-when-list li:first-child { border-top:none; }
+.lift-rec-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; background:var(--text); color:#fff; border-radius:999px; padding:3px 9px; margin-bottom:10px; }
+
+/* Blend detail grid */
+.blend-detail-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; margin-top:4px; }
+.blend-detail-card { border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#fff; display:flex; flex-direction:column; }
+.blend-detail-img { overflow:hidden; aspect-ratio:1/1; width:100%; max-height:220px; }
+.blend-detail-img img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; transform:scale(1.15); transition:transform 500ms ease; }
+.blend-detail-card:hover .blend-detail-img img { transform:scale(1.22); }
+.blend-detail-copy { padding:18px 20px; }
+.blend-detail-sku { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; font-family:var(--mono); }
+.blend-detail-name { font-size:15px; font-weight:600; letter-spacing:-.2px; color:var(--text); margin-bottom:12px; }
+.blend-detail-row { font-size:12.5px; color:var(--muted); padding:6px 0; border-top:1px solid var(--line); line-height:1.45; display:grid; grid-template-columns:62px 1fr; gap:8px; }
+.blend-detail-row:first-of-type { border-top:none; }
+.blend-detail-row strong { color:var(--text); font-weight:600; font-size:11.5px; padding-top:1px; }
+
+/* AP vs CP decision */
+.decision-strip { background:var(--soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:56px 0; }
+.decision-inner { max-width:1200px; margin:0 auto; padding:0 6vw; display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+.decision-col-label { font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+.decision-col-title { font-size:20px; font-weight:500; letter-spacing:-.3px; color:var(--text); margin-bottom:14px; }
+.decision-row { display:flex; gap:10px; padding:10px 0; border-top:1px solid var(--line); font-size:13.5px; color:var(--muted); line-height:1.5; align-items:baseline; }
+.decision-row:first-of-type { border-top:none; }
+.decision-check { color:var(--green); font-weight:700; font-size:12px; flex-shrink:0; }
+
+/* FAQ */
+.faq-list { margin:0; padding:0; list-style:none; }
+.faq-item { border-top:1px solid var(--line); }
+.faq-item:last-child { border-bottom:1px solid var(--line); }
+.faq-q { width:100%; background:none; border:none; text-align:left; padding:18px 0; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:16px; font-family:var(--font); font-size:14.5px; font-weight:600; color:var(--text); letter-spacing:-.1px; }
+.faq-q:hover { color:var(--text); opacity:.8; }
+.faq-icon { font-size:20px; font-weight:300; color:var(--muted); flex-shrink:0; transition:transform .2s; line-height:1; }
+.faq-item.open .faq-icon { transform:rotate(45deg); }
+.faq-a { display:none; padding:0 0 18px; font-size:14px; color:var(--muted); line-height:1.7; max-width:72ch; }
+.faq-item.open .faq-a { display:block; }
+
+@media (max-width:980px){
+  .install-split { grid-template-columns:1fr; }
+  .install-split-photo { min-height:320px; order:-1; aspect-ratio:16/9; }
+  .install-split-copy { padding:52px 6vw; max-width:100%; }
+  .lift-cards { grid-template-columns:1fr; }
+  .blend-detail-grid { grid-template-columns:1fr; }
+  .decision-inner { grid-template-columns:1fr; gap:32px; }
+}
+
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5T6ESYM3SB"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5T6ESYM3SB');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Product","name":"Flexus AP — Architectural Permeable Pavement","description":"Architectural-grade permeable pavement system for campuses, botanical gardens, and design-led landscape architecture. Four curated aggregate blends. LEED-eligible, ADA-aligned. CSI Division 32 specification available.","brand":{"@type":"Brand","name":"Flexus™"},"category":"Permeable Pavement / Architectural / Stormwater BMP","manufacturer":{"@type":"Organization","name":"Flexus Materials Ltd Co","url":"https://www.flexusco.com"},"image":"https://www.flexusco.com/assets/ap-200-install.jpg","url":"https://www.flexusco.com/ap"}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo">Flexus™</div>
+    <nav class="nav-links" data-nav>
+      <a href="./" data-path="/">Overview</a>
+      <a href="cp.html" data-path="/cp.html">CP</a>
+      <a href="ap.html" data-path="/ap.html" class="active">AP</a>
+      <a href="stormwater-bmp.html" data-path="/stormwater-bmp.html">Stormwater BMP</a>
+      <a href="municipal-rfp.html" data-path="/municipal-rfp.html">Municipal RFP</a>
+      <a href="leed-specification.html" data-path="/leed-specification.html">Specifiers</a>
+      <a href="resources.html" data-path="/resources.html">Resources</a>
+      <a href="installers.html" data-path="/installers.html">Installers</a>
+      <a href="request-sample.html" data-path="/request-sample.html">Sample</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="pill" href="resources.html">Spec Pack</a>
+      <a class="pill primary" href="request-sample.html">Request Sample</a>
+      <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false"><span class="menu-icn" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</header>
+<div class="sheet" id="mobile-sheet" aria-hidden="true">
+  <div class="sheet-backdrop" data-sheet-close></div>
+  <div class="sheet-panel" role="dialog" aria-label="Menu">
+    <div class="sheet-head"><div class="sheet-title">Menu</div><button class="sheet-close" id="sheet-close" aria-label="Close menu">✕</button></div>
+    <div class="sheet-body" data-nav>
+      <a class="sheet-link" href="./" data-path="/" data-sheet-link>Overview</a>
+      <a class="sheet-link" href="cp.html" data-path="/cp.html" data-sheet-link>CP</a>
+      <a class="sheet-link" href="ap.html" data-path="/ap.html" data-sheet-link>AP</a>
+      <a class="sheet-link" href="stormwater-bmp.html" data-path="/stormwater-bmp.html" data-sheet-link>Stormwater BMP</a>
+      <a class="sheet-link" href="leed-specification.html" data-path="/leed-specification.html" data-sheet-link>Specifiers</a>
+      <a class="sheet-link" href="municipal-rfp.html" data-path="/municipal-rfp.html" data-sheet-link>Municipal RFP</a>
+      <a class="sheet-link" href="budget-estimator.html" data-path="/budget-estimator.html" data-sheet-link>Budget Estimator</a>
+      <a class="sheet-link" href="resources.html" data-path="/resources.html" data-sheet-link>Resources</a>
+      <a class="sheet-link" href="installers.html" data-path="/installers.html" data-sheet-link>Installers</a>
+      <a class="sheet-link" href="request-sample.html" data-path="/request-sample.html" data-sheet-link>Sample</a>
+      <div class="sheet-cta"><a class="pill" href="resources.html" data-sheet-link>Spec Pack</a><a class="pill primary" href="request-sample.html" data-sheet-link>Request Sample</a></div>
+    </div>
+  </div>
+</div>
+<main>
+
+<section class="hero small">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">AP series · Architectural Permeable Pavement</div>
+    <h1 class="h1" style="max-width:24ch;">Architectural permeable pavement for landscape architecture</h1>
+    <p class="lede">Architectural permeable pavement for campuses, botanical gardens, and design-led routes. Four curated aggregate blends. Same engineered system as CP — refined palette.</p>
+    <div class="hero-cta">
+      <a class="pill primary" href="request-sample.html">Request AP sample</a>
+      <a class="pill" href="resources.html">Spec pack</a>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:20px;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);">
+      <div style="font-size:12px;color:var(--muted);"><strong style="color:var(--text);">$18–$26/sf</strong> installed</div>
+      <div style="font-size:12px;color:var(--muted);"><strong style="color:var(--text);">&gt;200 in/hr</strong> permeability target</div>
+      <div style="font-size:12px;color:var(--muted);"><strong style="color:var(--text);">15–20 yr</strong> design service life</div>
+      <div style="font-size:12px;color:var(--muted);"><strong style="color:var(--text);">ADA-aligned</strong> · ASTM E303 slip tested</div>
+      <div style="font-size:12px;color:var(--muted);"><strong style="color:var(--text);">4 aggregate blends</strong> · CSI Div 32 spec</div>
+    </div>
+  </div>
+</section>
+
+<!-- ANCHOR NAV -->
+<div id="ap-anchor-sentinel" style="height:1px;"></div>
+<div id="ap-anchor-spacer" style="height:0;"></div>
+<div id="ap-anchor-nav" style="background:var(--soft);border-bottom:1px solid var(--line);padding:0;z-index:50;">
+  <div class="wrap-tight" data-anchor-nav style="display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;">
+    <a href="#palette" style="padding:12px 18px;font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-right:1px solid var(--line);">Palette</a>
+    <a href="#lifts" style="padding:12px 18px;font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-right:1px solid var(--line);">Lift guide</a>
+    <a href="#faq" style="padding:12px 18px;font-size:12.5px;font-weight:600;color:var(--muted);text-decoration:none;white-space:nowrap;border-right:1px solid var(--line);">FAQ</a>
+    <a href="request-sample.html" style="padding:12px 18px;font-size:12.5px;font-weight:600;color:var(--text);text-decoration:none;white-space:nowrap;">Request sample →</a>
+  </div>
+</div>
+<script>
+(function(){
+  var sentinel = document.getElementById('ap-anchor-sentinel');
+  var bar = document.getElementById('ap-anchor-nav');
+  var spacer = document.getElementById('ap-anchor-spacer');
+  if (!sentinel || !bar || !spacer) return;
+  function navH(){ return window.innerWidth <= 980 ? 51 : 57; }
+
+  function pin(){
+    if (bar.style.position === 'fixed') return;
+    spacer.style.height = bar.offsetHeight + 'px';
+    bar.style.position = 'fixed';
+    bar.style.top = navH() + 'px';
+    bar.style.left = '0';
+    bar.style.right = '0';
+    bar.style.boxShadow = '0 4px 10px rgba(0,0,0,.08)';
+  }
+  function unpin(){
+    if (bar.style.position !== 'fixed') return;
+    bar.style.position = '';
+    bar.style.top = '';
+    bar.style.left = '';
+    bar.style.right = '';
+    bar.style.boxShadow = 'none';
+    spacer.style.height = '0';
+  }
+  function refreshTop(){ if (bar.style.position === 'fixed') bar.style.top = navH() + 'px'; }
+
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(function(entries){
+      entries[0].isIntersecting ? unpin() : pin();
+    }, { threshold: 0, rootMargin: '-' + (navH() + 1) + 'px 0px 0px 0px' }).observe(sentinel);
+  } else {
+    var ticking = false;
+    window.addEventListener('scroll', function(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        var top = sentinel.getBoundingClientRect().top;
+        top < navH() ? pin() : unpin();
+        ticking = false;
+      });
+    });
+  }
+  window.addEventListener('resize', refreshTop);
+})();
+</script>
+
+<section class="section rule">
+  <div class="wrap-tight section-inner">
+    <div class="grid2">
+      <div class="card soft">
+        <h3>Best fit</h3>
+        <ul class="list">
+          <li><strong>Campuses</strong> and civic institutions</li>
+          <li><strong>Botanical gardens</strong> and curated landscapes</li>
+          <li><strong>Design-led</strong> pedestrian routes</li>
+          <li><strong>Stone-forward aesthetics</strong> with controlled palette</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What you specify</h3>
+        <div class="specgrid">
+          <div><strong>Series</strong>AP — Architectural Pavement</div>
+          <div><strong>Lifts</strong>1.5″ · 2.0″ · 2.5″</div>
+          <div><strong>Blend</strong>Four curated aggregate selections</div>
+          <div><strong>Finish</strong>Matte, stone-forward, seamless</div>
+          <div><strong>Base</strong>Open-graded aggregate</div>
+          <div><strong>Edge</strong>Hard restraint preferred; rolled or beveled available</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Install -->
+<section class="install-split">
+  <div class="install-split-photo">
+    <div class="ap-gallery" data-ap-gallery>
+      <div class="ap-gallery-track" data-gallery-track>
+        <div class="ap-gallery-slide"><img src="assets/ap-200-gallery-1.jpg" alt="Flexus AP-200 installed — permeable trail curving past the pavilion, Azalea Park" loading="lazy" decoding="async"></div>
+        <div class="ap-gallery-slide"><img src="assets/ap-200-gallery-2.jpg" alt="Flexus AP-200 installed — pavilion and fire pit patio, Azalea Park" loading="lazy" decoding="async"></div>
+        <div class="ap-gallery-slide"><img src="assets/ap-200-gallery-3.jpg" alt="Flexus AP-200 installed — pavilion, picnic area, and Azalea Park signage" loading="lazy" decoding="async"></div>
+        <div class="ap-gallery-slide"><img src="assets/ap-200-gallery-4.jpg" alt="Flexus AP-200 installed — trail leading to seating swing, Azalea Park" loading="lazy" decoding="async"></div>
+      </div>
+      <button class="ap-gallery-arrow prev" type="button" data-gallery-prev aria-label="Previous photo">‹</button>
+      <button class="ap-gallery-arrow next" type="button" data-gallery-next aria-label="Next photo">›</button>
+      <div class="ap-gallery-dots" role="tablist" aria-label="AP-200 installed work photos">
+        <button class="ap-gallery-dot active" type="button" role="tab" aria-selected="true" aria-label="Photo 1 of 4" data-gallery-dot="0"></button>
+        <button class="ap-gallery-dot" type="button" role="tab" aria-selected="false" aria-label="Photo 2 of 4" data-gallery-dot="1"></button>
+        <button class="ap-gallery-dot" type="button" role="tab" aria-selected="false" aria-label="Photo 3 of 4" data-gallery-dot="2"></button>
+        <button class="ap-gallery-dot" type="button" role="tab" aria-selected="false" aria-label="Photo 4 of 4" data-gallery-dot="3"></button>
+      </div>
+    </div>
+  </div>
+  <div class="install-split-copy">
+    <div class="eyebrow" style="margin-bottom:14px;">Installed work</div>
+    <h2 class="section-title" style="max-width:22ch;">AP-200 — In the field</h2>
+    <div class="specgrid" style="margin-bottom:20px;">
+      <div><strong>Series</strong>AP — Architectural</div>
+      <div><strong>Lift</strong>AP-200 · 2.0″</div>
+      <div><strong>Binder</strong>UV-stabilized polyurethane</div>
+      <div><strong>Base</strong>Open-graded aggregate</div>
+    </div>
+    <p style="font-size:14px;color:var(--muted);line-height:1.65;margin:0 0 22px;">2.0″ of stone-forward composite placed seamlessly through an established canopy. Fully permeable from day one. One pour, no joints, no migration.</p>
+    <a class="pill primary" href="request-sample.html">Request AP-200 sample →</a>
+  </div>
+</section>
+
+<!-- Palette — overview swatches -->
+<section class="section rule" id="palette">
+  <div class="wrap-tight section-inner">
+    <div class="eyebrow" style="margin-bottom:10px;">AP series</div>
+    <h2 class="section-title">Aggregate palette</h2>
+    <p style="color:var(--muted);font-size:14.5px;line-height:1.65;margin:0 0 24px;max-width:60ch;">Four blends, each with a specific design intent. Request samples to evaluate against your project materials.</p>
+    <div class="swatch-grid">
+      <div class="swatch-card">
+        <div class="swatch-img-wrap"><img src="assets/ap-swatch-charcoal-earth.jpg" width="1080" height="1080" alt="Charcoal Earth — rust and black stone aggregate blend" loading="lazy" decoding="async"></div>
+        <div class="swatch-info">
+          <div class="swatch-sku">CE275</div>
+          <div class="swatch-name">Charcoal Earth</div>
+          <div class="swatch-desc">Grounded, darker composition for urban edges and transitions.</div>
+          <a class="pill" href="request-sample.html?blend=CE275" style="margin-top:14px;font-size:12px;">Request sample</a>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-img-wrap"><img src="assets/ap-swatch-sand-dune.jpg" width="1080" height="1080" alt="Sand Dune — warm brown with cream and burgundy stone blend" loading="lazy" decoding="async"></div>
+        <div class="swatch-info">
+          <div class="swatch-sku">SD255</div>
+          <div class="swatch-name">Sand Dune</div>
+          <div class="swatch-desc">Warm, stone-forward composition for natural landscapes.</div>
+          <a class="pill" href="request-sample.html?blend=SD255" style="margin-top:14px;font-size:12px;">Request sample</a>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-img-wrap"><img src="assets/ap-swatch-natural-trail.jpg" width="1080" height="1080" alt="Natural Trail — rich dark brown with red and pink fleck blend" loading="lazy" decoding="async"></div>
+        <div class="swatch-info">
+          <div class="swatch-sku">NT265</div>
+          <div class="swatch-name">Natural Trail</div>
+          <div class="swatch-desc">Quiet, low-contrast tone for trails and parks.</div>
+          <a class="pill" href="request-sample.html?blend=NT265" style="margin-top:14px;font-size:12px;">Request sample</a>
+        </div>
+      </div>
+      <div class="swatch-card">
+        <div class="swatch-img-wrap"><img src="assets/ap-swatch-coastal-granite.jpg" width="1080" height="1080" alt="Coastal Granite — black rust and white high-contrast blend" loading="lazy" decoding="async"></div>
+        <div class="swatch-info">
+          <div class="swatch-sku">CG218</div>
+          <div class="swatch-name">Coastal Granite</div>
+          <div class="swatch-desc">Cool contrast for modern or coastal designs.</div>
+          <a class="pill" href="request-sample.html?blend=CG218" style="margin-top:14px;font-size:12px;">Request sample</a>
+        </div>
+      </div>
+    </div>
+    <p class="smallnote" style="margin-top:16px;">Samples are representative. Final appearance varies slightly with natural aggregate and field placement. Surface finish is intentionally matte and stone-forward.</p>
+  </div>
+</section>
+
+<!-- Blend detail -->
+<section class="section rule">
+  <div class="wrap-tight section-inner">
+    <h2 class="section-title">Choosing a blend</h2>
+
+    <div class="blend-detail-grid">
+      <div class="blend-detail-card">
+        <div class="blend-detail-img"><img src="assets/ap-swatch-charcoal-earth.jpg" alt="Charcoal Earth blend" loading="lazy" decoding="async"></div>
+        <div class="blend-detail-copy">
+          <div class="blend-detail-sku">CE275</div>
+          <div class="blend-detail-name">Charcoal Earth</div>
+          <div class="blend-detail-row"><strong>Character</strong>Dark, grounded, recessive. Draws the eye to planting and architecture rather than the surface itself.</div>
+          <div class="blend-detail-row"><strong>Pairs with</strong>Dark stone curbing, weathered steel edging, dark concrete hardscape, dense canopy.</div>
+          <div class="blend-detail-row"><strong>Best fit</strong>Urban campus edges, transition zones between hardscape and planting, modern civic environments.</div>
+          <div class="blend-detail-row"><strong>Avoid</strong>Settings where you need the surface to read as natural or warm — the dark aggregate can feel urban in heavily planted contexts.</div>
+        </div>
+      </div>
+      <div class="blend-detail-card">
+        <div class="blend-detail-img"><img src="assets/ap-swatch-sand-dune.jpg" alt="Sand Dune blend" loading="lazy" decoding="async"></div>
+        <div class="blend-detail-copy">
+          <div class="blend-detail-sku">SD255</div>
+          <div class="blend-detail-name">Sand Dune</div>
+          <div class="blend-detail-row"><strong>Character</strong>Warm, inviting, high readability. The most visually accessible of the four blends in direct sun.</div>
+          <div class="blend-detail-row"><strong>Pairs with</strong>Buff limestone, warm concrete, tan brick, native grasses, meadow plantings.</div>
+          <div class="blend-detail-row"><strong>Best fit</strong>Botanical gardens, arboreta, naturalistic landscapes, regional parks in warm-tone environments.</div>
+          <div class="blend-detail-row"><strong>Avoid</strong>Settings adjacent to cool-gray hardscape — the warm tones can clash without a deliberate material transition.</div>
+        </div>
+      </div>
+      <div class="blend-detail-card">
+        <div class="blend-detail-img"><img src="assets/ap-swatch-natural-trail.jpg" alt="Natural Trail blend" loading="lazy" decoding="async"></div>
+        <div class="blend-detail-copy">
+          <div class="blend-detail-sku">NT265</div>
+          <div class="blend-detail-name">Natural Trail</div>
+          <div class="blend-detail-row"><strong>Character</strong>Low-contrast, quiet, naturalistic. Reads closest to a compacted earth path — the most "disappearing" of the four.</div>
+          <div class="blend-detail-row"><strong>Pairs with</strong>Nearly anything. Neutral enough to work alongside cool stone, warm wood, or planted edges without competing.</div>
+          <div class="blend-detail-row"><strong>Best fit</strong>Nature preserves, trail corridors, shaded woodland paths, any project where the surface should defer to its surroundings.</div>
+          <div class="blend-detail-row"><strong>Avoid</strong>Settings requiring high contrast or visual distinctiveness — NT265 intentionally recedes.</div>
+        </div>
+      </div>
+      <div class="blend-detail-card">
+        <div class="blend-detail-img"><img src="assets/ap-swatch-coastal-granite.jpg" alt="Coastal Granite blend" loading="lazy" decoding="async"></div>
+        <div class="blend-detail-copy">
+          <div class="blend-detail-sku">CG218</div>
+          <div class="blend-detail-name">Coastal Granite</div>
+          <div class="blend-detail-row"><strong>Character</strong>High-contrast, contemporary, graphic. Black and white aggregate reads distinctly from most surrounding materials.</div>
+          <div class="blend-detail-row"><strong>Pairs with</strong>White concrete, gray granite, black steel, modern architectural paving systems.</div>
+          <div class="blend-detail-row"><strong>Best fit</strong>Contemporary campuses, civic plazas, coastal environments, modern institutional settings.</div>
+          <div class="blend-detail-row"><strong>Avoid</strong>Warm or naturalistic contexts — CG218 is a design-forward choice that announces itself.</div>
+        </div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px;">When in doubt, request samples of your top two candidates and evaluate against project material boards and site photos. Aggregate color shifts meaningfully between dry and wet conditions.</p>
+  </div>
+</section>
+
+<!-- Lift decision guide -->
+<section class="section rule" id="lifts">
+  <div class="wrap-tight section-inner">
+    <h2 class="section-title">Lift selection guide</h2>
+    <p style="color:var(--muted);font-size:14.5px;line-height:1.65;margin:0 0 24px;max-width:64ch;">Choose based on route type and traffic, not just budget.</p>
+    <div class="lift-cards">
+      <div class="lift-card">
+        <div class="lift-card-tag">AP-150</div>
+        <div class="lift-card-name">1.5″</div>
+        <div class="lift-card-thick">Minimum specification lift</div>
+        <div class="lift-card-use">Garden paths and intimate routes</div>
+        <div class="lift-card-desc">Light, predictable foot traffic. Most consistent base preparation required.</div>
+        <div class="lift-card-when">Specify AP-150 when</div>
+        <ul class="lift-card-when-list">
+          <li>Secondary or low-frequency route</li>
+          <li>Substrate well-prepared and stable</li>
+          <li>No service vehicles will ever cross</li>
+        </ul>
+      </div>
+      <div class="lift-card recommended">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <div class="lift-card-tag" style="margin-bottom:0;">AP-200</div>
+          <div class="lift-rec-badge" style="margin-bottom:0;">Most specified</div>
+        </div>
+        <div class="lift-card-name">2.0″</div>
+        <div class="lift-card-thick">Standard architectural lift</div>
+        <div class="lift-card-use">Primary circulation and campus routes</div>
+        <div class="lift-card-desc">Right for most AP projects. Sustained foot traffic, meaningful substrate tolerance, occasional maintenance access.</div>
+        <div class="lift-card-when">Specify AP-200 when</div>
+        <ul class="lift-card-when-list">
+          <li>Primary pedestrian connector</li>
+          <li>Moderate to high foot traffic</li>
+          <li>Peer or client review required</li>
+        </ul>
+      </div>
+      <div class="lift-card">
+        <div class="lift-card-tag">AP-250</div>
+        <div class="lift-card-name">2.5″</div>
+        <div class="lift-card-thick">Heavy-use lift</div>
+        <div class="lift-card-use">High-traffic areas and design continuity</div>
+        <div class="lift-card-desc">High traffic, wide paths, or varied base conditions. Extra tolerance for site-to-site variation.</div>
+        <div class="lift-card-when">Specify AP-250 when</div>
+        <ul class="lift-card-when-list">
+          <li>Primary campus or civic spine</li>
+          <li>Variable base conditions across the project</li>
+          <li>Durability outweighs incremental cost</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:20px;">Lift thickness does not substitute for base preparation. All three lifts require a properly graded and compacted open-graded aggregate base. Base depth is specified per project based on soil conditions. See installation guidelines for details.</p>
+  </div>
+</section>
+
+<!-- AP vs CP decision -->
+<div class="decision-strip">
+  <div class="decision-inner">
+    <div>
+      <div class="decision-col-label">AP — Architectural Pavement</div>
+      <div class="decision-col-title">Choose AP when the surface is part of the brief</div>
+      <div class="decision-row"><span class="decision-check">✓</span>The project has a named design intent — botanical, civic, contemporary, naturalistic</div>
+      <div class="decision-row"><span class="decision-check">✓</span>The specifying firm will be presenting material boards to a client or review committee</div>
+      <div class="decision-row"><span class="decision-check">✓</span>Adjacent hardscape or planting requires a specific surface tone to coordinate</div>
+      <div class="decision-row"><span class="decision-check">✓</span>The path is a primary design element, not a background condition</div>
+      <div class="decision-row"><span class="decision-check">✓</span>There is budget for curated aggregate selection and the cost premium is justified by program</div>
+    </div>
+    <div>
+      <div class="decision-col-label">CP — Civil Pavement</div>
+      <div class="decision-col-title">Choose CP when the brief is infrastructure-first</div>
+      <div class="decision-row"><span class="decision-check" style="color:var(--muted);">→</span>The project is a municipal greenway, public trail, or civic connector</div>
+      <div class="decision-row"><span class="decision-check" style="color:var(--muted);">→</span>Budget discipline and standardized procurement are the primary constraints</div>
+      <div class="decision-row"><span class="decision-check" style="color:var(--muted);">→</span>A neutral, durable surface is the brief — not a designed one</div>
+      <div class="decision-row"><span class="decision-check" style="color:var(--muted);">→</span>The specifying authority prioritizes consistent, repeatable execution across multiple sites</div>
+      <p class="note" style="margin-top:18px;">Both series use the same tested system architecture, the same binder, and the same lift options. The difference is aggregate intent — standardized neutral blends (CP) vs. curated design selections (AP). <a href="cp.html" style="color:var(--text);font-weight:600;">See CP series →</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="section" id="faq">
+  <div class="wrap-tight section-inner">
+    <h2 class="section-title">Specifier FAQ</h2>
+
+    <ul class="faq-list" id="faq">
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">What does Flexus AP cost per square foot installed?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a">AP runs $18–$26/sf fully installed — cost-competitive with concrete ($18–$28/sf) and below pavers and PICP ($20–$35/sf). The relevant comparison for AP is usually against pavers or resin-bound systems, where AP competes well on lifecycle cost. <a href="budget-estimator.html" style="color:var(--text);font-weight:600;">Build a line-item estimate →</a></div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">Can AP be installed around existing tree roots?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Yes — this is a primary use case. Flexus is poured in place and requires no compaction, so it can be placed up to the root zone without compaction damage. Root barriers and clearances should follow arborist recommendations. See installation guidelines for base prep near established trees.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">What is the cure time before the path is open to foot traffic?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">24–48 hours under normal conditions; full cure for sustained load at 72 hours. No pour below 40°F or with rain forecast within 24 hours.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">How does AP handle grade transitions and path edges?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Hard restraint at all perimeter conditions — concrete curb, metal edging, or existing structure. Rolled or beveled edge available where hard restraint isn't possible. Cross-slope must not exceed 2%. Details in the spec pack cross-sections.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">What happens if a section is damaged — can it be patched?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Yes — saw-cut, remove, and repour. The patch seam will be visible. Aggregate blends are maintained for consistency. Discuss patch protocol with the installer before closeout.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is the surface ADA-aligned?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Yes. Firm, stable, slip-tested per ASTM E303. Field compliance — cross-slope, running slope, continuity — is the responsibility of the specifier and contractor.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">What is the expected service life?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">15–20 years in properly installed pedestrian applications. Surface lightening is expected over time — structural performance and permeability hold. Based on binder data, ASTM G154 testing, and 20+ years of field history in this material category.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">Can Flexus AP be used on slopes?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Running slopes up to ~8% (1:12), cross-slopes up to 2%. Above 5%, consult us before specifying — base depth and drainage configuration may need adjustment. Not appropriate for steps, ramps, or vehicular applications.</div>
+      </li>
+      <li class="faq-item">
+        <button class="faq-q" aria-expanded="false">Is Flexus available with a CSI-formatted specification?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region">Yes. Division 32 spec language, editable for lift, blend, and edge conditions. Included in the spec pack with product overview, installation guidelines, cross-sections, and ASTM reports. <a href="resources.html" style="color:var(--text);font-weight:600;">Download spec pack →</a></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<script>
+(function(){
+  document.getElementById('faq').addEventListener('click', function(e){
+    var btn = e.target.closest('.faq-q');
+    if(!btn) return;
+    var item = btn.closest('.faq-item');
+    var open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(function(el){ el.classList.remove('open'); el.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+    if(!open){ item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  });
+})();
+</script>
+
+<footer class="footer"><div class="wrap"><div class="footer-inner">
+  <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
+  <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742‑6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
+  <div class="footer-divider" role="presentation"></div>
+  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
+  <div class="footer-divider" role="presentation"></div>
+  <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
+</div></div></footer>
+</main>
+<script>
+(function(){
+  var gallery = document.querySelector('[data-ap-gallery]');
+  if (!gallery) return;
+  var track = gallery.querySelector('[data-gallery-track]');
+  var slides = gallery.querySelectorAll('.ap-gallery-slide');
+  var dots = gallery.querySelectorAll('[data-gallery-dot]');
+  var prevBtn = gallery.querySelector('[data-gallery-prev]');
+  var nextBtn = gallery.querySelector('[data-gallery-next]');
+  var count = slides.length;
+  var index = 0;
+  var autoplayMs = 5500;
+  var timer = null;
+
+  function goTo(i){
+    index = (i + count) % count;
+    track.style.transform = 'translateX(-' + (index * 100) + '%)';
+    dots.forEach(function(dot, di){
+      var active = di === index;
+      dot.classList.toggle('active', active);
+      dot.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
+  function next(){ goTo(index + 1); }
+  function prev(){ goTo(index - 1); }
+
+  function startAutoplay(){
+    stopAutoplay();
+    timer = setInterval(next, autoplayMs);
+  }
+  function stopAutoplay(){
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
+
+  if (nextBtn) nextBtn.addEventListener('click', function(){ next(); startAutoplay(); });
+  if (prevBtn) prevBtn.addEventListener('click', function(){ prev(); startAutoplay(); });
+  dots.forEach(function(dot){
+    dot.addEventListener('click', function(){
+      goTo(parseInt(dot.getAttribute('data-gallery-dot'), 10));
+      startAutoplay();
+    });
+  });
+
+  // Touch swipe
+  var touchStartX = null;
+  gallery.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+    stopAutoplay();
+  }, { passive:true });
+  gallery.addEventListener('touchend', function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40){ dx < 0 ? next() : prev(); }
+    touchStartX = null;
+    startAutoplay();
+  }, { passive:true });
+
+  // Keyboard support when the carousel has focus
+  gallery.setAttribute('tabindex', '0');
+  gallery.addEventListener('keydown', function(e){
+    if (e.key === 'ArrowRight'){ next(); startAutoplay(); }
+    if (e.key === 'ArrowLeft'){ prev(); startAutoplay(); }
+  });
+
+  // Pause on hover/focus, resume on leave
+  gallery.addEventListener('mouseenter', stopAutoplay);
+  gallery.addEventListener('mouseleave', startAutoplay);
+  gallery.addEventListener('focusin', stopAutoplay);
+  gallery.addEventListener('focusout', startAutoplay);
+
+  goTo(0);
+  startAutoplay();
+})();
+</script>
+<script src="/site.js" defer></script>
+<iframe name="nl_hidden_iframe" id="nl_hidden_iframe" style="display:none" title="hidden"></iframe>
+<script src="/analytics.js" defer></script>
+</body>
+</html>
