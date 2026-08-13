@@ -22,7 +22,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Flexus Materials Ltd Co","alternateName":"Flexus","url":"https://www.flexusco.com","logo":"https://www.flexusco.com/assets/ap-200-install.jpg","description":"Manufacturer of Flexus permeable pavement systems — stormwater BMP-grade pedestrian paving in stone and recycled rubber composite. CSI Division 32 specifications, LEED-eligible, ADA-aligned.","address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"},"contactPoint":{"@type":"ContactPoint","telephone":"+1-770-742-6016","email":"info@flexusco.com","contactType":"sales","areaServed":"US"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Flexus Materials Ltd Co","url":"https://www.flexusco.com","telephone":"+1-770-742-6016","email":"info@flexusco.com","address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"},"description":"Manufacturer of Flexus permeable pavement systems for pedestrian routes. Stormwater BMP-grade. Stone and recycled rubber composite.","image":"https://www.flexusco.com/assets/ap-200-install.jpg","priceRange":"$$"}</script>
 <style>
-/* ── Homepage-only styles ─────────────────────────── */
+/* ── Homepage-only styles ─────────────────── */
 .reveal { opacity:0; transform:translateY(18px); transition:opacity .6s ease, transform .6s ease; }
 .reveal.visible { opacity:1; transform:none; }
 .reveal-d1 { transition-delay:.08s; }
@@ -277,7 +277,9 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="assets/ap-200-install.jpg" alt="Flexus AP-200 installed — Mary Esther Azalea Trail, City of Mary Esther, FL" loading="eager" decoding="async">
+    <video id="hero-video" poster="assets/ap-200-install.jpg" muted playsinline preload="metadata" aria-hidden="true">
+      <source src="assets/flexus_hero.mp4" type="video/mp4">
+    </video>
   </div>
   <div class="hero-overlay"></div>
   <div class="wrap hero-inner">
@@ -298,6 +300,20 @@
     </div>
   </div>
 </section>
+<script>
+(function(){
+  var video = document.getElementById('hero-video');
+  if (!video) return;
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.innerWidth <= 980;
+  if (prefersReducedMotion || isMobile) return;
+  video.setAttribute('autoplay', '');
+  var playPromise = video.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(function(){ /* autoplay blocked by browser; poster stays visible */ });
+  }
+})();
+</script>
 
 <!-- BRAND TRUST STRIP -->
 <div class="brand-strip">
