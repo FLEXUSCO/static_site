@@ -207,7 +207,7 @@ html.nav-open, html.nav-open body { overflow: hidden; }
 .dot.ip  { background: #d6a400; }
 .dot.req { background: #8a8e96; }
 
-/* ── Proof grid ─────────────────────────────────── */
+/* ── Proof grid ──────────────────────────────────── */
 .proof-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 20px; }
 .proof { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; background: var(--soft); }
 .proof strong { display: block; color: var(--text); font-weight: 600; letter-spacing: -.15px; margin-bottom: 5px; font-size: 13.5px; }
