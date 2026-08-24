@@ -14,7 +14,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { height: 100%; }
+html, body { min-height: 100%; }
 body {
   margin: 0;
   font-family: var(--font);
@@ -43,7 +43,7 @@ body {
   display: flex; align-items: center; justify-content: space-between;
 }
 .logo { font-weight: 600; letter-spacing: -0.5px; font-size: 15px; }
-.nav-links { display: flex; gap: 26px; align-items: center; }
+.nav-links { display: flex; gap: 16px; align-items: center; }
 .nav-links a {
   text-decoration: none; color: var(--text);
   font-size: 13.5px; font-weight: 500; letter-spacing: -0.1px; opacity: .8;
