@@ -19,12 +19,18 @@ if (sections.length) {
 
 // ========= Nav active (by pathname) =========
 (function markActiveNav() {
-  const raw = (location.pathname || "/").replace(/\/+$/, "") || "/";
-  const path = (raw === "/index.html") ? "/" : raw;
+  function norm(p) {
+    if (!p) return "/";
+    let out = p.split("?")[0].split("#")[0].replace(/\/+$/, "") || "/";
+    out = out.replace(/\.html$/, "") || "/";
+    if (out === "/index") return "/";
+    return out;
+  }
+  const path = norm(location.pathname || "/");
   const links = document.querySelectorAll("[data-nav] a[data-path]");
   links.forEach(a => {
-    const p = a.getAttribute("data-path");
-    const isActive = p === path;
+    const p = norm(a.getAttribute("data-path"));
+    const isActive = p === path || (p !== "/" && path.startsWith(p + "/"));
     a.classList.toggle("active", isActive);
     a.setAttribute("aria-current", isActive ? "page" : "false");
   });
@@ -229,7 +235,140 @@ if (heroMedia && !prefersReducedMotion) {
 })();
 
 
-// ========= Toasts + Netlify form AJAX submission (no thank-you page) =========
+// ========= First-touch attribution (UTM, referrer, landing page) =========
+(function initAttribution(){
+  const KEY = "flexus_attr_v1";
+  const keys = ["utm_source","utm_medium","utm_campaign","utm_content","utm_term","gclid","fbclid"];
+  let stored = {};
+  try { stored = JSON.parse(sessionStorage.getItem(KEY) || "{}") || {}; } catch (_e) { stored = {}; }
+  if (!stored.landing_page) stored.landing_page = (location.pathname || "/") + (location.search || "");
+  if (!stored.referrer && document.referrer) stored.referrer = document.referrer;
+  const params = new URLSearchParams(location.search);
+  keys.forEach(k => {
+    const v = params.get(k);
+    if (v && !stored[k]) stored[k] = v;
+  });
+  try { sessionStorage.setItem(KEY, JSON.stringify(stored)); } catch (_e) {}
+
+  function apply(form){
+    if (!form) return;
+    const values = {
+      source: "flexusco.com",
+      page: location.pathname || "/",
+      landing_page: stored.landing_page || (location.pathname || "/"),
+      referrer: stored.referrer || document.referrer || "",
+      utm_source: stored.utm_source || "",
+      utm_medium: stored.utm_medium || "",
+      utm_campaign: stored.utm_campaign || "",
+      utm_content: stored.utm_content || "",
+      utm_term: stored.utm_term || "",
+      gclid: stored.gclid || "",
+      fbclid: stored.fbclid || ""
+    };
+    Object.keys(values).forEach(name => {
+      const input = form.querySelector('input[name="' + name + '"]');
+      if (input) input.value = values[name];
+    });
+  }
+
+  window.__flexusApplyAttr = function(){
+    document.querySelectorAll('form[data-netlify="true"]').forEach(apply);
+  };
+  window.__flexusApplyAttr();
+})();
+
+// ========= Sample request: address only when a tile is shipping =========
+(function initSampleIntent(){
+  const radios = document.querySelectorAll('input[name="RequestType"]');
+  const wrap = document.getElementById("ship-wrap");
+  const input = document.getElementById("ship");
+  if (!radios.length || !wrap || !input) return;
+  function sync(){
+    const ship = document.querySelector('input[name="RequestType"][value="sample"]');
+    const on = !!(ship && ship.checked);
+    wrap.hidden = !on;
+    input.required = on;
+    input.disabled = !on;
+  }
+  radios.forEach(r => r.addEventListener("change", sync));
+  sync();
+})();
+
+// ========= Materials quote: grade/color/address depend on the product =========
+(function initMaterialsQuote(){
+  const form = document.querySelector('form[name="materials-quote"]');
+  if (!form) return;
+  const gradeWrap = document.getElementById("mq-grade-wrap");
+  const colorWrap = document.getElementById("mq-color-wrap");
+  const addrWrap = document.getElementById("mq-address-wrap");
+  const grade = document.getElementById("mq-grade");
+  const color = document.getElementById("mq-color");
+  const addr = document.getElementById("mq-address");
+  function checked(value){
+    const el = form.querySelector('input[name="Product"][value="' + value + '"]');
+    return !!(el && el.checked);
+  }
+  function sync(){
+    const granules = checked("colored-granules");
+    const mulch = checked("rubber-mulch");
+    const need = (form.querySelector('input[name="Need"]:checked') || {}).value || "quote";
+    const wantSample = need === "sample" || need === "both";
+    if (gradeWrap && grade){
+      gradeWrap.hidden = !granules;
+      grade.required = granules;
+      grade.disabled = !granules;
+    }
+    if (colorWrap && color){
+      const showColor = mulch || granules;
+      colorWrap.hidden = !showColor;
+      color.required = showColor;
+      color.disabled = !showColor;
+    }
+    if (addrWrap && addr){
+      addrWrap.hidden = !wantSample;
+      addr.required = wantSample;
+      addr.disabled = !wantSample;
+    }
+  }
+  form.addEventListener("change", function(){
+    sync();
+    const note = document.getElementById("mq-product-note");
+    if (note && form.querySelector('input[name="Product"]:checked')) note.hidden = true;
+  });
+  form.addEventListener("submit", function(e){
+    if (form.querySelector('input[name="Product"]:checked')) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    const note = document.getElementById("mq-product-note");
+    if (note) note.hidden = false;
+    const first = form.querySelector('input[name="Product"]');
+    if (first) first.focus();
+  }, true);
+  const params = new URLSearchParams(location.search);
+  const product = params.get("product");
+  const gradeParam = params.get("grade");
+  if (product){
+    const box = form.querySelector('input[name="Product"][value="' + product + '"]');
+    if (box) box.checked = true;
+  }
+  if (grade && gradeParam){
+    const opt = Array.from(grade.options).some(o => o.value === gradeParam);
+    if (opt) grade.value = gradeParam;
+  }
+  sync();
+})();
+
+// ========= Open spec-pack modal when linked with ?pack= =========
+(function openSpecFromQuery(){
+  const pack = new URLSearchParams(location.search).get("pack");
+  if (!pack) return;
+  const opener = document.querySelector('[data-modal-open="spec"]');
+  if (!opener) return;
+  opener.setAttribute("data-pack", pack);
+  opener.click();
+})();
+
+// ========= Toasts + Netlify form submit, then /thanks?from= =========
 (function initToastsAndForms(){
   // Toast host
   let wrap = document.querySelector('.toast-wrap');
@@ -296,10 +435,8 @@ if (heroMedia && !prefersReducedMotion) {
   async function submitNetlifyForm(form){
     const body = encode(form);
 
-    // Use the form's action if set; default to current path (not always '/')
-    const action = (form.getAttribute('action') || window.location.pathname || '/').trim() || '/';
-
-    const res = await fetch(action, {
+    // Netlify records AJAX posts sent to the site root, not the action URL.
+    const res = await fetch('/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body
@@ -311,17 +448,20 @@ if (heroMedia && !prefersReducedMotion) {
   }
 
   if (window.__FLEXUS_FORMS_BOUND__) return;
+  window.__FLEXUS_FORMS_BOUND__ = true;
 
-  const forms = Array.from(document.querySelectorAll('form[data-netlify="true"][data-netlify-ajax="true"]'));
+  const forms = Array.from(document.querySelectorAll('form[data-netlify="true"]'));
   if (!forms.length) return;
 
   forms.forEach(form => {
     form.addEventListener('submit', async (e) => {
+      if (e.defaultPrevented) return;
       e.preventDefault();
 
-      // basic in-browser validity check
       if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
+      if (typeof window.__flexusApplyAttr === 'function') window.__flexusApplyAttr();
 
+      const formName = form.getAttribute('name') || '';
       const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
       const prevText = submitBtn ? (submitBtn.tagName === 'BUTTON' ? submitBtn.textContent : submitBtn.value) : '';
 
@@ -333,67 +473,14 @@ if (heroMedia && !prefersReducedMotion) {
 
       try {
         await submitNetlifyForm(form);
-
-        // Success UX
-        showToast({
-          title: 'Request received',
-          message: 'We’ve got it. A Flexus team member will follow up shortly.',
-          variant: 'success'
-        });
-
-        // Clear the form for another submission
-        form.reset();
-
-        // If this form lives in a modal, close it.
-        const modal = form.closest('.modal');
-        if (modal && modal.classList.contains('open')){
-          modal.classList.remove('open');
-          modal.setAttribute('aria-hidden','true');
-          try { lockScroll(false); } catch(_e) { document.documentElement.style.overflow = ''; }
-        }
+        window.location.href = '/thanks?from=' + encodeURIComponent(formName);
       } catch (err){
-        // Fallback: submit to a hidden iframe (avoids navigation) if fetch is blocked
-        try {
-          const iframeId = 'nl-iframe-' + Math.random().toString(16).slice(2);
-          const iframe = document.createElement('iframe');
-          iframe.name = iframeId;
-          iframe.style.display = 'none';
-          document.body.appendChild(iframe);
-
-          const prevTarget = form.getAttribute('target');
-          form.setAttribute('target', iframeId);
-
-          const done = () => {
-            iframe.removeEventListener('load', done);
-            setTimeout(() => iframe.remove(), 0);
-            if (prevTarget === null) form.removeAttribute('target'); else form.setAttribute('target', prevTarget);
-
-            showToast({
-              title: 'Request received',
-              message: 'We’ve got it. A Flexus team member will follow up shortly.',
-              variant: 'success'
-            });
-            form.reset();
-            const modal = form.closest('.modal');
-            if (modal && modal.classList.contains('open')){
-              modal.classList.remove('open');
-              modal.setAttribute('aria-hidden','true');
-              try { lockScroll(false); } catch(_e) { document.documentElement.style.overflow = ''; }
-            }
-          };
-
-          iframe.addEventListener('load', done);
-          form.submit();
-          return; // prevent showing error toast
-        } catch(_fallbackErr) {}
-
         showToast({
           title: 'Submission failed',
-          message: 'Please try again. If it continues, email us at hello@flexusco.com.',
+          message: 'Please try again. If it continues, email us at info@flexusco.com.',
           variant: 'error',
           timeout: 7000
         });
-      } finally {
         if (submitBtn){
           submitBtn.disabled = false;
           if (submitBtn.tagName === 'BUTTON') submitBtn.textContent = prevText;
@@ -402,6 +489,17 @@ if (heroMedia && !prefersReducedMotion) {
       }
     });
   });
+})();
+
+// ========= Sticky mobile call / project bar =========
+(function initMobileBar(){
+  if (document.querySelector('.mobile-action-bar')) return;
+  const bar = document.createElement('div');
+  bar.className = 'mobile-action-bar';
+  bar.setAttribute('role', 'region');
+  bar.setAttribute('aria-label', 'Contact Flexus');
+  bar.innerHTML = '<a class="pill" href="tel:+17707426016">Call</a><a class="pill primary" href="/installers#apply">Start a project</a>';
+  document.body.appendChild(bar);
 })();
 
 

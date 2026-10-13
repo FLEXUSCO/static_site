@@ -22,11 +22,12 @@
       <a href="leed-specification.html" data-path="/leed-specification.html">Specifiers</a>
       <a href="resources.html" data-path="/resources.html">Resources</a>
       <a href="installers.html" data-path="/installers.html">Installers</a>
+      <a href="/materials" data-path="/materials">Materials</a>
       <a href="request-sample.html" data-path="/request-sample.html">Sample</a>
     </nav>
     <div class="nav-actions">
-      <a class="pill" href="resources.html">Spec Pack</a>
-      <a class="pill primary" href="request-sample.html">Request Sample</a>
+      <a class="pill primary" href="installers.html#apply">Start a project</a>
+      <a class="pill" href="request-sample.html">Request sample</a>
       <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false"><span class="menu-icn" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -45,8 +46,9 @@
       <a class="sheet-link" href="budget-estimator.html" data-path="/budget-estimator.html" data-sheet-link>Budget Estimator</a>
       <a class="sheet-link" href="resources.html" data-path="/resources.html" data-sheet-link>Resources</a>
       <a class="sheet-link" href="installers.html" data-path="/installers.html" data-sheet-link>Installers</a>
+      <a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a>
       <a class="sheet-link" href="request-sample.html" data-path="/request-sample.html" data-sheet-link>Sample</a>
-      <div class="sheet-cta"><a class="pill" href="resources.html" data-sheet-link>Spec Pack</a><a class="pill primary" href="request-sample.html" data-sheet-link>Request Sample</a></div>
+      <div class="sheet-cta"><a class="pill primary" href="installers.html#apply" data-sheet-link>Start a project</a><a class="pill" href="request-sample.html" data-sheet-link>Request sample</a></div>
     </div>
   </div>
 </div>
@@ -75,7 +77,7 @@
   <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
   <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742‑6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
   <div class="footer-divider" role="presentation"></div>
-  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
+  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="/materials">Materials</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
   <div class="footer-divider" role="presentation"></div>
   <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
 </div></div></footer>
@@ -87,28 +89,24 @@
   var from = params.get('from') || '';
   if (window.history && window.history.replaceState) history.replaceState(null,'',window.location.pathname);
 
-  // Fire GA4 conversion event based on which form was submitted
+  // One GA4 generate_lead per successful form. Queued on dataLayer even if gtag.js is still loading.
   if (from && typeof gtag === 'function') {
-    var eventName = from === 'sample-request'       ? 'sample_request_complete'
-                  : from === 'spec-pack-request'    ? 'spec_pack_request_complete'
-                  : from === 'installer-application' ? 'installer_application_complete'
-                  : from === 'budget-estimate'      ? 'budget_estimate_sent'
-                  : from === 'project-intake'       ? 'project_intake_complete'
-                  : 'form_conversion';
-    gtag('event', eventName, {
-      event_category: 'conversion',
-      form_name: from
+    gtag('event', 'generate_lead', {
+      form_id: from,
+      form_name: from,
+      method: from,
+      lead_source: 'flexusco.com'
     });
   }
   var configs = {
     'sample-request': {
-      eyebrow:'Sample request received', heading:'Your sample is on its way.',
-      lede:'We review every request before shipping. Expect confirmation within one business day.',
-      ctas:[{label:'Download spec pack',href:'resources.html',primary:true},{label:'Back to overview',href:'./'}],
+      eyebrow:'Request received', heading:'We have your request.',
+      lede:'If you asked for a tile, we confirm the shipping address before anything goes out. If you asked for documentation, we send that by email. Expect a reply within one business day.',
+      ctas:[{label:'Request spec pack',href:'resources.html?pack=Full',primary:true},{label:'Back to overview',href:'./'}],
       nextTitle:'What happens next',
       steps:[
-        {n:'1',title:'Review & confirmation',body:'We confirm series, lift, and shipping address before anything goes out. If something looks off, we\u2019ll call.'},
-        {n:'2',title:'Fulfillment & tracking',body:'Samples ship within 3\u20135 business days of confirmation, with tracking.'},
+        {n:'1',title:'Review',body:'We read the series, lift, and whether you asked for documents or a tile. If something looks off, we\u2019ll call.'},
+        {n:'2',title:'Documents or shipment',body:'Documentation goes out by email. A tile ships within 3\u20135 business days only after we confirm the address.'},
         {n:'3',title:'Project follow-up',body:'We\u2019ll follow up on project constraints \u2014 base condition, drainage, slopes, edge detail \u2014 to support your spec.'}
       ],
       side:{title:'While you wait',body:'All documentation is available now.',
@@ -118,7 +116,7 @@
     'spec-pack-request': {
       eyebrow:'Spec pack request received', heading:'The package is coming.',
       lede:'We\u2019ll deliver the appropriate documentation for your project \u2014 PDFs, cross-sections, ASTM reports, and CSI spec language if requested. Expect a response within one business day.',
-      ctas:[{label:'Download now',href:'resources.html',primary:true},{label:'Back to overview',href:'./'}],
+      ctas:[{label:'View available PDFs',href:'resources.html',primary:true},{label:'Back to overview',href:'./'}],
       nextTitle:'What you\u2019ll receive',
       steps:[
         {n:'1',title:'Product overview',body:'Series description, composition, lift options, and use case guidance for CP and/or AP.'},
@@ -126,14 +124,28 @@
         {n:'3',title:'ASTM & EPA test reports',body:'All seven completed test reports \u2014 abrasion, permeability, slip resistance, UV, leaching, and RCRA metals.'},
         {n:'4',title:'CSI specification language',body:'Division 32 spec language, editable for your project. Included if requested.'}
       ],
-      side:{title:'Can\u2019t wait?',body:'Several documents are available for immediate download.',
+      side:{title:'While you wait',body:'Product overviews, installation guidelines, and cross-sections are on the resources page. ASTM and EPA reports are part of the spec pack we send you.',
         badges:['AP product overview','AP installation guidelines','CP product overview','CP installation guidelines'],
-        cta:{label:'Download now',href:'resources.html'}}
+        cta:{label:'View available PDFs',href:'resources.html'}}
+    },
+    'materials-quote': {
+      eyebrow:'Materials request received', heading:'We\u2019ll price the shipment.',
+      lede:'This is a recycled-rubber materials request, separate from permeable pavement. We\u2019ll reply within one business day with availability and freight to the ZIP you sent. A sample ships only if you asked for one.',
+      ctas:[{label:'Back to materials',href:'/materials',primary:true},{label:'Back to overview',href:'./'}],
+      nextTitle:'What happens next',
+      steps:[
+        {n:'1',title:'Grade and pack check',body:'We confirm product, mesh or buffings, color, and whether you asked for tons, bags, or supersacks.'},
+        {n:'2',title:'Freight to your ZIP',body:'We quote delivery to the ship-to ZIP. Street address is used only if you asked for a sample.'},
+        {n:'3',title:'Reply',body:'You get one reply from Flexus. This request is tagged as materials and is not enrolled in the pavement sample sequence.'}
+      ],
+      side:{title:'Pavement is separate',body:'Permeable pavement specs and samples use a different form.',
+        badges:['Rubber mulch','Colored granules','Buffings'],
+        cta:{label:'Materials hub',href:'/materials'}}
     },
     'project-intake': {
       eyebrow:'Project inquiry received', heading:'We\u2019ll be in touch.',
       lede:'We review every project inquiry personally. Expect a response within 1 business day with a fit assessment and next steps.',
-      ctas:[{label:'Download spec pack',href:'resources.html',primary:true},{label:'Back to overview',href:'./'}],
+      ctas:[{label:'Request spec pack',href:'resources.html?pack=Full',primary:true},{label:'Back to overview',href:'./'}],
       nextTitle:'What happens next',
       steps:[
         {n:'1',title:'Fit assessment',body:'We review your project scope, timeline, and location. If anything needs clarification, we\u2019ll reach out before responding.'},

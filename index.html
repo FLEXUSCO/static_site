@@ -216,6 +216,7 @@
 .disclosure-item-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
 .disclosure-item-body { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 @media (max-width: 768px) { .disclosure-grid { grid-template-columns: 1fr; gap: 16px; } }
+.hero-video { width:100%; height:100%; object-fit:cover; object-position:center 75%; display:block; }
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5T6ESYM3SB"></script>
@@ -234,11 +235,12 @@
       <a href="leed-specification.html" data-path="/leed-specification.html">Specifiers</a>
       <a href="resources.html" data-path="/resources.html">Resources</a>
       <a href="installers.html" data-path="/installers.html">Installers</a>
+      <a href="/materials" data-path="/materials">Materials</a>
       <a href="request-sample.html" data-path="/request-sample.html">Sample</a>
     </nav>
     <div class="nav-actions">
-      <a class="pill" href="resources.html">Spec Pack</a>
-      <a class="pill primary" href="request-sample.html">Request Sample</a>
+      <a class="pill primary" href="installers.html#apply">Start a project</a>
+      <a class="pill" href="request-sample.html">Request sample</a>
       <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false">
         <span class="menu-icn" aria-hidden="true"></span>
       </button>
@@ -263,10 +265,11 @@
       <a class="sheet-link" href="budget-estimator.html" data-path="/budget-estimator.html" data-sheet-link>Budget Estimator</a>
       <a class="sheet-link" href="resources.html" data-path="/resources.html" data-sheet-link>Resources</a>
       <a class="sheet-link" href="installers.html" data-path="/installers.html" data-sheet-link>Installers</a>
+      <a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a>
       <a class="sheet-link" href="request-sample.html" data-path="/request-sample.html" data-sheet-link>Sample</a>
       <div class="sheet-cta">
-        <a class="pill" href="resources.html" data-sheet-link>Spec Pack</a>
-        <a class="pill primary" href="request-sample.html" data-sheet-link>Request Sample</a>
+        <a class="pill primary" href="installers.html#apply" data-sheet-link>Start a project</a>
+        <a class="pill" href="request-sample.html" data-sheet-link>Request sample</a>
       </div>
     </div>
   </div>
@@ -277,25 +280,26 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg">
-    <img src="assets/ap-200-install.jpg" alt="Flexus AP-200 installed — Mary Esther Azalea Trail, City of Mary Esther, FL" loading="eager" decoding="async">
+    <video id="hero-video" class="hero-video" poster="assets/ap-200-install.jpg" muted playsinline preload="none" style="display:none;"></video>
+    <img id="hero-fallback-img" src="assets/ap-200-install.jpg" alt="Flexus AP-200 installed — Mary Esther Azalea Trail, City of Mary Esther, FL" loading="eager" decoding="async">
   </div>
   <div class="hero-overlay"></div>
   <div class="wrap hero-inner">
     <h1 class="h1 hero-h1 reveal">Permeable.<br>Pedestrian-grade.<br>Natural-looking.</h1>
     <p class="hero-lede reveal reveal-d1">The only pedestrian-grade permeable pavement with a complete submittal package.</p>
     <div class="hero-cta reveal reveal-d2">
-      <a class="pill hero-pill-primary" href="request-sample.html">Request a sample →</a>
-      <a class="pill hero-pill" href="resources.html">Download spec pack</a>
-      <a class="pill hero-pill" href="cp.html">Explore series</a>
+      <a class="pill hero-pill-primary" href="installers.html#apply">Start a project →</a>
+      <a class="pill hero-pill" href="request-sample.html">Request a sample</a>
+      <a class="pill hero-pill" href="resources.html?pack=Full">Request spec pack</a>
     </div>
-    <div class="hero-proof reveal reveal-d3">
+    <a class="hero-proof reveal reveal-d3" href="/projects/mary-esther-azalea-trail" style="text-decoration:none;color:inherit;">
       <div>
         <div class="hero-proof-label">Installed project</div>
         <div class="hero-proof-name">Mary Esther Azalea Trail</div>
         <div class="hero-proof-meta">City of Mary Esther, FL · AP-200 · 9,000 sf</div>
       </div>
       <div class="hero-proof-badge">Completed</div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -451,13 +455,14 @@
     <div class="test-left">
       <h2 class="reveal">ASTM tested. EPA leach tested. Submittal-ready.</h2>
       <p class="reveal">Seven tests completed. Every report ships with the submittal package.</p>
-      <a class="pill reveal" href="resources.html">Download spec pack →</a>
+      <a class="pill reveal" href="resources.html?pack=Full">Request spec pack →</a>
     </div>
     <div class="test-right">
       <div class="test-row reveal"><span class="test-name">Abrasion resistance</span><span class="test-std">ASTM C501</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
       <div class="test-row reveal reveal-d1"><span class="test-name">Permeability</span><span class="test-std">ASTM F1551</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
       <div class="test-row reveal reveal-d1"><span class="test-name">Slip resistance</span><span class="test-std">ASTM E303</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
-      <div class="test-row reveal reveal-d2"><span class="test-name">Water absorption</span><span class="test-std">ASTM D2859</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
+      <div class="test-row reveal reveal-d2"><span class="test-name">Ignition characteristics</span><span class="test-std">ASTM D2859</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
+      <p class="reveal" style="margin-top:14px;font-size:12.5px;color:var(--muted);max-width:62ch;">ASTM D2859 is an ignition test for textile floor coverings. It is not a water-absorption test. A measured result is not published on this page.</p>
       <div class="test-row reveal reveal-d2"><span class="test-name">UV exposure</span><span class="test-std">ASTM G154</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
       <div class="test-row reveal reveal-d3"><span class="test-name">TCLP / SPLP leaching</span><span class="test-std">EPA 1311 &amp; 1312</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
       <div class="test-row reveal reveal-d3"><span class="test-name">RCRA metals (incl. Hg)</span><span class="test-std">RCRA</span><span class="test-done"><span class="test-dot"></span>Completed</span></div>
@@ -659,7 +664,7 @@ updateEstimate();
           <div class="life-card-desc">UV-stabilized binder tested to ASTM G154. Surface lightens over time — structural performance holds.</div>
         </div>
       </div>
-      <p class="note reveal" style="margin-top:16px;">Rubber-bound aggregate surfaces have 20+ years of field history. Our 15–20 year projection is grounded in that record and our binder performance data. <a href="resources.html" style="color:var(--text);font-weight:600;">ASTM reports in spec pack →</a></p>
+      <p class="note reveal" style="margin-top:16px;">Rubber-bound aggregate surfaces have 20+ years of field history. Our 15–20 year projection is grounded in that record and our binder performance data. <a href="resources.html?pack=Full" style="color:var(--text);font-weight:600;">ASTM reports in spec pack →</a></p>
     </div>
   </div>
 </section>
@@ -703,9 +708,9 @@ updateEstimate();
         <div><div class="cta-row-title">Request a sample</div><div class="cta-row-sub">Choose series, lift, and aggregate blend</div></div>
         <div class="cta-row-arr">→</div>
       </a>
-      <a class="cta-row reveal reveal-d2" href="resources.html">
+      <a class="cta-row reveal reveal-d2" href="resources.html?pack=Full">
         <div class="cta-row-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="12" y1="13" x2="12" y2="19"/><polyline points="9,16 12,19 15,16"/></svg></div>
-        <div><div class="cta-row-title">Download spec pack</div><div class="cta-row-sub">PDFs, cross-sections, and ASTM reports</div></div>
+        <div><div class="cta-row-title">Request spec pack</div><div class="cta-row-sub">PDFs, cross-sections, and ASTM reports</div></div>
         <div class="cta-row-arr">→</div>
       </a>
       <a class="cta-row reveal reveal-d2" href="ap.html">
@@ -723,7 +728,7 @@ updateEstimate();
       <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
       <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742‑6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
       <div class="footer-divider" role="presentation"></div>
-      <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
+      <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="/materials">Materials</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
       <div class="footer-divider" role="presentation"></div>
       <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
     </div>
@@ -741,17 +746,37 @@ updateEstimate();
       <div><span style="color:var(--muted);">Area</span><br><strong id="qm-area">—</strong></div>
       <div><span style="color:var(--muted);">Series · Lift</span><br><strong id="qm-series">—</strong></div>
     </div>
-    <form name="budget-estimate" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks" id="quote-modal-form">
+    <form name="budget-estimate" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks?from=budget-estimate" id="quote-modal-form">
       <input type="hidden" name="form-name" value="budget-estimate">
+      <input type="hidden" name="source" value="flexusco.com">
+      <input type="hidden" name="segment" value="pavement">
+      <input type="hidden" name="page" value="">
+      <input type="hidden" name="landing_page" value="">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_content" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="fbclid" value="">
       <input type="hidden" name="EstimateSummary" id="qm-hf-summary">
       <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
       <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;">
-        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Email</label>
-        <input type="email" name="Email" placeholder="you@firm.com" required style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);" for="qm-name">Name</label>
+        <input id="qm-name" type="text" name="Name" placeholder="Full name" required autocomplete="name" style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);" for="qm-email">Email</label>
+        <input id="qm-email" type="email" name="Email" placeholder="you@firm.com" required autocomplete="email" style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:12px;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);" for="qm-phone">Phone</label>
+        <input id="qm-phone" type="tel" name="Phone" placeholder="(770) 000-0000" required autocomplete="tel" style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
       </div>
       <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:20px;">
-        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);">Project location</label>
-        <input type="text" name="Location" placeholder="City, State" required style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
+        <label style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);" for="qm-loc">Project location</label>
+        <input id="qm-loc" type="text" name="Location" placeholder="City, State" required style="padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-family:var(--font);font-size:14px;outline:none;width:100%;box-sizing:border-box;">
       </div>
       <div style="display:flex;gap:10px;align-items:center;">
         <button type="submit" id="qm-submit-btn" style="padding:11px 22px;background:var(--text);color:#fff;border:1px solid var(--text);border-radius:999px;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;">Send →</button>
@@ -785,27 +810,37 @@ function toggleCostBreakdown(btn) {
   btn.textContent = open ? 'What determines price? →' : 'Hide ↑';
 }
 document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeQuoteModal(); });
+</script>
+<script>
 (function(){
-  var form = document.getElementById('quote-modal-form');
-  if (!form) return;
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
-    var btn = document.getElementById('qm-submit-btn');
-    if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
-    var params = new URLSearchParams();
-    for (var pair of new FormData(form).entries()) params.append(pair[0], pair[1]);
-    fetch('/budget-estimator', {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: params.toString()
-    }).then(function(){
-      if (typeof gtag === 'function') gtag('event', 'budget_estimate_sent', {event_category:'conversion', form_name:'budget-estimate'});
-      window.location.href = '/thanks?from=budget-estimate';
-    }).catch(function(){
-      if (btn) { btn.textContent = 'Send →'; btn.disabled = false; }
-      alert('There was a problem. Please email info@flexusco.com.');
+  var video = document.getElementById('hero-video');
+  var fallbackImg = document.getElementById('hero-fallback-img');
+  if (!video || !fallbackImg) return;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.innerWidth <= 980;
+  // Do not attach the 16MB source on mobile or when motion is reduced.
+  if (reducedMotion || isMobile) {
+    video.removeAttribute('src');
+    while (video.firstChild) video.removeChild(video.firstChild);
+    video.style.display = 'none';
+    fallbackImg.style.display = 'block';
+    return;
+  }
+  var source = document.createElement('source');
+  source.src = 'assets/flexus_hero.mp4';
+  source.type = 'video/mp4';
+  video.appendChild(source);
+  video.preload = 'metadata';
+  video.setAttribute('autoplay', '');
+  video.style.display = 'block';
+  fallbackImg.style.display = 'none';
+  var playAttempt = video.play();
+  if (playAttempt && typeof playAttempt.catch === 'function') {
+    playAttempt.catch(function(){
+      video.style.display = 'none';
+      fallbackImg.style.display = 'block';
     });
-  });
+  }
 })();
 </script>
 

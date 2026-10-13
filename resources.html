@@ -36,11 +36,12 @@
       <a href="leed-specification.html" data-path="/leed-specification.html">Specifiers</a>
       <a href="resources.html" data-path="/resources.html" class="active">Resources</a>
       <a href="installers.html" data-path="/installers.html">Installers</a>
+      <a href="/materials" data-path="/materials">Materials</a>
       <a href="request-sample.html" data-path="/request-sample.html">Sample</a>
     </nav>
     <div class="nav-actions">
-      <a class="pill" href="resources.html">Spec Pack</a>
-      <a class="pill primary" href="request-sample.html">Request Sample</a>
+      <a class="pill primary" href="installers.html#apply">Start a project</a>
+      <a class="pill" href="request-sample.html">Request sample</a>
       <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false"><span class="menu-icn" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -59,8 +60,9 @@
       <a class="sheet-link" href="budget-estimator.html" data-path="/budget-estimator.html" data-sheet-link>Budget Estimator</a>
       <a class="sheet-link" href="resources.html" data-path="/resources.html" data-sheet-link>Resources</a>
       <a class="sheet-link" href="installers.html" data-path="/installers.html" data-sheet-link>Installers</a>
+      <a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a>
       <a class="sheet-link" href="request-sample.html" data-path="/request-sample.html" data-sheet-link>Sample</a>
-      <div class="sheet-cta"><a class="pill" href="resources.html" data-sheet-link>Spec Pack</a><a class="pill primary" href="request-sample.html" data-sheet-link>Request Sample</a></div>
+      <div class="sheet-cta"><a class="pill primary" href="installers.html#apply" data-sheet-link>Start a project</a><a class="pill" href="request-sample.html" data-sheet-link>Request sample</a></div>
     </div>
   </div>
 </div>
@@ -109,7 +111,7 @@
           <span class="badge"><span class="dot ok"></span>ASTM C501 abrasion resistance — completed</span>
           <span class="badge"><span class="dot ok"></span>ASTM F1551 permeability — completed</span>
           <span class="badge"><span class="dot ok"></span>ASTM E303 slip resistance — completed</span>
-          <span class="badge"><span class="dot ok"></span>ASTM D2859 water absorption — completed</span>
+          <span class="badge"><span class="dot ok"></span>ASTM D2859 ignition characteristics — completed</span>
           <span class="badge"><span class="dot ok"></span>ASTM G154 UV exposure — completed</span>
           <span class="badge"><span class="dot ok"></span>EPA Method 1311 &amp; 1312 (TCLP/SPLP) — completed</span>
           <span class="badge"><span class="dot ok"></span>RCRA Metals (Including Hg) — completed</span>
@@ -121,7 +123,7 @@
           <div><strong>Base</strong>Open-graded aggregate</div>
           <div><strong>Edge</strong>Hard restraint preferred; rolled or beveled available</div>
         </div>
-        <p class="note" style="margin-top:16px;">Reports issued as PDF documents and included in the spec pack.</p>
+        <p class="note" style="margin-top:16px;">ASTM D2859 is an ignition test for textile floor coverings, not a water-absorption test. A measured result is not published on this page. Test reports are sent after you request the spec pack.</p>
       </div>
     </div>
   </div>
@@ -131,7 +133,7 @@
   <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
   <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742‑6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
   <div class="footer-divider" role="presentation"></div>
-  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
+  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="/materials">Materials</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
   <div class="footer-divider" role="presentation"></div>
   <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
 </div></div></footer>
@@ -144,8 +146,20 @@
     <button class="modal-close" type="button" data-modal-close aria-label="Close">×</button>
     <h3 style="margin:0 0 6px;font-size:18px;font-weight:500;letter-spacing:-.2px;">Request Spec Pack</h3>
     <p style="margin:0 0 20px;color:var(--muted);font-size:13.5px;">Submit this form and we'll deliver the appropriate package for your project.</p>
-    <form name="spec-pack-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks">
+    <form name="spec-pack-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks?from=spec-pack-request">
       <input type="hidden" name="form-name" value="spec-pack-request">
+      <input type="hidden" name="source" value="flexusco.com">
+      <input type="hidden" name="segment" value="pavement">
+      <input type="hidden" name="page" value="">
+      <input type="hidden" name="landing_page" value="">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_content" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="fbclid" value="">
       <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
       <input type="hidden" id="specPackType" name="SpecPackType" value="Full">
       <div class="row2">
