@@ -319,11 +319,14 @@ if (heroMedia && !prefersReducedMotion) {
       grade.disabled = !granules;
     }
     if (colorWrap && color){
-      const showColor = mulch || granules;
+      // Mulch colors are a fixed list. Granule colors are not published, so they go in Notes.
+      const showColor = mulch;
       colorWrap.hidden = !showColor;
       color.required = showColor;
       color.disabled = !showColor;
     }
+    const granuleNote = document.getElementById("mq-granule-color-note");
+    if (granuleNote) granuleNote.hidden = !granules;
     if (addrWrap && addr){
       addrWrap.hidden = !wantSample;
       addr.required = wantSample;
@@ -354,6 +357,11 @@ if (heroMedia && !prefersReducedMotion) {
   if (grade && gradeParam){
     const opt = Array.from(grade.options).some(o => o.value === gradeParam);
     if (opt) grade.value = gradeParam;
+  }
+  const colorParam = params.get("color");
+  if (color && colorParam && color.options){
+    const match = Array.from(color.options).some(o => o.value === colorParam);
+    if (match) color.value = colorParam;
   }
   sync();
 })();
