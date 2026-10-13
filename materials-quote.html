@@ -57,7 +57,7 @@
   <div class="wrap hero-inner">
     <div class="eyebrow"><a href="/materials" style="color:inherit;">Materials</a> · Quote</div>
     <h1 class="h1" style="max-width:16ch;">Materials quote or sample</h1>
-    <p class="lede">Tell us the product, how many 50 lb bags, and the ship-to ZIP. This request is tagged as materials. It is not a permeable pavement sample.</p>
+    <p class="lede">Tell us the product, the quantity, and the ship-to ZIP. This request is tagged as materials. It is not a permeable pavement sample.</p>
   </div>
 </section>
 <section class="section rule">
@@ -130,7 +130,7 @@
         </div>
 
         <div class="field" id="mq-color-wrap" hidden style="margin-top:16px;">
-          <label class="label" for="mq-color">Color</label>
+          <label class="label" for="mq-color">Mulch color</label>
           <select id="mq-color" name="Color">
             <option value="">Select a color</option>
             <option value="Black">Black</option>
@@ -143,14 +143,30 @@
             <option value="Gold">Gold</option>
             <option value="Red">Red</option>
           </select>
-          <span class="smallnote">Rubber mulch colors. Colors approximate; samples available. Buffings do not use this field.</span>
+          <span class="smallnote">Colors approximate; samples available.</span>
+        </div>
+
+        <div class="field" id="mq-granule-color-wrap" hidden style="margin-top:16px;">
+          <label class="label" for="mq-granule-color">Granule color</label>
+          <select id="mq-granule-color" name="GranuleColor">
+            <option value="">Select a color</option>
+            <option value="Black">Black</option>
+            <option value="Forest Green">Forest Green</option>
+            <option value="Green">Green</option>
+            <option value="Teal Green">Teal Green</option>
+            <option value="Espresso">Espresso</option>
+            <option value="Brown">Brown</option>
+            <option value="Cedar">Cedar</option>
+            <option value="Gold">Gold</option>
+            <option value="Red">Red</option>
+          </select>
+          <span class="smallnote">Colors approximate; samples available.</span>
         </div>
 
         <div class="field" style="margin-top:16px;">
           <label class="label" for="mq-qty">Quantity (50 lb bags)</label>
           <input id="mq-qty" name="Quantity" type="number" min="1" step="1" inputmode="numeric" required>
           <input type="hidden" name="Unit" value="bags">
-          <span class="smallnote">Rubber mulch, granules, and buffings are sold in 50 lb bags.</span>
         </div>
 
         <div class="field" style="margin-top:16px;">
@@ -163,10 +179,8 @@
         </div>
         <div class="field" style="margin-top:16px;">
           <label class="label" for="mq-notes">Notes</label>
-          <textarea id="mq-notes" name="Notes" placeholder="Optional. If you are ordering granules, name the granule color here. Price is confirmed in the reply."></textarea>
+          <textarea id="mq-notes" name="Notes" placeholder="Anything else we should know (optional)."></textarea>
         </div>
-        <p class="smallnote" id="mq-granule-color-note" hidden style="margin-top:8px;">Granule colors are not listed. Name the granule color in Notes.</p>
-        <p class="smallnote" style="margin-top:12px;">TODO: prices are not on the site. This form does not show a price. Pack size is 50 lb bags. Rubber mulch colors are in the color menu.</p>
         <div class="form-actions" style="margin-top:20px;">
           <button class="pill primary" type="submit">Send materials request</button>
           <span class="smallnote">We reply within one business day.</span>
