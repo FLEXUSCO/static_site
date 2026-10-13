@@ -94,11 +94,12 @@
       <a href="leed-specification.html" data-path="/leed-specification.html">Specifiers</a>
       <a href="resources.html" data-path="/resources.html">Resources</a>
       <a href="installers.html" data-path="/installers.html" class="active">Installers</a>
+      <a href="/materials" data-path="/materials">Materials</a>
       <a href="request-sample.html" data-path="/request-sample.html">Sample</a>
     </nav>
     <div class="nav-actions">
-      <a class="pill" href="resources.html">Spec Pack</a>
-      <a class="pill primary" href="request-sample.html">Request Sample</a>
+      <a class="pill primary" href="installers.html#apply">Start a project</a>
+      <a class="pill" href="request-sample.html">Request sample</a>
       <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false"><span class="menu-icn" aria-hidden="true"></span></button>
     </div>
   </div>
@@ -117,8 +118,9 @@
       <a class="sheet-link" href="budget-estimator.html" data-path="/budget-estimator.html" data-sheet-link>Budget Estimator</a>
       <a class="sheet-link" href="resources.html" data-path="/resources.html" data-sheet-link>Resources</a>
       <a class="sheet-link" href="installers.html" data-path="/installers.html" data-sheet-link>Installers</a>
+      <a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a>
       <a class="sheet-link" href="request-sample.html" data-path="/request-sample.html" data-sheet-link>Sample</a>
-      <div class="sheet-cta"><a class="pill" href="resources.html" data-sheet-link>Spec Pack</a><a class="pill primary" href="request-sample.html" data-sheet-link>Request Sample</a></div>
+      <div class="sheet-cta"><a class="pill primary" href="installers.html#apply" data-sheet-link>Start a project</a><a class="pill" href="request-sample.html" data-sheet-link>Request sample</a></div>
     </div>
   </div>
 </div>
@@ -131,7 +133,7 @@
     <h1 class="h1" style="max-width:26ch;">The people who make Flexus are the people who install it</h1>
     <p class="lede">Manufacturer-installed. Two in-house crews, nationwide. One point of accountability from spec to closeout — material, installation, and warranty from the same organization.</p>
     <div class="hero-cta">
-      <a class="pill primary" href="request-sample.html">Start a project</a>
+      <a class="pill primary" href="#apply">Start a project</a>
       <a class="pill" href="tel:+17707426016">Call (770) 742-6016</a>
     </div>
   </div>
@@ -374,8 +376,20 @@
       </div>
     </div>
     <div class="apply-form">
-      <form name="project-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks">
+      <form name="project-intake" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks?from=project-intake">
         <input type="hidden" name="form-name" value="project-intake">
+      <input type="hidden" name="source" value="flexusco.com">
+      <input type="hidden" name="segment" value="pavement">
+      <input type="hidden" name="page" value="">
+      <input type="hidden" name="landing_page" value="">
+      <input type="hidden" name="referrer" value="">
+      <input type="hidden" name="utm_source" value="">
+      <input type="hidden" name="utm_medium" value="">
+      <input type="hidden" name="utm_campaign" value="">
+      <input type="hidden" name="utm_content" value="">
+      <input type="hidden" name="utm_term" value="">
+      <input type="hidden" name="gclid" value="">
+      <input type="hidden" name="fbclid" value="">
         <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
         <div class="row2">
           <div class="field"><label class="label" for="proj_name">Name</label><input id="proj_name" name="Name" type="text" placeholder="Full name" required></div>
@@ -383,7 +397,7 @@
         </div>
         <div class="row2" style="margin-top:16px;">
           <div class="field"><label class="label" for="proj_org">Firm / organization</label><input id="proj_org" name="Organization" type="text" placeholder="Firm, agency, or owner" required></div>
-          <div class="field"><label class="label" for="proj_phone">Phone</label><input id="proj_phone" name="Phone" type="text" placeholder="(xxx) xxx-xxxx"></div>
+          <div class="field"><label class="label" for="proj_phone">Phone</label><input id="proj_phone" name="Phone" type="tel" placeholder="(xxx) xxx-xxxx" required></div>
         </div>
         <div class="row2" style="margin-top:16px;">
           <div class="field"><label class="label" for="proj_loc">Project location</label><input id="proj_loc" name="Location" type="text" placeholder="City, State"></div>
@@ -412,7 +426,7 @@
   <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
   <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742‑6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
   <div class="footer-divider" role="presentation"></div>
-  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
+  <nav class="footer-nav" aria-label="Footer"><a href="./">Overview</a><a href="cp.html">CP</a><a href="ap.html">AP</a><a href="stormwater-bmp.html">Stormwater BMP</a><a href="leed-specification.html">Specifiers</a><a href="municipal-rfp.html">Municipal RFP</a><a href="budget-estimator.html">Budget Estimator</a><a href="resources.html">Resources</a><a href="/materials">Materials</a><a href="installers.html">Installers</a><a href="request-sample.html">Request Sample</a></nav>
   <div class="footer-divider" role="presentation"></div>
   <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
 </div></div></footer>
