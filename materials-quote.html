@@ -99,21 +99,21 @@
           </select>
         </div>
 
-        <fieldset style="border:0;padding:0;margin:16px 0 0;">
+        <fieldset class="choice-set">
           <legend class="label">What do you need?</legend>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="radio" name="Need" value="quote" checked> Quote only</label>
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="radio" name="Need" value="sample"> Ship a sample</label>
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="radio" name="Need" value="both"> Quote and a sample</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="Need" value="quote" checked> <span>Quote only</span></label>
+            <label class="choice"><input type="radio" name="Need" value="sample"> <span>Ship a sample</span></label>
+            <label class="choice"><input type="radio" name="Need" value="both"> <span>Quote and a sample</span></label>
           </div>
         </fieldset>
 
-        <fieldset style="border:0;padding:0;margin:16px 0 0;">
+        <fieldset class="choice-set">
           <legend class="label">Product</legend>
-          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="checkbox" name="Product" value="rubber-mulch"> Rubber mulch</label>
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="checkbox" name="Product" value="colored-granules"> Colored rubber granules</label>
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="checkbox" name="Product" value="rubber-buffings"> Rubber buffings</label>
+          <div class="choice-grid">
+            <label class="choice"><input type="checkbox" name="Product" value="rubber-mulch"> <span>Rubber mulch</span></label>
+            <label class="choice"><input type="checkbox" name="Product" value="colored-granules"> <span>Colored rubber granules</span></label>
+            <label class="choice"><input type="checkbox" name="Product" value="rubber-buffings"> <span>Rubber buffings</span></label>
           </div>
           <p id="mq-product-note" hidden style="color:#8a1f1f;font-size:13px;margin:8px 0 0;">Select at least one product.</p>
         </fieldset>

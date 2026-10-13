@@ -47,14 +47,14 @@
 .faq-item.open .faq-icon { transform:rotate(45deg); }
 .faq-a { display:none; padding:0 0 18px; font-size:14px; color:var(--muted); line-height:1.7; max-width:72ch; }
 .faq-item.open .faq-a { display:block; }
-.install-split { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); min-height:480px; }
-.install-split-copy { padding:72px 6vw; display:flex; flex-direction:column; justify-content:center; max-width:540px; }
-.install-split-photo { overflow:hidden; min-height:360px; }
-.install-split-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.install-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-top:1px solid var(--line); min-height:480px; }
+.install-split-copy { padding:72px 6vw; display:flex; flex-direction:column; justify-content:center; max-width:540px; min-width:0; }
+.install-split-photo { overflow:hidden; min-height:360px; min-width:0; }
+.install-split-photo img { width:100%; max-width:100%; height:100%; object-fit:cover; display:block; }
 @media (max-width:980px){
   .lift-cards { grid-template-columns:1fr; }
-  .install-split { grid-template-columns:1fr; }
-  .install-split-photo { min-height:320px; order:-1; aspect-ratio:16/9; }
+  .install-split { grid-template-columns:minmax(0,1fr); }
+  .install-split-photo { min-height:0; height:220px; width:100%; max-width:100%; aspect-ratio:auto; order:-1; }
   .install-split-copy { padding:52px 6vw; max-width:100%; }
   .procure-inner { grid-template-columns:1fr; gap:28px; }
   .procure-col { border-right:none; border-bottom:1px solid var(--line); padding:0 0 28px; margin:0; }
