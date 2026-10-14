@@ -3,6 +3,31 @@
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const supportsInert = "inert" in HTMLElement.prototype;
 
+// Header stays above the page. Content scrolls in .site-scroll so the bar never covers fields.
+(function pinHeader() {
+  const nav = document.querySelector("header.nav");
+  if (!nav || document.querySelector(".site-scroll")) return;
+  const sheetEl = document.getElementById("mobile-sheet");
+  const scroller = document.createElement("div");
+  scroller.className = "site-scroll";
+  const keep = new Set([nav, sheetEl].filter(Boolean));
+  [...document.body.childNodes].forEach(node => {
+    if (node.nodeType === 1 && keep.has(node)) return;
+    if (node.nodeType === 3 && !String(node.textContent || "").trim()) return;
+    scroller.appendChild(node);
+  });
+  document.body.appendChild(scroller);
+  document.body.classList.add("has-fixed-nav");
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+  }
+})();
+
+function pageScroller() {
+  return document.querySelector(".site-scroll");
+}
+
 // ========= Year =========
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -41,6 +66,48 @@ const sheet = document.getElementById("mobile-sheet");
 const menuBtn = document.getElementById("menu-btn");
 const sheetClose = document.getElementById("sheet-close");
 const sheetPanel = sheet ? sheet.querySelector(".sheet-panel") : null;
+
+function linkKey(href) {
+  try {
+    const url = new URL(href, location.origin);
+    const path = (url.pathname.replace(/\.html$/, "").replace(/\/+$/, "") || "/");
+    return path + url.hash;
+  } catch (e) {
+    return href || "";
+  }
+}
+
+// Pages that hide the link row still need those destinations, and the header CTAs, in the menu.
+(function fillSheet() {
+  if (!sheet) return;
+  const body = sheet.querySelector(".sheet-body");
+  if (!body) return;
+  let cta = body.querySelector(".sheet-cta");
+  if (!cta) {
+    cta = document.createElement("div");
+    cta.className = "sheet-cta";
+    body.appendChild(cta);
+  }
+  const have = new Set([...body.querySelectorAll("a")].map(a => linkKey(a.getAttribute("href"))));
+  document.querySelectorAll(".nav-links a").forEach(a => {
+    const key = linkKey(a.getAttribute("href"));
+    if (!key || have.has(key)) return;
+    const link = a.cloneNode(true);
+    link.className = "sheet-link";
+    link.setAttribute("data-sheet-link", "");
+    body.insertBefore(link, cta);
+    have.add(key);
+  });
+  document.querySelectorAll(".nav-actions a.pill").forEach(a => {
+    const key = linkKey(a.getAttribute("href"));
+    if (!key || have.has(key)) return;
+    const link = a.cloneNode(true);
+    link.setAttribute("data-sheet-link", "");
+    cta.appendChild(link);
+    have.add(key);
+  });
+})();
+
 const sheetLinks = sheet ? sheet.querySelectorAll("a[data-sheet-link]") : [];
 const sheetBackdrop = sheet ? sheet.querySelector("[data-sheet-close]") : null;
 
@@ -51,6 +118,17 @@ const focusableSelector =
   "a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex='-1'])";
 
 function lockScroll(lock) {
+  const scroller = pageScroller();
+  if (scroller) {
+    if (lock) {
+      scrollYBeforeLock = scroller.scrollTop || 0;
+      scroller.style.overflow = "hidden";
+    } else {
+      scroller.style.overflow = "";
+      scroller.scrollTop = scrollYBeforeLock;
+    }
+    return;
+  }
   const root = document.documentElement;
   const body = document.body;
   if (lock) {
@@ -151,7 +229,7 @@ document.addEventListener("keydown", (e) => {
 
 function closeIfDesktop() {
   if (!sheet?.classList.contains("open")) return;
-  if (window.innerWidth > 980) closeSheet();
+  if (window.innerWidth > 1439) closeSheet();
 }
 window.addEventListener("resize", closeIfDesktop, { passive: true });
 window.addEventListener("orientationchange", closeIfDesktop, { passive: true });
@@ -169,7 +247,8 @@ if (heroMedia && !prefersReducedMotion) {
     heroMedia.style.transform = `translateY(${translate}px) scale(1.02)`;
     ticking = false;
   }
-  window.addEventListener("scroll", () => {
+  const scrollTarget = pageScroller() || window;
+  scrollTarget.addEventListener("scroll", () => {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(onScrollParallax);
@@ -300,38 +379,31 @@ if (heroMedia && !prefersReducedMotion) {
   if (!form) return;
   const gradeWrap = document.getElementById("mq-grade-wrap");
   const colorWrap = document.getElementById("mq-color-wrap");
+  const granuleColorWrap = document.getElementById("mq-granule-color-wrap");
   const addrWrap = document.getElementById("mq-address-wrap");
   const grade = document.getElementById("mq-grade");
   const color = document.getElementById("mq-color");
+  const granuleColor = document.getElementById("mq-granule-color");
   const addr = document.getElementById("mq-address");
   function checked(value){
     const el = form.querySelector('input[name="Product"][value="' + value + '"]');
     return !!(el && el.checked);
+  }
+  function setField(wrap, input, on){
+    if (!wrap || !input) return;
+    wrap.hidden = !on;
+    input.required = !!on;
+    input.disabled = !on;
   }
   function sync(){
     const granules = checked("colored-granules");
     const mulch = checked("rubber-mulch");
     const need = (form.querySelector('input[name="Need"]:checked') || {}).value || "quote";
     const wantSample = need === "sample" || need === "both";
-    if (gradeWrap && grade){
-      gradeWrap.hidden = !granules;
-      grade.required = granules;
-      grade.disabled = !granules;
-    }
-    if (colorWrap && color){
-      // Mulch colors are a fixed list. Granule colors are not published, so they go in Notes.
-      const showColor = mulch;
-      colorWrap.hidden = !showColor;
-      color.required = showColor;
-      color.disabled = !showColor;
-    }
-    const granuleNote = document.getElementById("mq-granule-color-note");
-    if (granuleNote) granuleNote.hidden = !granules;
-    if (addrWrap && addr){
-      addrWrap.hidden = !wantSample;
-      addr.required = wantSample;
-      addr.disabled = !wantSample;
-    }
+    setField(gradeWrap, grade, granules);
+    setField(colorWrap, color, mulch);
+    setField(granuleColorWrap, granuleColor, granules);
+    setField(addrWrap, addr, wantSample);
   }
   form.addEventListener("change", function(){
     sync();
@@ -358,11 +430,8 @@ if (heroMedia && !prefersReducedMotion) {
     const opt = Array.from(grade.options).some(o => o.value === gradeParam);
     if (opt) grade.value = gradeParam;
   }
-  const colorParam = params.get("color");
-  if (color && colorParam && color.options){
-    const match = Array.from(color.options).some(o => o.value === colorParam);
-    if (match) color.value = colorParam;
-  }
+  if (color) color.value = "";
+  if (granuleColor) granuleColor.value = "";
   sync();
 })();
 

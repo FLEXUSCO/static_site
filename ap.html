@@ -19,10 +19,10 @@
 <link rel="stylesheet" href="/site.css">
 <style>
 /* Install split */
-.install-split { display:grid; grid-template-columns:1fr 1fr; border-top:1px solid var(--line); min-height:480px; }
-.install-split-copy { padding:72px 6vw; display:flex; flex-direction:column; justify-content:center; max-width:540px; }
-.install-split-photo { overflow:hidden; min-height:360px; }
-.install-split-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.install-split { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-top:1px solid var(--line); min-height:480px; }
+.install-split-copy { padding:72px 6vw; display:flex; flex-direction:column; justify-content:center; max-width:540px; min-width:0; }
+.install-split-photo { overflow:hidden; min-height:360px; min-width:0; }
+.install-split-photo img { width:100%; max-width:100%; height:100%; object-fit:cover; display:block; }
 
 /* AP-200 gallery */
 .ap-gallery { position:relative; width:100%; height:100%; overflow:hidden; }
@@ -89,8 +89,8 @@
 .faq-item.open .faq-a { display:block; }
 
 @media (max-width:980px){
-  .install-split { grid-template-columns:1fr; }
-  .install-split-photo { min-height:320px; order:-1; aspect-ratio:16/9; }
+  .install-split { grid-template-columns:minmax(0,1fr); }
+  .install-split-photo { min-height:0; height:220px; width:100%; max-width:100%; aspect-ratio:auto; order:-1; }
   .install-split-copy { padding:52px 6vw; max-width:100%; }
   .lift-cards { grid-template-columns:1fr; }
   .blend-detail-grid { grid-template-columns:1fr; }

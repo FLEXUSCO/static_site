@@ -102,11 +102,11 @@
       <input type="hidden" name="fbclid" value="">
         <p style="display:none;"><label>Don't fill this out: <input name="bot-field"></label></p>
 
-        <fieldset style="border:0;padding:0;margin:0 0 16px;">
-          <legend class="label" style="margin-bottom:8px;">What do you need?</legend>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="radio" name="RequestType" value="documentation" checked> Send documentation. No shipping address.</label>
-            <label style="display:flex;gap:8px;align-items:flex-start;font-size:14px;"><input type="radio" name="RequestType" value="sample"> Ship a physical tile.</label>
+        <fieldset class="choice-set" style="margin-top:0;">
+          <legend class="label">What do you need?</legend>
+          <div class="choice-grid stack">
+            <label class="choice"><input type="radio" name="RequestType" value="documentation" checked> <span>Send documentation. No shipping address.</span></label>
+            <label class="choice"><input type="radio" name="RequestType" value="sample"> <span>Ship a physical tile.</span></label>
           </div>
         </fieldset>
 
