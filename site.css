@@ -164,6 +164,7 @@ html.nav-open, html.nav-open body { overflow: hidden; }
   margin: 0 0 20px; max-width: 18ch; font-weight: 400;
 }
 .lede { font-size: 17px; color: var(--muted); margin: 0; max-width: 56ch; line-height: 1.65; }
+.lede a { color: inherit; }
 .hero-cta { margin-top: 32px; display: flex; gap: 10px; flex-wrap: wrap; }
 .hero-note { border-left: 1px solid var(--line); padding-left: 28px; }
 

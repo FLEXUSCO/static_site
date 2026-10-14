@@ -430,12 +430,8 @@ if (heroMedia && !prefersReducedMotion) {
     const opt = Array.from(grade.options).some(o => o.value === gradeParam);
     if (opt) grade.value = gradeParam;
   }
-  const colorParam = params.get("color");
-  const colorTarget = product === "colored-granules" ? granuleColor : color;
-  if (colorTarget && colorParam && colorTarget.options){
-    const match = Array.from(colorTarget.options).some(o => o.value === colorParam);
-    if (match) colorTarget.value = colorParam;
-  }
+  if (color) color.value = "";
+  if (granuleColor) granuleColor.value = "";
   sync();
 })();
 
