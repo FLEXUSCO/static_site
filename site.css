@@ -26,6 +26,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Inline links match the text around them. Buttons, nav, and cards keep their own styles. */
+a:where(:any-link) {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+:where(main, .footer-contact) a:where(:not(.pill, .card, .cta-row, .sheet-link, .logo)):where(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
 /* ── Layout ──────────────────────────────────────── */
 .wrap        { max-width: 1680px; margin: 0 auto; padding: 0 6vw; }
 .wrap-tight  { max-width: 1200px; margin: 0 auto; padding: 0 6vw; }
@@ -768,7 +780,21 @@ a.swatch-card { text-decoration: none; color: inherit; }
   .hero.small .hero-cta .pill { width: 100%; justify-content: center; min-height: 48px; }
 }
 
-/* General: all sticky anchor navs — touch-scroll without bounce */
+.quote { margin: 24px 0 0; padding: 20px 0 0; border-top: 1px solid currentColor; max-width: 100%; }
+.quote blockquote { margin: 0; font-size: 1.05rem; line-height: 1.6; overflow-wrap: anywhere; }
+.quote figcaption { margin-top: 12px; font-size: 14.5px; line-height: 1.45; }
+.anchor { scroll-margin-top: 28px; }
+.section-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+.photo { width: 100%; height: auto; border-radius: 12px; display: block; }
+.topic-panel[hidden] { display: none !important; }
+@media (max-width: 720px) {
+  .nav-actions .nav-sample { display: none; }
+}
+@media (max-width: 980px) {
+  .hero { min-height: calc(100svh - 158px); padding: 0 0 20px; }
+}
+
+/* General: all sticky anchor navs, touch-scroll without bounce */
 @media (max-width: 980px) {
   [style*="position:sticky"][style*="top:57px"] {
     -webkit-overflow-scrolling: touch;
