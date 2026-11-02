@@ -10,12 +10,12 @@
 <meta property="og:url" content="https://www.flexusco.com">
 <meta property="og:title" content="Flexus permeable pavement for pedestrian routes">
 <meta property="og:description" content="Flexus Materials Ltd Co in Atlanta sells AP and CP permeable pavement for pedestrian routes, and rubber surfacing materials. Partner installers place the pavement.">
-<meta property="og:image" content="https://www.flexusco.com/assets/mary-esther/azalea-46-1280.webp">
+<meta property="og:image" content="https://www.flexusco.com/assets/flexus-hero-poster.jpg">
 <meta property="og:site_name" content="Flexus™">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flexus permeable pavement for pedestrian routes">
 <meta name="twitter:description" content="Flexus Materials Ltd Co in Atlanta sells AP and CP permeable pavement for pedestrian routes, and rubber surfacing materials. Partner installers place the pavement.">
-<meta name="twitter:image" content="https://www.flexusco.com/assets/mary-esther/azalea-46-1280.webp">
+<meta name="twitter:image" content="https://www.flexusco.com/assets/flexus-hero-poster.jpg">
 <link rel="stylesheet" href="/site.css">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5T6ESYM3SB"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5T6ESYM3SB');</script>
@@ -51,8 +51,11 @@
 
 <section class="hero">
   <div class="hero-bg">
-    <video id="hero-video" class="hero-video" poster="/assets/mary-esther/azalea-46-1280.webp" muted playsinline preload="none" style="display:none;"></video>
-    <img id="hero-fallback-img" src="/assets/mary-esther/azalea-46-1280.webp" srcset="/assets/mary-esther/azalea-46-640.webp 640w, /assets/mary-esther/azalea-46-960.webp 960w, /assets/mary-esther/azalea-46-1280.webp 1280w, /assets/mary-esther/azalea-46-1920.webp 1920w, /assets/mary-esther/azalea-46-2400.webp 2400w" sizes="100vw" width="2400" height="1348" alt="Flexus AP-200 trail at Azalea Park, Mary Esther, Florida, leading to a wooden pavilion, picnic table, and stone fire pit" loading="eager" decoding="async">
+    <!-- Earlier homepage film retained at /assets/flexus_hero.mp4. This hero loops /assets/flexus-hero-loop.mp4. -->
+    <video id="hero-video" class="hero-video" poster="/assets/flexus-hero-poster.jpg" autoplay muted loop playsinline preload="metadata" width="1920" height="1080" aria-label="Flexus AP-200 trail at Azalea Park, Mary Esther, Florida. The path curves in an S toward a wooden bridge.">
+      <source src="/assets/flexus-hero-loop.mp4" type="video/mp4">
+    </video>
+    <img id="hero-fallback-img" src="/assets/flexus-hero-poster.jpg" width="1920" height="1080" alt="Flexus AP-200 trail at Azalea Park, Mary Esther, Florida, curving through trees toward a wooden bridge" decoding="async" style="display:none;">
   </div>
   <div class="hero-overlay"></div>
   <div class="wrap hero-inner">
@@ -170,29 +173,19 @@
   var video = document.getElementById('hero-video');
   var fallbackImg = document.getElementById('hero-fallback-img');
   if (!video || !fallbackImg) return;
-  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var isMobile = window.innerWidth <= 980;
-  if (reducedMotion || isMobile) {
-    video.removeAttribute('src');
-    while (video.firstChild) video.removeChild(video.firstChild);
+  function showStill() {
+    video.pause();
+    video.removeAttribute('autoplay');
     video.style.display = 'none';
     fallbackImg.style.display = 'block';
+  }
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    showStill();
     return;
   }
-  var source = document.createElement('source');
-  source.src = '/assets/flexus_hero.mp4';
-  source.type = 'video/mp4';
-  video.appendChild(source);
-  video.preload = 'metadata';
-  video.setAttribute('autoplay', '');
-  video.style.display = 'block';
-  fallbackImg.style.display = 'none';
   var playAttempt = video.play();
   if (playAttempt && typeof playAttempt.catch === 'function') {
-    playAttempt.catch(function(){
-      video.style.display = 'none';
-      fallbackImg.style.display = 'block';
-    });
+    playAttempt.catch(showStill);
   }
 })();
 </script>
