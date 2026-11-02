@@ -26,6 +26,18 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Inline links match the text around them. Buttons, nav, and cards keep their own styles. */
+a:where(:any-link) {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+}
+:where(main, .footer-contact) a:where(:not(.pill, .card, .cta-row, .sheet-link, .logo)):where(:hover, :focus-visible) {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
 /* ── Layout ──────────────────────────────────────── */
 .wrap        { max-width: 1680px; margin: 0 auto; padding: 0 6vw; }
 .wrap-tight  { max-width: 1200px; margin: 0 auto; padding: 0 6vw; }
