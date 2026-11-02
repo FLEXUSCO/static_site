@@ -51,7 +51,8 @@
 
 <section class="hero">
   <div class="hero-bg">
-    <img src="/assets/ap-200-install.jpg" alt="Flexus AP-200 trail through trees at Azalea Park, City of Mary Esther, Florida">
+    <video id="hero-video" class="hero-video" poster="/assets/ap-200-install.jpg" muted playsinline preload="none" style="display:none;"></video>
+    <img id="hero-fallback-img" src="/assets/ap-200-install.jpg" alt="Flexus AP-200 trail through trees at Azalea Park, City of Mary Esther, Florida" loading="eager" decoding="async">
   </div>
   <div class="hero-overlay"></div>
   <div class="wrap hero-inner">
@@ -164,6 +165,37 @@
 </div></div></footer>
 <script src="/site.js" defer></script>
 <script src="/analytics.js" defer></script>
+<script>
+(function(){
+  var video = document.getElementById('hero-video');
+  var fallbackImg = document.getElementById('hero-fallback-img');
+  if (!video || !fallbackImg) return;
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.innerWidth <= 980;
+  if (reducedMotion || isMobile) {
+    video.removeAttribute('src');
+    while (video.firstChild) video.removeChild(video.firstChild);
+    video.style.display = 'none';
+    fallbackImg.style.display = 'block';
+    return;
+  }
+  var source = document.createElement('source');
+  source.src = '/assets/flexus_hero.mp4';
+  source.type = 'video/mp4';
+  video.appendChild(source);
+  video.preload = 'metadata';
+  video.setAttribute('autoplay', '');
+  video.style.display = 'block';
+  fallbackImg.style.display = 'none';
+  var playAttempt = video.play();
+  if (playAttempt && typeof playAttempt.catch === 'function') {
+    playAttempt.catch(function(){
+      video.style.display = 'none';
+      fallbackImg.style.display = 'block';
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
