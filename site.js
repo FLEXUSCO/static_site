@@ -18,15 +18,34 @@ const supportsInert = "inert" in HTMLElement.prototype;
   });
   document.body.appendChild(scroller);
   document.body.classList.add("has-fixed-nav");
-  if (location.hash) {
-    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-    if (target) requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+  const to = new URLSearchParams(location.search).get("to");
+  const hashId = to || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "");
+  if (hashId) {
+    const target = document.getElementById(hashId);
+    if (target) {
+      if (to && history.replaceState) {
+        history.replaceState(null, "", (location.pathname || "/") + "#" + hashId);
+      }
+      requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+    }
   }
 })();
 
 function pageScroller() {
   return document.querySelector(".site-scroll");
 }
+
+document.addEventListener("click", (e) => {
+  const a = e.target.closest && e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = decodeURIComponent(a.getAttribute("href").slice(1));
+  if (!id) return;
+  const target = document.getElementById(id);
+  if (!target) return;
+  e.preventDefault();
+  target.scrollIntoView({ block: "start" });
+  if (history.pushState) history.pushState(null, "", "#" + id);
+});
 
 // ========= Year =========
 const yearEl = document.getElementById("year");
@@ -575,7 +594,7 @@ if (heroMedia && !prefersReducedMotion) {
   bar.className = 'mobile-action-bar';
   bar.setAttribute('role', 'region');
   bar.setAttribute('aria-label', 'Contact Flexus');
-  bar.innerHTML = '<a class="pill" href="tel:+17707426016">Call</a><a class="pill primary" href="/installers#apply">Start a project</a>';
+  bar.innerHTML = '<a class="pill" href="tel:+17707426016">Call</a><a class="pill primary" href="/contact?topic=spec-support">Get the spec pack</a>';
   document.body.appendChild(bar);
 })();
 
@@ -652,51 +671,32 @@ if (heroMedia && !prefersReducedMotion) {
 
 
 
-// ========= AP Palette blend pre-fill (request-sample page) =========
+// Old sample links used ?blend= codes. Note the palette on the contact form. Do not rewrite headings.
 (function prefillBlend() {
   const params = new URLSearchParams(window.location.search);
   const blend = params.get('blend');
   if (!blend) return;
 
   const blendMap = {
-    'CE275': 'Charcoal Earth (CE275)',
-    'SD255': 'Sand Dune (SD255)',
-    'NT265': 'Natural Trail (NT265)',
-    'CG218': 'Coastal Granite (CG218)',
+    'CE275': 'Charcoal Earth',
+    'SD255': 'Sand Dune',
+    'NT265': 'Natural Trail',
+    'CG218': 'Coastal Granite',
   };
-
   const blendName = blendMap[blend];
   if (!blendName) return;
 
-  // Wait for DOM
   function init() {
-    // Pre-select Series → AP
-    const seriesEl = document.getElementById('series');
-    if (seriesEl) {
-      seriesEl.value = 'AP';
+    const topic = document.getElementById('topic');
+    if (topic) {
+      topic.value = 'sample';
+      topic.dispatchEvent(new Event('change'));
     }
-
-    // Pre-select Lift → 200
-    const liftsEl = document.getElementById('lifts');
-    if (liftsEl) {
-      liftsEl.value = '200';
-    }
-
-    // Pre-fill Project context with blend note
-    const projectEl = document.getElementById('project');
-    if (projectEl && !projectEl.value) {
-      projectEl.value = `Requesting sample for AP blend: ${blendName}`;
-    }
-
-    // Update page heading to acknowledge the blend
-    const heading = document.querySelector('.hero .h1');
-    if (heading) {
-      heading.textContent = 'Request a Sample';
-    }
-
-    const lede = document.querySelector('.hero .lede');
-    if (lede) {
-      lede.textContent = `You're requesting a sample for AP blend ${blendName}. Fill in your details and we'll get it out to you.`;
+    const sampleSeries = document.getElementById('sample-series');
+    if (sampleSeries) sampleSeries.value = 'AP';
+    const notes = document.getElementById('notes');
+    if (notes && !notes.value) {
+      notes.value = 'Pavement sample, AP palette: ' + blendName + '.';
     }
   }
 
