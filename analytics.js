@@ -51,25 +51,7 @@
     });
   }
 
-  // Budget estimator CTA clicks
-  function bindEstimatorCTAs(){
-    document.querySelectorAll('.budget-cta-row a').forEach(function(link){
-      link.addEventListener('click', function(){
-        var series = (document.querySelector('.budget-btn[data-series].active') || {}).dataset && document.querySelector('.budget-btn[data-series].active').dataset.series || 'unknown';
-        var lift = (document.querySelector('.budget-btn[data-lift].active') || {}).dataset && document.querySelector('.budget-btn[data-lift].active').dataset.lift || 'unknown';
-        var area = document.getElementById('area-slider') ? document.getElementById('area-slider').value : 'unknown';
-        var label = (link.textContent || '').trim();
-        track('estimator_cta_click', {
-          cta_label: label,
-          series: series,
-          lift: lift,
-          area_sf: parseInt(area) || 0
-        });
-      });
-    });
-  }
-
-  // Nav CTA clicks (Spec Pack + Request Sample in header)
+  // Nav CTA clicks (Specification support + Request Sample in header)
   function bindNavCTAs(){
     document.querySelectorAll('.nav-actions a.pill, .sheet-cta a.pill').forEach(function(link){
       link.addEventListener('click', function(){
@@ -84,7 +66,6 @@
   function init(){
     bindDownloads();
     bindForms();
-    bindEstimatorCTAs();
     bindNavCTAs();
   }
 
