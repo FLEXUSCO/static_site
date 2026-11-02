@@ -594,7 +594,7 @@ if (heroMedia && !prefersReducedMotion) {
   bar.className = 'mobile-action-bar';
   bar.setAttribute('role', 'region');
   bar.setAttribute('aria-label', 'Contact Flexus');
-  bar.innerHTML = '<a class="pill" href="tel:+17707426016">Call</a><a class="pill primary" href="/contact?topic=spec-support">Get the spec pack</a>';
+  bar.innerHTML = '<a class="pill" href="tel:+17707426016">Call</a><a class="pill primary" href="/contact?topic=spec-support">Specification support</a>';
   document.body.appendChild(bar);
 })();
 
