@@ -1,9 +1,24 @@
 // Netlify Forms event: submission-created.
 // Forwards a lead to the CRM when CRM_WEBHOOK_URL is set. No-ops with 200 otherwise.
 // Optional CRM_WEBHOOK_SECRET is sent as X-Flexus-Webhook-Secret.
+// GA collection is decided separately and is unwired. A CRM failure still returns
+// 502 for the CRM call only. The gate never performs a collect request.
 
-exports.handler = async function (event) {
-  const webhookUrl = process.env.CRM_WEBHOOK_URL;
+const leadGate = require("./lead-gate");
+
+async function handleSubmission(event, deps) {
+  const env = (deps && deps.env) || process.env;
+  let leadDecision;
+  try {
+    leadDecision = leadGate.productionDecision(env);
+  } catch (_gateErr) {
+    leadDecision = { send: false, reason: "gate_error" };
+  }
+  if (leadDecision.send) {
+    leadDecision = { send: false, reason: "collector_unwired" };
+  }
+
+  const webhookUrl = env.CRM_WEBHOOK_URL;
   if (!webhookUrl) {
     return {
       statusCode: 200,
@@ -39,12 +54,13 @@ exports.handler = async function (event) {
   };
 
   const headers = { "Content-Type": "application/json" };
-  if (process.env.CRM_WEBHOOK_SECRET) {
-    headers["X-Flexus-Webhook-Secret"] = process.env.CRM_WEBHOOK_SECRET;
+  if (env.CRM_WEBHOOK_SECRET) {
+    headers["X-Flexus-Webhook-Secret"] = env.CRM_WEBHOOK_SECRET;
   }
 
+  const fetchImpl = (deps && deps.fetch) || fetch;
   try {
-    const res = await fetch(webhookUrl, {
+    const res = await fetchImpl(webhookUrl, {
       method: "POST",
       headers: headers,
       body: JSON.stringify(forward)
@@ -52,14 +68,22 @@ exports.handler = async function (event) {
     if (!res.ok) {
       return {
         statusCode: 502,
-        body: JSON.stringify({ ok: false, forwarded: false, status: res.status })
+        body: JSON.stringify({ ok: false, forwarded: false, status: res.status, ga: leadDecision.reason })
       };
     }
-    return { statusCode: 200, body: JSON.stringify({ ok: true, forwarded: true }) };
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ ok: true, forwarded: true, ga: leadDecision.reason })
+    };
   } catch (_err) {
     return {
       statusCode: 502,
-      body: JSON.stringify({ ok: false, forwarded: false, error: "webhook request failed" })
+      body: JSON.stringify({ ok: false, forwarded: false, error: "webhook request failed", ga: leadDecision.reason })
     };
   }
+}
+
+exports.handleSubmission = handleSubmission;
+exports.handler = function (event) {
+  return handleSubmission(event, { env: process.env, fetch: fetch });
 };
