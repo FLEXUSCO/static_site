@@ -15,8 +15,6 @@
 /municipal-rfp.html         /specifiers?to=procurement      301
 /resources                  /specifiers?to=downloads        301
 /resources.html             /specifiers?to=downloads        301
-/budget-estimator           /pavement-systems              301
-/budget-estimator.html      /pavement-systems              301
 /cost-calculator            /pavement-systems              301
 /pricing                    /pavement-systems              301
 /installers                 /specifiers?to=installation     301
@@ -62,4 +60,5 @@
 /projects/athens-root-intrusion-sidewalk /athens-root-intrusion-sidewalk.html 200
 /materials                  /materials.html                 200
 /about                      /about.html                     200
+/budget-estimator           /budget-estimator.html          200
 /contact                    /contact.html                   200
