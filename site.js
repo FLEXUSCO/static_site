@@ -18,13 +18,15 @@ const supportsInert = "inert" in HTMLElement.prototype;
   });
   document.body.appendChild(scroller);
   document.body.classList.add("has-fixed-nav");
-  const to = new URLSearchParams(location.search).get("to");
+  const params = new URLSearchParams(location.search);
+  const pathSection = window.FlexusTrack && FlexusTrack.sectionIdFromPath(location.pathname);
+  const to = params.get("to") || pathSection || "";
   const hashId = to || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "");
   if (hashId) {
     const target = document.getElementById(hashId);
     if (target) {
-      if (to && history.replaceState) {
-        history.replaceState(null, "", (location.pathname || "/") + "#" + hashId);
+      if ((params.get("to") || pathSection) && history.replaceState && window.FlexusTrack) {
+        history.replaceState(null, "", FlexusTrack.urlAfterToParam(location.pathname, location.search, hashId));
       }
       requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
     }
@@ -369,10 +371,18 @@ if (heroMedia && !prefersReducedMotion) {
     });
   }
 
+  const formSelector = (window.FlexusTrack && FlexusTrack.FORM_SELECTOR) || "form[data-flexus-form]";
   window.__flexusApplyAttr = function(){
-    document.querySelectorAll('form[data-netlify="true"]').forEach(apply);
+    document.querySelectorAll(formSelector).forEach(apply);
   };
   window.__flexusApplyAttr();
+  // Capture phase fills attribution before the browser builds the native POST.
+  // Do not preventDefault. A static HTTP 200 is not proof Netlify stored the form.
+  document.addEventListener("submit", function (e) {
+    const form = e.target;
+    if (!form || !form.matches || !form.matches(formSelector)) return;
+    apply(form);
+  }, true);
 })();
 
 // ========= Sample request: address only when a tile is shipping =========
@@ -462,129 +472,6 @@ if (heroMedia && !prefersReducedMotion) {
   if (!opener) return;
   opener.setAttribute("data-pack", pack);
   opener.click();
-})();
-
-// ========= Toasts + Netlify form submit, then /thanks?from= =========
-(function initToastsAndForms(){
-  // Toast host
-  let wrap = document.querySelector('.toast-wrap');
-  if (!wrap){
-    wrap = document.createElement('div');
-    wrap.className = 'toast-wrap';
-    wrap.setAttribute('aria-live','polite');
-    wrap.setAttribute('aria-atomic','true');
-    document.body.appendChild(wrap);
-  }
-
-  function showToast({ title = '', message = '', variant = 'success', timeout = 5200 } = {}){
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${variant}`;
-    toast.setAttribute('role', 'status');
-
-    const content = document.createElement('div');
-    const t = document.createElement('div');
-    t.className = 'toast-title';
-    t.textContent = title || (variant === 'error' ? 'Something went wrong' : 'Success');
-    const m = document.createElement('div');
-    m.className = 'toast-msg';
-    m.textContent = message;
-    content.appendChild(t);
-    if (message) content.appendChild(m);
-
-    const close = document.createElement('button');
-    close.className = 'toast-close';
-    close.type = 'button';
-    close.setAttribute('aria-label','Dismiss');
-    close.textContent = '×';
-
-    toast.appendChild(content);
-    toast.appendChild(close);
-    wrap.appendChild(toast);
-
-    // animate in
-    requestAnimationFrame(() => toast.classList.add('show'));
-
-    let timer = null;
-    function remove(){
-      if (!toast.isConnected) return;
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 220);
-    }
-    close.addEventListener('click', remove);
-    if (timeout && timeout > 0) timer = setTimeout(remove, timeout);
-    return { remove, toast, timer };
-  }
-
-  // Netlify expects urlencoded body. Keep action="/" so Netlify doesn't redirect.
-  function encode(form){
-    const data = new FormData(form);
-
-    // Ensure Netlify always receives the form name (belt + suspenders)
-    if (!data.has('form-name')){
-      const n = form.getAttribute('name');
-      if (n) data.append('form-name', n);
-    }
-
-    return new URLSearchParams(data).toString();
-  }
-
-  async function submitNetlifyForm(form){
-    const body = encode(form);
-
-    // Netlify records AJAX posts sent to the site root, not the action URL.
-    const res = await fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body
-    });
-
-    // Netlify forms typically return 200. Treat any 2xx as success.
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return true;
-  }
-
-  if (window.__FLEXUS_FORMS_BOUND__) return;
-  window.__FLEXUS_FORMS_BOUND__ = true;
-
-  const forms = Array.from(document.querySelectorAll('form[data-netlify="true"]'));
-  if (!forms.length) return;
-
-  forms.forEach(form => {
-    form.addEventListener('submit', async (e) => {
-      if (e.defaultPrevented) return;
-      e.preventDefault();
-
-      if (typeof form.reportValidity === 'function' && !form.reportValidity()) return;
-      if (typeof window.__flexusApplyAttr === 'function') window.__flexusApplyAttr();
-
-      const formName = form.getAttribute('name') || '';
-      const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
-      const prevText = submitBtn ? (submitBtn.tagName === 'BUTTON' ? submitBtn.textContent : submitBtn.value) : '';
-
-      if (submitBtn){
-        submitBtn.disabled = true;
-        if (submitBtn.tagName === 'BUTTON') submitBtn.textContent = 'Sending…';
-        else submitBtn.value = 'Sending…';
-      }
-
-      try {
-        await submitNetlifyForm(form);
-        window.location.href = '/thanks?from=' + encodeURIComponent(formName);
-      } catch (err){
-        showToast({
-          title: 'Submission failed',
-          message: 'Please try again. If it continues, email us at info@flexusco.com.',
-          variant: 'error',
-          timeout: 7000
-        });
-        if (submitBtn){
-          submitBtn.disabled = false;
-          if (submitBtn.tagName === 'BUTTON') submitBtn.textContent = prevText;
-          else submitBtn.value = prevText;
-        }
-      }
-    });
-  });
 })();
 
 // ========= Sticky mobile call / project bar =========

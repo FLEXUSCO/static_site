@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pavement budget inputs | Flexus</title>
+<meta name="description" content="Enter length, width, series, lift, and site conditions for a Flexus pavement project. Dollar amounts are not shown.">
+<link rel="canonical" href="https://www.flexusco.com/budget-estimator">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.flexusco.com/budget-estimator">
+<meta property="og:title" content="Pavement budget inputs | Flexus">
+<meta property="og:description" content="Enter length, width, series, lift, and site conditions for a Flexus pavement project. Dollar amounts are not shown.">
+<meta property="og:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
+<meta property="og:site_name" content="Flexus™">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pavement budget inputs | Flexus">
+<meta name="twitter:description" content="Enter length, width, series, lift, and site conditions for a Flexus pavement project. Dollar amounts are not shown.">
+<meta name="twitter:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
+<link rel="stylesheet" href="/site.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5T6ESYM3SB"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5T6ESYM3SB');</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.flexusco.com/"},{"@type":"ListItem","position":2,"name":"Pavement","item":"https://www.flexusco.com/pavement-systems"},{"@type":"ListItem","position":3,"name":"Budget inputs","item":"https://www.flexusco.com/budget-estimator"}]}</script>
+</head>
+<body>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="logo" href="/" style="text-decoration:none;color:inherit;">Flexus™</a>
+    <nav class="nav-links" data-nav>
+      <a href="/pavement-systems" data-path="/pavement-systems">Pavement</a><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><a href="/materials" data-path="/materials">Materials</a><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="pill primary" href="/contact?topic=spec-support">Specification support</a>
+      <a class="pill nav-sample" href="/contact?topic=sample">Request a sample</a>
+      <button class="menu-btn" id="menu-btn" aria-label="Open menu" aria-controls="mobile-sheet" aria-expanded="false"><span class="menu-icn" aria-hidden="true"></span></button>
+    </div>
+  </div>
+</header>
+<div class="sheet" id="mobile-sheet" aria-hidden="true">
+  <div class="sheet-backdrop" data-sheet-close></div>
+  <div class="sheet-panel" role="dialog" aria-label="Menu">
+    <div class="sheet-head"><div class="sheet-title">Menu</div><button class="sheet-close" id="sheet-close" aria-label="Close menu">✕</button></div>
+    <div class="sheet-body" data-nav>
+      <a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
+      <div class="sheet-cta"><a class="pill primary" href="/contact?topic=spec-support" data-sheet-link>Specification support</a><a class="pill" href="/contact?topic=sample" data-sheet-link>Request a sample</a></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<section class="hero small">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Budget</div>
+    <h1 class="h1" style="max-width:18ch;">Pavement budget inputs</h1>
+    <p class="lede">Length, width, series, lift, subbase, and site conditions. These are the inputs from the earlier estimator. Dollar amounts from that estimator are not shown.</p>
+  </div>
+</section>
+<section class="section rule">
+  <div class="wrap-tight">
+    <div class="grid2">
+      <form id="budget-form" class="form" action="#">
+        <div class="field"><span class="label">Project dimensions</span></div>
+        <div class="row2">
+          <div class="field"><label class="label" for="b-length">Length, feet</label><input id="b-length" type="number" min="0" step="1" value="500" inputmode="decimal"></div>
+          <div class="field"><label class="label" for="b-width">Width, feet</label><input id="b-width" type="number" min="0" step="0.5" value="8" inputmode="decimal"></div>
+        </div>
+        <p class="note" style="margin-top:8px;">For an irregular area, use total square feet divided by average width.</p>
+
+        <fieldset class="choice-set">
+          <legend class="label">Series</legend>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="series" value="cp" checked> <span>CP, civil</span></label>
+            <label class="choice"><input type="radio" name="series" value="ap"> <span>AP, architectural</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="choice-set">
+          <legend class="label">Lift</legend>
+          <div class="choice-grid">
+            <label class="choice"><input type="radio" name="lift" value="1.5"> <span>1.5 in</span></label>
+            <label class="choice"><input type="radio" name="lift" value="2.0" checked> <span>2.0 in</span></label>
+            <label class="choice"><input type="radio" name="lift" value="2.5"> <span>2.5 in</span></label>
+          </div>
+        </fieldset>
+        <div class="row2" style="margin-top:16px;">
+          <div class="field"><label class="label" for="b-stone">Stone</label>
+            <select id="b-stone">
+              <option value="57" selected>#57</option>
+              <option value="2">#2</option>
+            </select>
+          </div>
+          <div class="field"><label class="label" for="b-depth">Subbase depth, inches</label><input id="b-depth" type="number" min="0" max="24" step="1" value="4" inputmode="numeric"></div>
+        </div>
+        <fieldset class="choice-set">
+          <legend class="label">Site conditions</legend>
+          <div class="choice-grid stack">
+            <label class="choice"><input type="checkbox" id="b-geo" checked> <span>Class II woven geotextile</span></label>
+            <label class="choice"><input type="checkbox" id="b-grid"> <span>Gravel grid</span></label>
+            <label class="choice"><input type="checkbox" id="b-earth"> <span>Earthwork</span></label>
+            <label class="choice"><input type="checkbox" id="b-edge" checked> <span>Edge restraint</span></label>
+          </div>
+        </fieldset>
+        <div class="field" style="margin-top:16px;"><label class="label" for="b-region">Project region</label>
+          <select id="b-region">
+            <option value="local" selected>Southeast</option>
+            <option value="adjacent">Mid-Atlantic / Midwest</option>
+            <option value="distant">West Coast / Northeast</option>
+          </select>
+        </div>
+      </form>
+      <div class="card" id="budget-output" data-budget-output>
+        <h3>What was entered</h3>
+        <ul class="list">
+          <li><strong>Area.</strong> <span data-out="area">—</span> sf</li>
+          <li><strong>Perimeter.</strong> <span data-out="perimeter">—</span> lf</li>
+          <li><strong>Series.</strong> <span data-out="series">—</span></li>
+          <li><strong>Lift.</strong> <span data-out="lift">—</span></li>
+          <li><strong>Subbase.</strong> <span data-out="subbase">—</span></li>
+          <li><strong>Conditions.</strong> <span data-out="conditions">—</span></li>
+          <li><strong>Region.</strong> <span data-out="region">—</span></li>
+        </ul>
+        <p class="note" style="margin-top:16px;">No dollar figure is published. The earlier line-item rates are not a current price or bid.</p>
+        <p class="note" style="margin-top:12px;">Flexus can bid the full installed job, or supply the pavement system and install guidance to a contractor. Neither is priced on this page. Rubber mulch, granules, and buffings are a separate materials quote.</p>
+        <div class="hero-cta">
+          <a class="pill primary" href="/contact?topic=spec-support">Specification support</a>
+          <a class="pill" href="/contact?topic=materials-quote">Materials quote</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="footer"><div class="wrap"><div class="footer-inner">
+  <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
+  <div class="footer-contact"><a class="footer-phone" href="tel:+17707426016">(770) 742-6016</a><a class="footer-email" href="mailto:info@flexusco.com">info@flexusco.com</a></div>
+  <div class="footer-divider" role="presentation"></div>
+  <nav class="footer-nav" aria-label="Footer"><a href="/">Home</a><a href="/pavement-systems">Pavement</a><a href="/pavement-systems/ap">AP</a><a href="/pavement-systems/cp">CP</a><a href="/specifiers">Specifiers</a><a href="/projects">Projects</a><a href="/materials">Materials</a><a href="/about">About</a><a href="/contact">Contact</a></nav>
+  <div class="footer-divider" role="presentation"></div>
+  <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
+</div></div></footer>
+<script src="/tracking.js" defer></script>
+<script src="/site.js" defer></script>
+<script src="/analytics.js" defer></script>
+<script src="/budget.js" defer></script>
+
+</body>
+</html>

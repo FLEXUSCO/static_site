@@ -1,78 +1,92 @@
-// Flexus analytics — GA4 event tracking
-(function(){
-  'use strict';
-
+// Custom events for the existing G-5T6ESYM3SB snippet. No new tag is loaded here.
+(function () {
   if (window.__FLEXUS_ANALYTICS_BOUND__) return;
   window.__FLEXUS_ANALYTICS_BOUND__ = true;
+  var track = window.FlexusTrack;
+  if (!track) return;
 
-  function track(eventName, params){
-    if (typeof gtag !== 'function') return;
-    gtag('event', eventName, params || {});
+  var started = false;
+
+  function topicSelected(form) {
+    var select = form.querySelector("#topic");
+    return track.topicEnum(select ? select.value : "");
   }
 
-  // PDF download click tracking
-  // Fires 'file_download' event with file name and series label
-  function bindDownloads(){
-    var links = document.querySelectorAll('a[href$=".pdf"][download], a[href*="/pdfs/"]');
-    links.forEach(function(link){
-      link.addEventListener('click', function(){
-        var href = link.getAttribute('href') || '';
-        var parts = href.split('/');
-        var fileName = parts[parts.length - 1].replace('.pdf','').replace(/_/g,' ');
-        var series = href.indexOf('/ap/') !== -1 ? 'AP' : href.indexOf('/cp/') !== -1 ? 'CP' : 'unknown';
-        track('file_download', {
-          file_name: fileName,
-          file_extension: 'pdf',
-          link_url: href,
-          series: series
-        });
+  function formOf(node) {
+    var el = node && node.nodeType === 1 ? node : (node && node.parentElement);
+    while (el) {
+      if (el.matches && el.matches(track.FORM_SELECTOR)) return el;
+      el = el.parentElement;
+    }
+    return null;
+  }
+
+  document.addEventListener("focusin", function (e) {
+    if (!e.isTrusted || started) return;
+    var form = formOf(e.target);
+    if (!form) return;
+    var tag = (e.target.tagName || "").toLowerCase();
+    if (tag !== "input" && tag !== "select" && tag !== "textarea") return;
+    started = true;
+    track.emit("form_start", { form_id: "contact" });
+  }, true);
+
+  document.addEventListener("invalid", function (e) {
+    if (!e.isTrusted) return;
+    var form = e.target && e.target.form;
+    if (!form || !form.matches || !form.matches(track.FORM_SELECTOR)) return;
+    if (form.__flexusInvalid) return;
+    form.__flexusInvalid = true;
+    setTimeout(function () { form.__flexusInvalid = false; }, 0);
+    var topic = topicSelected(form);
+    if (!topic) return;
+    track.emit("form_error", { form_id: "contact", topic: topic, error_code: "invalid" });
+  }, true);
+
+  document.addEventListener("submit", function (e) {
+    if (!e.isTrusted) return;
+    var form = e.target;
+    if (!form || !form.matches || !form.matches(track.FORM_SELECTOR)) return;
+    var topic = topicSelected(form);
+    if (!topic) return;
+    if (e.defaultPrevented) {
+      if (!form.__flexusInvalid) track.emit("form_error", { form_id: "contact", topic: topic, error_code: "invalid" });
+      return;
+    }
+    if (form.checkValidity && !form.checkValidity()) return;
+    track.emit("form_attempt", { form_id: "contact", topic: topic });
+  }, false);
+
+  document.addEventListener("change", function (e) {
+    var eventParams = track.materialEvent(e.target, e.isTrusted);
+    if (eventParams) track.emit("material_select", eventParams);
+  }, true);
+
+  document.addEventListener("click", function (e) {
+    if (!e.isTrusted) return;
+    var el = e.target && e.target.nodeType === 1 ? e.target : (e.target && e.target.parentElement);
+    if (!el || !el.closest) return;
+    var link = el.closest("a[href]");
+    if (!link) return;
+    var href = link.getAttribute("href") || "";
+    if (href.indexOf("tel:") === 0 || href.indexOf("mailto:") === 0) {
+      track.emit("contact_click", {
+        method: href.indexOf("tel:") === 0 ? "phone" : "email",
+        placement: track.anchorPlacement(link)
       });
-    });
+      return;
+    }
+    var intent = track.ctaIntent(href);
+    var placement = track.ctaPlacement(link);
+    if (intent && placement) track.emit("cta_click", { intent: intent, placement: placement });
+    var pdf = track.pdfEvent(href);
+    if (pdf) track.emit("file_download", pdf);
+  }, true);
+
+  var path = (location.pathname || "/").replace(/\.html$/, "");
+  if (path === "/thanks" || path === "/success") {
+    var lead = null;
+    try { lead = track.leadEventFromVisit(window.sessionStorage); } catch (_e) { lead = null; }
+    if (lead) track.emit("generate_lead", lead);
   }
-
-  // Form submission tracking
-  // Fires before redirect to /thanks — hooks into the forms.js submit flow
-  function bindForms(){
-    document.querySelectorAll('form[data-netlify="true"]').forEach(function(form){
-      form.addEventListener('submit', function(){
-        var name = form.getAttribute('name') || 'unknown';
-        var eventName = 'form_submit';
-        var label = name;
-
-        if (name === 'sample-request')  label = 'Sample Request';
-        if (name === 'spec-pack-request') label = 'Spec Pack Request';
-        if (name === 'installer-application') label = 'Installer Application';
-
-        track(eventName, {
-          form_name: label,
-          form_id: name
-        });
-      }, true); // capture phase — fires before forms.js preventDefault
-    });
-  }
-
-  // Nav CTA clicks (Specification support + Request Sample in header)
-  function bindNavCTAs(){
-    document.querySelectorAll('.nav-actions a.pill, .sheet-cta a.pill').forEach(function(link){
-      link.addEventListener('click', function(){
-        track('nav_cta_click', {
-          cta_label: (link.textContent || '').trim(),
-          destination: link.getAttribute('href') || ''
-        });
-      });
-    });
-  }
-
-  function init(){
-    bindDownloads();
-    bindForms();
-    bindNavCTAs();
-  }
-
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
 })();

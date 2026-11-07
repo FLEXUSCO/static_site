@@ -1,3 +1,5 @@
+// Unused by the current pages. Do not add this script back: it treats any HTTP
+// success as acceptance and would stop the native contact submit.
 // Flexus: Netlify AJAX forms + toasts (runs even if site.js errors)
 (function(){
   'use strict';
