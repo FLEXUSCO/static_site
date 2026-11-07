@@ -1,0 +1,6 @@
+[build]
+  command = "node scripts/stage-publish.js"
+  publish = "publish"
+
+[functions]
+  directory = "netlify/functions"
