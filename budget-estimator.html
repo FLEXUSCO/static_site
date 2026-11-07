@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pavement budget estimate | Flexus</title>
-<meta name="description" content="Budget estimate for Flexus pavement materials. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts scale from those rates. Installation is an optional $3.00 per square foot. Subbase is not included.">
+<title>Estimated materials cost | Flexus</title>
+<meta name="description" content="Estimated materials cost for Flexus pavement. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts use that thickness proportion. Installation and subbase are not included.">
 <link rel="canonical" href="https://www.flexusco.com/budget-estimator">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.flexusco.com/budget-estimator">
-<meta property="og:title" content="Pavement budget estimate | Flexus">
-<meta property="og:description" content="Budget estimate for Flexus pavement materials. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts scale from those rates. Installation is an optional $3.00 per square foot. Subbase is not included.">
+<meta property="og:title" content="Estimated materials cost | Flexus">
+<meta property="og:description" content="Estimated materials cost for Flexus pavement. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts use that thickness proportion. Installation and subbase are not included.">
 <meta property="og:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
 <meta property="og:site_name" content="Flexus™">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pavement budget estimate | Flexus">
-<meta name="twitter:description" content="Budget estimate for Flexus pavement materials. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts scale from those rates. Installation is an optional $3.00 per square foot. Subbase is not included.">
+<meta name="twitter:title" content="Estimated materials cost | Flexus">
+<meta name="twitter:description" content="Estimated materials cost for Flexus pavement. CP-200 is $5.37 per square foot and AP-200 is $8.85 per square foot. The 1.5 inch and 2.5 inch lifts use that thickness proportion. Installation and subbase are not included.">
 <meta name="twitter:image" content="https://www.flexusco.com/assets/ap-200-install.jpg">
 <link rel="stylesheet" href="/site.css">
 <style>
@@ -25,7 +25,7 @@
   .budget-excluded { margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); }
   .budget-total { color: var(--text); font-weight: 600; }
 </style>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.flexusco.com/"},{"@type":"ListItem","position":2,"name":"Budget estimate","item":"https://www.flexusco.com/budget-estimator"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.flexusco.com/"},{"@type":"ListItem","position":2,"name":"Estimated materials cost","item":"https://www.flexusco.com/budget-estimator"}]}</script>
 </head>
 <body>
 <header class="nav">
@@ -56,9 +56,9 @@
 
 <section class="hero small">
   <div class="wrap hero-inner">
-    <div class="eyebrow">Budget estimate</div>
-    <h1 class="h1" style="max-width:16ch;">Pavement materials budget.</h1>
-    <p class="lede">CP-200 is $5.37 per square foot. AP-200 is $8.85 per square foot. The 1.5 inch lift is three quarters of that rate, and the 2.5 inch lift is five quarters. Those are the published lifts. Installation is a separate $3.00 per square foot and stays off until you add it. Subbase is not in this estimate.</p>
+    <div class="eyebrow">Materials</div>
+    <h1 class="h1" style="max-width:16ch;">Estimated materials cost.</h1>
+    <p class="lede">CP-200 is $5.37 per square foot. AP-200 is $8.85 per square foot. The 1.5 inch lift is three quarters of the 2.0 inch rate, and the 2.5 inch lift is five quarters. Those are the published lifts. This figure is pavement materials only.</p>
   </div>
 </section>
 <section class="section rule">
@@ -88,16 +88,9 @@
               <label class="choice"><input type="radio" name="lift" value="2.5"> <span>2.5 in, 250</span></label>
             </div>
           </fieldset>
-          <fieldset class="choice-set">
-            <legend class="label">Installation</legend>
-            <div class="choice-grid stack">
-              <label class="choice"><input type="checkbox" id="b-install"> <span>Add installation at $3.00/sf. Materials only if this is off.</span></label>
-            </div>
-          </fieldset>
-
           <div class="budget-excluded">
             <div class="field"><span class="label">Not in this estimate</span></div>
-            <p class="note">Stone, subbase depth, geotextile, gravel grid, earthwork, edge restraint, and region are recorded here and are not priced. Changing them does not change the total. Subbase can be calculated later.</p>
+            <p class="note">Stone, subbase depth, geotextile, gravel grid, earthwork, edge restraint, and region are recorded here and are not priced. Changing them does not change the estimated materials cost.</p>
             <div class="row2" style="margin-top:16px;">
               <div class="field"><label class="label" for="b-stone">Stone</label>
                 <select id="b-stone">
@@ -128,19 +121,16 @@
       </div>
       <div>
         <div class="card" id="budget-output" aria-live="polite">
-          <h3>Budget estimate</h3>
-          <p class="statement">Pavement materials. Not a full project bid.</p>
+          <h3>Estimated materials cost</h3>
+          <p class="statement">Pavement materials only.</p>
           <ul class="list">
             <li><strong>Area.</strong> <span data-out="area">4,000 sf</span></li>
             <li><strong>Material rate.</strong> <span data-out="material">CP-200, 2.0 in, $5.37/sf</span></li>
-            <li><strong>Material amount.</strong> <span data-out="material-amount">$21,480.00</span></li>
-            <li><strong>Installation rate.</strong> <span data-out="install">$3.00/sf, not included</span></li>
-            <li><strong>Installation amount.</strong> <span data-out="install-amount">Not included</span></li>
-            <li class="budget-total"><strong data-out="total-label">Total pavement materials</strong> <span data-out="total">$21,480.00</span></li>
+            <li class="budget-total"><strong data-out="total-label">Estimated materials cost</strong> <span data-out="total">$21,480.00</span></li>
           </ul>
-          <p class="note" style="margin-top:16px;">The default is materials only. Installation, when selected, is added as its own line and is not folded into the material rate. Subbase is excluded. Freight, tax, and binder are not added.</p>
-          <p class="smallnote" style="margin-top:12px;">Amounts are the rate times the area, rounded half up to the nearest cent.</p>
-          <p class="smallnote" style="margin-top:12px;" data-out="excluded">Not priced: #57 stone, 4 in subbase depth. Also not priced: geotextile, edge restraint. Region: Southeast. Changing these does not change the total.</p>
+          <p class="note" style="margin-top:16px;">Installation and subbase are not included. <a href="/contact">Request project pricing.</a></p>
+          <p class="smallnote" style="margin-top:12px;">The amount is the material rate times the area, rounded half up to the nearest cent. Freight, tax, and binder are not added.</p>
+          <p class="smallnote" style="margin-top:12px;" data-out="excluded">Not in the materials estimate: #57 stone, 4 in subbase depth. Also not included: geotextile, edge restraint. Region: Southeast. Changing these does not change the estimated materials cost.</p>
           <p class="smallnote" style="margin-top:12px;" data-out="status"></p>
         </div>
         <div class="card" style="margin-top:24px;">
@@ -154,10 +144,9 @@
               <tr><td>AP-150</td><td>1.5 in</td><td>$6.6375/sf</td></tr>
               <tr><td>AP-200</td><td>2.0 in</td><td>$8.85/sf</td></tr>
               <tr><td>AP-250</td><td>2.5 in</td><td>$11.0625/sf</td></tr>
-              <tr><td>Installation</td><td>Any lift</td><td>$3.00/sf</td></tr>
             </tbody>
           </table>
-          <p class="smallnote" style="margin-top:12px;">Installation is optional and is the same $3.00 per square foot for every model. It is not a material rate.</p>
+          <p class="smallnote" style="margin-top:12px;">Material rates only. Installation and subbase are not included.</p>
         </div>
       </div>
     </div>

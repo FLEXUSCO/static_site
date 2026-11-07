@@ -128,44 +128,56 @@ async function main() {
     const client = page.client;
     await client.send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1100, deviceScaleFactor: 1, mobile: false });
     let body = await text(client);
-    if (!body.includes("4,000 sf") || !body.includes("CP-200, 2.0 in, $5.37/sf") || !body.includes("$21,480.00") || !body.includes("Not included") || body.includes("$33,480.00")) {
-      throw new Error("default materials-only output was wrong:\n" + body);
+    const pageHtml = await client.send("Runtime.evaluate", { expression: "document.documentElement.outerHTML", returnByValue: true });
+    const served = pageHtml.result.value + "\n" + await (await fetch("http://127.0.0.1:" + port + "/budget.js")).text();
+    const hiddenInstall = "$" + "3.00";
+    const hiddenCombined = "33" + ",480";
+    if (!body.includes("4,000 sf") || !body.includes("CP-200, 2.0 in, $5.37/sf") || !body.includes("$21,480.00") || !body.includes("Estimated materials cost") || !body.includes("Installation and subbase are not included")) {
+      throw new Error("default materials estimate was wrong:\n" + body);
     }
-    if (body.includes("±15%") || body.includes("$0.40") || body.includes("full project bid") === false) {
-      throw new Error("scope copy missing or stale:\n" + body);
+    if (served.includes(hiddenInstall) || served.includes(hiddenCombined) || served.includes("b-install") || body.includes("±15%") || body.includes("$0.40")) {
+      throw new Error("served budget artifact still has an installation price or a combined total");
+    }
+    if (await client.send("Runtime.evaluate", { expression: "!!document.getElementById('b-install')", returnByValue: true }).then(function (r) { return r.result.value; })) {
+      throw new Error("installation control is still in the page");
     }
     await shot(client, "budget-desktop.png");
     await client.send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
     await shot(client, "budget-mobile.png");
     await client.send("Emulation.setDeviceMetricsOverride", { width: 1440, height: 1200, deviceScaleFactor: 1, mobile: false });
-    await client.send("Runtime.evaluate", { expression: "document.getElementById('b-install').click()" });
-    body = await text(client);
-    if (!body.includes("$12,000.00") || !body.includes("$33,480.00") || !body.includes("Total pavement materials and installation") || !body.includes("$21,480.00")) {
-      throw new Error("install toggle was wrong:\n" + body);
+    const models = [
+      ["cp", "1.5", "$16,110.00"],
+      ["cp", "2.5", "$26,850.00"],
+      ["ap", "1.5", "$26,550.00"],
+      ["ap", "2.0", "$35,400.00"],
+      ["ap", "2.5", "$44,250.00"],
+      ["cp", "2.0", "$21,480.00"]
+    ];
+    for (let i = 0; i < models.length; i += 1) {
+      await client.send("Runtime.evaluate", { expression: "document.querySelector('input[name=\"series\"][value=\"" + models[i][0] + "\"]').click(); document.querySelector('input[name=\"lift\"][value=\"" + models[i][1] + "\"]').click();" });
+      body = await text(client);
+      if (!body.includes(models[i][2]) || body.includes(hiddenInstall) || body.includes(hiddenCombined)) {
+        throw new Error("model " + models[i].join(" ") + " was wrong:\n" + body);
+      }
     }
-    await shot(client, "budget-install.png");
     await client.send("Runtime.evaluate", { expression: "document.querySelector('.budget-table').scrollIntoView({ block: 'center' })" });
     await shot(client, "budget-rates.png");
-    const beforeExcluded = body;
     await client.send("Runtime.evaluate", { expression: "document.getElementById('b-stone').value='2'; document.getElementById('b-depth').value='12'; document.getElementById('b-geo').checked=false; document.getElementById('b-grid').checked=true; document.getElementById('b-region').value='distant'; document.getElementById('b-stone').dispatchEvent(new Event('change', { bubbles: true }));" });
     body = await text(client);
-    if (!body.includes("$33,480.00") || !body.includes("#2 stone") || !body.includes("12 in subbase") || !body.includes("West Coast")) {
-      throw new Error("excluded fields changed the estimate or were not recorded:\n" + body);
-    }
-    if (beforeExcluded.includes("$33,480.00") && body.split("$33,480.00").length !== beforeExcluded.split("$33,480.00").length) {
-      throw new Error("total count changed when excluded fields changed");
+    if (!body.includes("$21,480.00") || !body.includes("#2 stone") || !body.includes("12 in subbase") || !body.includes("West Coast")) {
+      throw new Error("excluded fields changed the materials cost or were not recorded:\n" + body);
     }
     await client.send("Runtime.evaluate", { expression: "document.getElementById('b-width').value='8m'; document.getElementById('b-width').dispatchEvent(new Event('input', { bubbles: true }));" });
     body = await text(client);
-    if (body.includes("$33,480.00") || body.includes("$21,480.00") || !body.includes("no unit label")) {
+    if (body.includes("$21,480.00") || !body.includes("no unit label")) {
       throw new Error("unit label was accepted:\n" + body);
     }
     const cleared = await client.send("Runtime.evaluate", {
-      expression: "document.getElementById('b-width').value='0'; document.getElementById('b-width').dispatchEvent(new Event('input', { bubbles: true })); JSON.stringify({ amount: document.querySelector('[data-out=\"material-amount\"]').textContent, total: document.querySelector('[data-out=\"total\"]').textContent, status: document.querySelector('[data-out=\"status\"]').textContent })",
+      expression: "document.getElementById('b-width').value='0'; document.getElementById('b-width').dispatchEvent(new Event('input', { bubbles: true })); JSON.stringify({ total: document.querySelector('[data-out=\"total\"]').textContent, status: document.querySelector('[data-out=\"status\"]').textContent })",
       returnByValue: true
     });
     const clearedView = JSON.parse(cleared.result.value);
-    if (clearedView.amount !== "—" || clearedView.total !== "—" || !clearedView.status.includes("greater than zero")) {
+    if (clearedView.total !== "—" || !clearedView.status.includes("greater than zero")) {
       throw new Error("zero width still showed a total " + cleared.result.value);
     }
     const nav = await client.send("Runtime.evaluate", { expression: "document.querySelector('header.nav').innerText", returnByValue: true });

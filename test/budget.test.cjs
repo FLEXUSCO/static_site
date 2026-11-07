@@ -12,7 +12,6 @@ function quote(over) {
     widthFt: "8",
     series: "cp",
     lift: "2.0",
-    install: false,
     stone: "57",
     depthIn: "4",
     geotextile: true,
@@ -35,47 +34,36 @@ test("approved bases and thickness scale are exact", function () {
   assert.equal(budget.rateText(67125), "$6.7125");
   assert.equal(budget.rateText(66375), "$6.6375");
   assert.equal(budget.rateText(110625), "$11.0625");
-  assert.equal(budget.rateText(budget.INSTALL), "$3.00");
   assert.equal(budget.rateFor("cp", "3.0"), null);
+  assert.equal(budget.INSTALL, undefined);
 });
 
-test("4000 sf CP-200 is materials 21480 plus optional install 12000", function () {
-  const materials = quote();
+test("4000 sf CP-200 estimated materials cost is 21480", function () {
+  const materials = quote({ install: true });
   assert.equal(materials.ok, true);
   assert.equal(materials.areaText, "4,000 sf");
   assert.equal(materials.model, "CP-200");
   assert.equal(materials.materialCents, 2148000);
   assert.equal(materials.materialText, "$21,480.00");
-  assert.equal(materials.installCents, 0);
-  assert.equal(materials.installText, "Not included");
   assert.equal(materials.totalCents, 2148000);
   assert.equal(materials.totalText, "$21,480.00");
-  assert.equal(materials.totalLabel, "Total pavement materials");
-  assert.equal(materials.scope, "pavement-materials");
-
-  const both = quote({ install: true });
-  assert.equal(both.installCents, 1200000);
-  assert.equal(both.installText, "$12,000.00");
-  assert.equal(both.totalCents, 3348000);
-  assert.equal(both.totalText, "$33,480.00");
-  assert.equal(both.totalLabel, "Total pavement materials and installation");
-  assert.equal(both.materialCents, 2148000);
+  assert.equal(materials.totalLabel, "Estimated materials cost");
+  assert.equal(materials.scope, "materials");
+  assert.equal(Object.prototype.hasOwnProperty.call(materials, "installCents"), false);
+  assert.equal(Object.prototype.hasOwnProperty.call(materials, "installText"), false);
 });
 
-test("every published lift prices the same 4000 sf from the approved scale", function () {
+test("every published lift prices the same 4000 sf at the material rate only", function () {
   const expect = {
     cp: { "1.5": 1611000, "2.0": 2148000, "2.5": 2685000 },
     ap: { "1.5": 2655000, "2.0": 3540000, "2.5": 4425000 }
   };
   Object.keys(expect).forEach(function (series) {
     Object.keys(expect[series]).forEach(function (lift) {
-      const off = quote({ series: series, lift: lift, install: false });
-      const on = quote({ series: series, lift: lift, install: true });
-      assert.equal(off.materialCents, expect[series][lift], series + " " + lift);
-      assert.equal(on.materialCents, expect[series][lift]);
-      assert.equal(on.installCents, 1200000);
-      assert.equal(on.totalCents, expect[series][lift] + 1200000);
-      assert.notEqual(on.materialRateText, on.installRateText);
+      const view = quote({ series: series, lift: lift, install: true });
+      assert.equal(view.materialCents, expect[series][lift], series + " " + lift);
+      assert.equal(view.totalCents, expect[series][lift]);
+      assert.equal(view.scope, "materials");
     });
   });
 });
@@ -116,7 +104,6 @@ test("excluded site fields do not change the money", function () {
     region: "distant"
   });
   assert.equal(changed.materialCents, base.materialCents);
-  assert.equal(changed.installCents, base.installCents);
   assert.equal(changed.totalCents, base.totalCents);
   assert.equal(changed.excluded.stone, "2");
   assert.equal(changed.excluded.depthIn, 12);
@@ -129,10 +116,16 @@ test("the page states the priced scope and does not reuse the old adder schedule
   const html = fs.readFileSync(path.join(root, "budget-estimator.html"), "utf8");
   const js = fs.readFileSync(path.join(root, "budget.js"), "utf8");
   const blob = html + "\n" + js;
-  ["$4.0275/sf", "$5.37/sf", "$6.7125/sf", "$6.6375/sf", "$8.85/sf", "$11.0625/sf", "$3.00/sf", "$21,480.00"].forEach(function (text) {
+  ["$4.0275/sf", "$5.37/sf", "$6.7125/sf", "$6.6375/sf", "$8.85/sf", "$11.0625/sf", "$21,480.00", "Estimated materials cost"].forEach(function (text) {
     assert.equal(html.includes(text), true, text);
   });
+  assert.equal(html.includes("Installation and subbase are not included."), true);
+  assert.equal(html.includes('href="/contact"'), true);
+  assert.equal(html.includes("calculated later"), false);
   assert.equal(html.includes("dollar amounts are not shown"), false);
+  ["$3.00", "$3.00/sf", "33,480", "33480", "$12,000", "b-install", "from $", "prices from", "From $"].forEach(function (stale) {
+    assert.equal(blob.includes(stale), false, stale);
+  });
   assert.equal(html.includes("Dollar amounts are not shown"), false);
   assert.equal(html.includes("±15%"), false);
   assert.equal(html.includes("generate_lead"), false);

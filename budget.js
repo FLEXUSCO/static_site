@@ -1,15 +1,12 @@
-// Pavement-material budget for /budget-estimator.
-// Approved rates, pavement materials only:
-//   CP-200 $5.37/sf, AP-200 $8.85/sf.
-//   1.5 in = 3/4 of the 2.0 in rate. 2.5 in = 5/4 of the 2.0 in rate.
-//   Those are the lifts published for CP and AP: 1.5, 2.0, and 2.5 inches.
-// Installation is a separate $3.00/sf for every series and lift.
-// Amounts are the exact rate times area, rounded half up to the nearest cent.
-// Subbase, stone, geotextile, grid, earthwork, edge, and region are not priced.
+// Estimated materials cost for /budget-estimator.
+// Approved material rates: CP-200 $5.37/sf, AP-200 $8.85/sf.
+// 1.5 in = 3/4 of the 2.0 in rate. 2.5 in = 5/4 of the 2.0 in rate.
+// Those are the lifts published for CP and AP: 1.5, 2.0, and 2.5 inches.
+// The amount is that rate times area, rounded half up to the nearest cent.
+// Installation and subbase are not priced on this page.
 (function (root) {
   var BASE = { cp: 53700, ap: 88500 };
   var SCALE = { "1.5": [3, 4], "2.0": [1, 1], "2.5": [5, 4] };
-  var INSTALL = 30000;
   var MODEL = { cp: "CP", ap: "AP" };
   var LIFT_IN = { "1.5": "1.5", "2.0": "2.0", "2.5": "2.5" };
   var REGION = {
@@ -93,17 +90,14 @@
   function calculate(input) {
     var src = input || {};
     var excluded = excludedView(src);
-    var installSelected = src.install === true;
     var lengthH = parseFeet(src.lengthFt);
     var widthH = parseFeet(src.widthFt);
     var series = BASE[src.series] ? src.series : "";
     var lift = SCALE[String(src.lift)] ? String(src.lift) : "";
     var base = {
       ok: false,
-      installSelected: installSelected,
       excluded: excluded,
       materialCents: null,
-      installCents: null,
       totalCents: null
     };
     if (lengthH == null) return Object.assign(base, { reason: "length" });
@@ -115,8 +109,8 @@
     if (materialRate == null) return Object.assign(base, { reason: "rate" });
     var areaUnits = BigInt(lengthH) * BigInt(widthH);
     var materialCents = roundHalfUpCents(BigInt(materialRate) * areaUnits);
-    var installCents = installSelected ? roundHalfUpCents(BigInt(INSTALL) * areaUnits) : 0n;
     var model = MODEL[series] + "-" + (lift === "1.5" ? "150" : lift === "2.0" ? "200" : "250");
+    var text = money(materialCents);
     return {
       ok: true,
       reason: "",
@@ -129,15 +123,11 @@
       materialRate: materialRate,
       materialRateText: rateText(materialRate) + "/sf",
       materialCents: Number(materialCents),
-      materialText: money(materialCents),
-      installSelected: installSelected,
-      installRateText: rateText(INSTALL) + "/sf",
-      installCents: Number(installCents),
-      installText: installSelected ? money(installCents) : "Not included",
-      totalCents: Number(materialCents + installCents),
-      totalText: money(materialCents + installCents),
-      totalLabel: installSelected ? "Total pavement materials and installation" : "Total pavement materials",
-      scope: installSelected ? "pavement-materials-and-installation" : "pavement-materials",
+      materialText: text,
+      totalCents: Number(materialCents),
+      totalText: text,
+      totalLabel: "Estimated materials cost",
+      scope: "materials",
       excluded: excluded
     };
   }
@@ -154,7 +144,7 @@
     var recorded = bits.join(", ");
     var selected = flags.length ? flags.join(", ") : "none of geotextile, gravel grid, earthwork, or edge restraint";
     var region = excluded.region ? REGION[excluded.region] : "region not recorded";
-    return "Not priced: " + recorded + ". Also not priced: " + selected + ". Region: " + region + ". Changing these does not change the total.";
+    return "Not in the materials estimate: " + recorded + ". Also not included: " + selected + ". Region: " + region + ". Changing these does not change the estimated materials cost.";
   }
 
   function readForm(rootEl) {
@@ -167,7 +157,6 @@
       widthFt: rootEl.querySelector("#b-width").value,
       series: checked("series"),
       lift: checked("lift"),
-      install: rootEl.querySelector("#b-install").checked,
       stone: rootEl.querySelector("#b-stone").value,
       depthIn: rootEl.querySelector("#b-depth").value,
       geotextile: rootEl.querySelector("#b-geo").checked,
@@ -190,11 +179,7 @@
     out.querySelector("[data-out='status']").textContent = status;
     out.querySelector("[data-out='area']").textContent = view.ok ? view.areaText : "—";
     out.querySelector("[data-out='material']").textContent = view.ok ? view.model + ", " + view.liftLabel + ", " + view.materialRateText : "—";
-    out.querySelector("[data-out='material-amount']").textContent = view.ok ? view.materialText : "—";
-    var installRate = rateText(INSTALL) + "/sf";
-    out.querySelector("[data-out='install']").textContent = view.installSelected ? installRate : installRate + ", not included";
-    out.querySelector("[data-out='install-amount']").textContent = view.ok ? view.installText : "—";
-    out.querySelector("[data-out='total-label']").textContent = view.ok ? view.totalLabel : "Total pavement materials";
+    out.querySelector("[data-out='total-label']").textContent = "Estimated materials cost";
     out.querySelector("[data-out='total']").textContent = view.ok ? view.totalText : "—";
     out.querySelector("[data-out='excluded']").textContent = excludedText(view.excluded);
   }
@@ -210,7 +195,6 @@
 
   var api = {
     BASE: BASE,
-    INSTALL: INSTALL,
     rateFor: rateFor,
     rateText: rateText,
     calculate: calculate,
