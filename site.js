@@ -18,15 +18,13 @@ const supportsInert = "inert" in HTMLElement.prototype;
   });
   document.body.appendChild(scroller);
   document.body.classList.add("has-fixed-nav");
-  const params = new URLSearchParams(location.search);
-  const pathSection = window.FlexusTrack && FlexusTrack.sectionIdFromPath(location.pathname);
-  const to = params.get("to") || pathSection || "";
+  const to = new URLSearchParams(location.search).get("to");
   const hashId = to || (location.hash ? decodeURIComponent(location.hash.slice(1)) : "");
   if (hashId) {
     const target = document.getElementById(hashId);
     if (target) {
-      if ((params.get("to") || pathSection) && history.replaceState && window.FlexusTrack) {
-        history.replaceState(null, "", FlexusTrack.urlAfterToParam(location.pathname, location.search, hashId));
+      if (to && history.replaceState) {
+        history.replaceState(null, "", (location.pathname || "/") + "#" + hashId);
       }
       requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
     }

@@ -15,20 +15,18 @@
 /municipal-rfp.html         /specifiers?to=procurement      301
 /resources                  /specifiers?to=downloads        301
 /resources.html             /specifiers?to=downloads        301
-# /budget-estimator is a page again. /pricing and /cost-calculator stay on pavement.
 /cost-calculator            /pavement-systems              301
 /pricing                    /pavement-systems              301
 /installers                 /specifiers?to=installation     301
 /installers.html            /specifiers?to=installation     301
 /request-sample             /contact?topic=sample          301
 /request-sample.html        /contact?topic=sample          301
-# No query on these targets, so Netlify keeps the incoming campaign and product query.
-/materials/quote            /contact/materials-quote       301
-/materials/quote.html       /contact/materials-quote       301
+/materials/quote            /contact?topic=materials-quote 301
+/materials/quote.html       /contact?topic=materials-quote 301
 /materials/rubber-mulch     /materials?to=mulch             301
 /materials/rubber-mulch.html /materials?to=mulch           301
-/materials/rubber-granules  /materials/granules            301
-/materials/rubber-granules.html /materials/granules        301
+/materials/rubber-granules  /materials?to=granules         301
+/materials/rubber-granules.html /materials?to=granules     301
 /materials/rubber-buffings  /materials?to=buffings         301
 /materials/rubber-buffings.html /materials?to=buffings     301
 /materials/                  /materials                    301
@@ -63,6 +61,4 @@
 /materials                  /materials.html                 200
 /about                      /about.html                     200
 /budget-estimator           /budget-estimator.html          200
-/contact/materials-quote    /contact.html                   200
-/materials/granules         /materials.html                 200
 /contact                    /contact.html                   200

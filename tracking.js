@@ -72,24 +72,10 @@
   function topicFromLocation(pathname, search) {
     var params = new URLSearchParams(search || "");
     var requested = params.get("topic") || "";
-    if (!requested && /\/contact\/materials-quote\/?$/.test(pathname || "")) requested = "materials-quote";
     if (requested === "spec" || requested === "spec-pack") requested = "spec-support";
     if (requested === "materials" || requested === "quote") requested = "materials-quote";
     if (requested === "spec-support" || requested === "sample" || requested === "materials-quote") return requested;
     return "";
-  }
-
-  function sectionIdFromPath(pathname) {
-    var match = /\/materials\/(granules)\/?$/.exec(pathname || "");
-    return match ? match[1] : "";
-  }
-
-  function urlAfterToParam(pathname, search, hashId) {
-    var params = new URLSearchParams(search || "");
-    params.delete("to");
-    var qs = params.toString();
-    var hash = hashId ? "#" + hashId : "";
-    return (pathname || "/") + (qs ? "?" + qs : "") + hash;
   }
 
   function classifyNetlifyResponse(res) {
@@ -184,11 +170,9 @@
 
   function ctaIntent(href) {
     var raw = String(href || "");
-    var path = raw.split("?")[0].split("#")[0];
     var query = raw.indexOf("?") === -1 ? "" : raw.slice(raw.indexOf("?") + 1).split("#")[0];
     var topic = "";
     try { topic = new URLSearchParams(query).get("topic") || ""; } catch (_e) { topic = ""; }
-    if (!topic && /\/contact\/materials-quote\/?$/.test(path)) topic = "materials-quote";
     return topicEnum(topic);
   }
 
@@ -224,8 +208,6 @@
     FORM_SELECTOR: FORM_SELECTOR,
     topicEnum: topicEnum,
     topicFromLocation: topicFromLocation,
-    sectionIdFromPath: sectionIdFromPath,
-    urlAfterToParam: urlAfterToParam,
     classifyNetlifyResponse: classifyNetlifyResponse,
     leadAllowed: leadAllowed,
     shouldPreventNativeSubmit: shouldPreventNativeSubmit,

@@ -37,25 +37,16 @@ function memoryStore() {
   };
 }
 
-test("topic aliases and materials-quote path", function () {
+test("topic aliases stay on the existing query string", function () {
   assert.equal(track.topicFromLocation("/contact", "?topic=sample"), "sample");
   assert.equal(track.topicFromLocation("/contact", "?topic=spec-pack"), "spec-support");
   assert.equal(track.topicFromLocation("/contact", "?topic=quote"), "materials-quote");
-  assert.equal(track.topicFromLocation("/contact/materials-quote", "?product=colored-granules&utm_source=ads"), "materials-quote");
-  assert.equal(track.topicFromLocation("/contact/materials-quote", "?topic=sample&product=rubber-mulch"), "sample");
+  assert.equal(track.topicFromLocation("/contact", "?topic=materials-quote&product=colored-granules"), "materials-quote");
+  assert.equal(track.topicFromLocation("/contact/materials-quote", "?product=colored-granules"), "");
   assert.equal(track.topicEnum("materials-quote"), "materials_quote");
   assert.equal(track.topicEnum("sample"), "pavement_sample");
   assert.equal(track.topicEnum("spec-support"), "spec_support");
   assert.equal(track.topicEnum("budget-estimate"), "");
-});
-
-test("granules path keeps a section id and campaign query", function () {
-  assert.equal(track.sectionIdFromPath("/materials/granules"), "granules");
-  assert.equal(track.sectionIdFromPath("/materials"), "");
-  const next = track.urlAfterToParam("/materials/granules", "?utm_source=newsletter&product=colored-granules&gclid=abc", "granules");
-  assert.equal(next, "/materials/granules?utm_source=newsletter&product=colored-granules&gclid=abc#granules");
-  const droppedTo = track.urlAfterToParam("/materials", "?to=granules&utm_campaign=fall&product=colored-granules", "granules");
-  assert.equal(droppedTo, "/materials?utm_campaign=fall&product=colored-granules#granules");
 });
 
 test("static HTTP 200 is not acceptance and native submit is not intercepted", function () {
@@ -108,7 +99,8 @@ test("pdf, cta, contact, and material params stay on the allowlist", function ()
   assert.equal(track.pdfEvent("/files/secret-name.pdf"), null);
   assert.equal(track.ctaIntent("/contact?topic=spec-support"), "spec_support");
   assert.equal(track.ctaIntent("/contact?topic=sample"), "pavement_sample");
-  assert.equal(track.ctaIntent("/contact/materials-quote?product=rubber-mulch"), "materials_quote");
+  assert.equal(track.ctaIntent("/contact?topic=materials-quote&product=rubber-mulch"), "materials_quote");
+  assert.equal(track.ctaIntent("/contact/materials-quote"), "");
   assert.equal(track.ctaIntent("/contact"), "");
   const link = { nodeType: 1, classList: { contains: function () { return false; } }, tagName: "A", parentElement: null };
   assert.equal(track.ctaPlacement(link), "body");
@@ -160,7 +152,7 @@ test("budget geometry is public and money is not", function () {
   assert.equal(JSON.stringify(track.calculationEvent(live, true, {})).includes("4000"), false);
 });
 
-test("redirect rules keep campaign query targets free of a replacement query", function () {
+test("redirects keep the live targets and do not add intermediary paths", function () {
   const lines = fs.readFileSync(path.join(root, "_redirects"), "utf8").split("\n");
   function rule(from) {
     return lines.map(function (line) {
@@ -170,37 +162,37 @@ test("redirect rules keep campaign query targets free of a replacement query", f
       return parts[0] === from ? parts : null;
     }).filter(Boolean)[0];
   }
-  function assertBare(from, to, status) {
+  function assertRule(from, to, status) {
     const parts = rule(from);
     assert.ok(parts, from);
     assert.equal(parts[1], to);
     assert.equal(parts[2], status);
-    assert.equal(parts[1].includes("?"), false);
   }
-  assertBare("/materials/quote", "/contact/materials-quote", "301");
-  assertBare("/materials/quote.html", "/contact/materials-quote", "301");
-  assertBare("/materials/rubber-granules", "/materials/granules", "301");
-  assertBare("/materials/rubber-granules.html", "/materials/granules", "301");
-  assertBare("/budget-estimator", "/budget-estimator.html", "200");
-  assertBare("/contact/materials-quote", "/contact.html", "200");
-  assertBare("/materials/granules", "/materials.html", "200");
-  assertBare("/flexus-final/budget-estimator.html", "/budget-estimator", "301");
+  assertRule("/materials/quote", "/contact?topic=materials-quote", "301");
+  assertRule("/materials/quote.html", "/contact?topic=materials-quote", "301");
+  assertRule("/materials/rubber-granules", "/materials?to=granules", "301");
+  assertRule("/materials/rubber-granules.html", "/materials?to=granules", "301");
+  assertRule("/budget-estimator", "/budget-estimator.html", "200");
+  assertRule("/flexus-final/budget-estimator.html", "/budget-estimator", "301");
+  assert.equal(rule("/contact/materials-quote"), undefined);
+  assert.equal(rule("/materials/granules"), undefined);
   assert.equal(rule("/budget-estimator.html"), undefined);
   assert.equal(rule("/pricing")[1], "/pavement-systems");
   assert.equal(rule("/cost-calculator")[1], "/pavement-systems");
+  const pavement = fs.readFileSync(path.join(root, "pavement-systems.html"), "utf8");
+  assert.equal(pavement.includes("/budget-estimator"), false);
+  assert.equal(pavement.includes("Budget inputs"), false);
 });
 
-test("served contact markup keeps a stable selector and does not claim the form was sent", function () {
+test("served contact markup keeps the live sentence and a stable selector", function () {
   const html = fs.readFileSync(path.join(root, "contact.html"), "utf8");
   const served = html.replace(/\sdata-netlify="true"/g, "").replace(/\snetlify-honeypot="[^"]*"/g, "");
   assert.equal(served.includes("data-netlify"), false);
   assert.equal(served.includes('data-flexus-form="contact"'), true);
   assert.equal(served.includes('name="contact"'), true);
   assert.equal(served.includes('name="form-name" value="contact"'), true);
-  assert.equal(html.includes("Sent to Flexus"), false);
-  assert.match(html, /We reply by email\./);
-  assert.equal(html.includes("location.pathname"), true);
-  assert.equal(html.includes("requested = 'materials-quote'"), true);
+  assert.match(html, /Sent to Flexus\. We reply by email\./);
+  assert.equal(html.includes("/contact/materials-quote"), false);
   const site = fs.readFileSync(path.join(root, "site.js"), "utf8");
   assert.equal(site.includes('form[data-netlify="true"]'), false);
   assert.equal(site.includes("form[data-flexus-form]"), true);

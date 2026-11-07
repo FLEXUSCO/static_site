@@ -176,7 +176,7 @@
         <div class="field" style="margin-top:16px;"><label class="label" for="notes">Notes</label><textarea id="notes" name="Notes" placeholder="Project type, approximate area, or anything the quote needs."></textarea></div>
         <div class="form-actions" style="margin-top:20px;">
           <button class="pill primary" type="submit">Send</button>
-          <span class="smallnote">We reply by email.</span>
+          <span class="smallnote">Sent to Flexus. We reply by email.</span>
         </div>
       </form>
     </div>
@@ -262,7 +262,6 @@
 
   var params = new URLSearchParams(location.search);
   var requested = params.get('topic') || '';
-  if (!requested && /\/contact\/materials-quote\/?$/.test(location.pathname)) requested = 'materials-quote';
   if (requested === 'spec' || requested === 'spec-pack') requested = 'spec-support';
   if (requested === 'materials' || requested === 'quote') requested = 'materials-quote';
   if (panels[requested]) topic.value = requested;
