@@ -57,6 +57,21 @@ function cdp(wsUrl) {
   let next = 1;
   const pending = new Map();
   const waits = [];
+  const listeners = [];
+  const api = {
+    send: function (method, params) {
+      const id = next++;
+      return new Promise(function (res, rej) {
+        pending.set(id, { resolve: res, reject: rej });
+        ws.send(JSON.stringify({ id: id, method: method, params: params || {} }));
+      });
+    },
+    wait: function (method) {
+      return new Promise(function (res) { waits.push({ method: method, resolve: res }); });
+    },
+    on: function (method, fn) { listeners.push({ method: method, fn: fn }); },
+    close: function () { ws.close(); }
+  };
   ws.addEventListener("message", function (ev) {
     const msg = JSON.parse(ev.data);
     if (msg.id && pending.has(msg.id)) {
@@ -66,6 +81,9 @@ function cdp(wsUrl) {
       else item.resolve(msg.result);
       return;
     }
+    listeners.slice().forEach(function (listener) {
+      if (listener.method === msg.method) listener.fn(msg.params || {});
+    });
     waits.slice().forEach(function (wait) {
       if (wait.method === msg.method) {
         waits.splice(waits.indexOf(wait), 1);
@@ -76,19 +94,6 @@ function cdp(wsUrl) {
   return new Promise(function (resolve, reject) {
     ws.addEventListener("open", function () { resolve(api); });
     ws.addEventListener("error", reject);
-    const api = {
-      send: function (method, params) {
-        const id = next++;
-        return new Promise(function (res, rej) {
-          pending.set(id, { resolve: res, reject: rej });
-          ws.send(JSON.stringify({ id: id, method: method, params: params || {} }));
-        });
-      },
-      wait: function (method) {
-        return new Promise(function (res) { waits.push({ method: method, resolve: res }); });
-      },
-      close: function () { ws.close(); }
-    };
   });
 }
 
@@ -133,6 +138,23 @@ async function main() {
   const page = targets.filter(function (t) { return t.type === "page" && t.webSocketDebuggerUrl; })[0];
   if (!page) throw new Error("chrome opened no page target");
   const client = await cdp(page.webSocketDebuggerUrl);
+  const blocked = [];
+  const leaked = [];
+  client.on("Network.responseReceived", function (params) {
+    const url = params.response && params.response.url || "";
+    if (/google-analytics\.com|analytics\.google\.com|googletagmanager\.com|google\.com\/g\/collect/.test(url)) leaked.push(url);
+  });
+  await client.send("Network.enable");
+  client.on("Fetch.requestPaused", function (params) {
+    blocked.push(params.request && params.request.url);
+    client.send("Fetch.failRequest", { requestId: params.requestId, errorReason: "BlockedByClient" }).catch(function () {});
+  });
+  await client.send("Fetch.enable", { patterns: [
+    { urlPattern: "*google-analytics.com*", requestStage: "Request" },
+    { urlPattern: "*analytics.google.com*", requestStage: "Request" },
+    { urlPattern: "*googletagmanager.com*", requestStage: "Request" },
+    { urlPattern: "*google.com/g/collect*", requestStage: "Request" }
+  ] });
   await client.send("Page.enable");
   await client.send("Runtime.enable");
   await client.send("Emulation.setDeviceMetricsOverride", {
@@ -142,6 +164,24 @@ async function main() {
     mobile: false
   });
   const notes = [];
+
+  await open(client, "/contact?email=person@example.com&phone=7707426016&topic=spec-support");
+  const redacted = await evalJson(client, `(() => {
+    var config = null;
+    (window.dataLayer || []).forEach(function (row) {
+      if (row && row[0] === "config" && row[2]) config = row[2];
+    });
+    return {
+      href: location.href,
+      page: config && config.page_location || "",
+      sentence: document.body.innerText.includes("Sent to Flexus. We reply by email.")
+    };
+  })()`);
+  notes.push(["url redaction", { hrefHasEmail: redacted.href.includes("person@example.com"), page: redacted.page, sentence: redacted.sentence }]);
+  if (!redacted.href.includes("person@example.com") || redacted.page.includes("person@example.com") || redacted.page.includes("7707426016") || !redacted.sentence) {
+    throw new Error("url redaction failed " + JSON.stringify(redacted));
+  }
+  if (!redacted.page.includes("topic=spec-support")) throw new Error("topic was stripped from page_location");
 
   await open(client, "/contact");
   const contact = await evalJson(client, `({
@@ -290,6 +330,8 @@ async function main() {
     throw new Error("thanks page recorded a lead or the typed identity");
   }
 
+  notes.push(["blocked analytics hosts", blocked.length, "leaked responses", leaked.length]);
+  if (leaked.length) throw new Error("local run received an analytics response " + leaked[0]);
   console.log(JSON.stringify(notes, null, 2));
   client.close();
   chrome.kill();

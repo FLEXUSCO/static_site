@@ -205,6 +205,20 @@ test("served contact markup keeps the live sentence and a stable selector", func
   assert.equal(analytics.includes("nav_cta_click"), false);
 });
 
+test("tracking URLs drop sensitive query values and keep the measurement id", function () {
+  const dirty = "https://www.flexusco.com/contact?topic=spec-support&utm_source=newsletter&email=person@example.com&phone=7707426016&gclid=abc123";
+  const clean = track.sanitizeTrackingUrl(dirty);
+  assert.equal(clean.includes("person@example.com"), false);
+  assert.equal(clean.includes("7707426016"), false);
+  assert.equal(clean.includes("topic=spec-support"), true);
+  assert.equal(clean.includes("utm_source=newsletter"), true);
+  assert.equal(clean.includes("gclid=abc123"), true);
+  const ref = track.sanitizeTrackingUrl("https://partner.example/land?name=Ada+Lovelace&utm_medium=cpc");
+  assert.equal(ref.includes("name="), false);
+  assert.equal(ref.includes("utm_medium=cpc"), true);
+  assert.equal(track.sanitizeTrackingUrl("not a url"), "https://www.flexusco.com/");
+});
+
 test("pages keep only G-5T6ESYM3SB and budget output has no prices", function () {
   const htmlFiles = fs.readdirSync(root).filter(function (name) { return name.endsWith(".html"); });
   htmlFiles.forEach(function (name) {

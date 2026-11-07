@@ -194,6 +194,42 @@
     return sanitize("material_select", { material: material, selected: !!input.checked });
   }
 
+  var SENSITIVE_KEY = /^(email|e-mail|phone|tel|name|first_name|last_name|full_name|address|street|city|zip|postal|postcode|token|password|passwd|secret|ssn)$/i;
+  var EMAIL_VALUE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  var PHONE_VALUE = /^\+?[0-9][0-9().\-\s]{8,}$/;
+
+  function sanitizeTrackingUrl(input) {
+    try {
+      var raw = String(input || "");
+      if (!/^https?:\/\//i.test(raw)) return "https://www.flexusco.com/";
+      var url = new URL(raw);
+      var keys = [];
+      url.searchParams.forEach(function (_value, key) { keys.push(key); });
+      keys.forEach(function (key) {
+        var values = url.searchParams.getAll(key);
+        var sensitive = SENSITIVE_KEY.test(key) || values.some(function (value) {
+          return EMAIL_VALUE.test(value) || PHONE_VALUE.test(String(value).trim());
+        });
+        if (sensitive) url.searchParams.delete(key);
+      });
+      url.hash = "";
+      return url.toString();
+    } catch (_err) {
+      return "https://www.flexusco.com/";
+    }
+  }
+
+  function gaConfig() {
+    var out = {};
+    try {
+      if (typeof location !== "undefined" && location.href) out.page_location = sanitizeTrackingUrl(location.href);
+    } catch (_err) {}
+    try {
+      if (typeof document !== "undefined" && document.referrer) out.page_referrer = sanitizeTrackingUrl(document.referrer);
+    } catch (_err2) {}
+    return out;
+  }
+
   function calculationEvent(view, fromUser, memory) {
     var state = memory || {};
     if (fromUser !== true || !view || view.monetaryLive !== true || view.ok !== true) return null;
@@ -221,7 +257,9 @@
     ctaIntent: ctaIntent,
     pdfEvent: pdfEvent,
     materialEvent: materialEvent,
-    calculationEvent: calculationEvent
+    calculationEvent: calculationEvent,
+    sanitizeTrackingUrl: sanitizeTrackingUrl,
+    gaConfig: gaConfig
   };
 
   root.FlexusTrack = api;
