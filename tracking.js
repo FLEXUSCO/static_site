@@ -7,11 +7,37 @@
 
   var MEASUREMENT_ID = "G-5T6ESYM3SB";
   var PRODUCTION_HOSTS = { "www.flexusco.com": true, "flexusco.com": true };
-  var QUERY_ALLOW = [
-    "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term",
-    "gclid", "fbclid", "topic", "product", "grade", "color", "to", "blend", "from"
-  ];
-  var ATTR_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid"];
+  var TOKEN = /^[A-Za-z0-9][A-Za-z0-9 ._+~-]{0,79}$/;
+  var CLICK = /^[A-Za-z0-9_-]{8,250}$/;
+  var RULES = {
+    topic: /^(spec-support|sample|materials-quote|spec|spec-pack|materials|quote)$/,
+    product: /^(rubber-mulch|colored-granules|rubber-buffings)$/,
+    grade: /^(5\/9|6\/16|10-20|infill)$/,
+    color: /^(Black|Forest Green|Green|Teal Green|Espresso|Brown|Cedar|Gold|Red)$/,
+    to: /^[A-Za-z][A-Za-z0-9_-]{0,40}$/,
+    blend: /^(CE275|SD255|NT265|CG218)$/,
+    pack: /^(Full|AP|CP)$/,
+    from: /^contact$/,
+    utm_source: TOKEN,
+    utm_medium: TOKEN,
+    utm_campaign: TOKEN,
+    utm_content: TOKEN,
+    utm_term: TOKEN,
+    utm_id: TOKEN,
+    gclid: CLICK,
+    gbraid: CLICK,
+    wbraid: CLICK,
+    dclid: CLICK,
+    fbclid: CLICK,
+    srsltid: CLICK,
+    msclkid: /^(?:[0-9a-f]{32}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i,
+    gad_source: /^[0-9]{1,4}$/,
+    gad_campaignid: /^[0-9]{1,20}$/,
+    _gl: /^[A-Za-z0-9._*~-]{8,512}$/
+  };
+  var QUERY_ALLOW = Object.keys(RULES);
+  var TEXT_KEYS = { utm_source: true, utm_medium: true, utm_campaign: true, utm_content: true, utm_term: true, utm_id: true };
+  var ATTR_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "utm_id", "gclid", "fbclid"];
   var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   var PHONE = /^\+?[0-9][0-9().\-\s]{8,}$/;
   var HASH_OK = /^#[A-Za-z0-9_-]{1,64}$/;
@@ -21,10 +47,12 @@
     return PRODUCTION_HOSTS[String(hostname || "").toLowerCase()] === true;
   }
 
-  function safeValue(value) {
-    if (value == null) return "";
-    var text = String(value);
-    if (!text || EMAIL.test(text) || PHONE.test(text.trim())) return "";
+  function acceptValue(key, value) {
+    var rule = RULES[key];
+    var text = value == null ? "" : String(value);
+    if (!rule || !rule.test(text)) return "";
+    if (EMAIL.test(text)) return "";
+    if (TEXT_KEYS[key] && PHONE.test(text.trim())) return "";
     return text;
   }
 
@@ -35,7 +63,7 @@
     var out = new URLSearchParams();
     QUERY_ALLOW.forEach(function (key) {
       if (!incoming.has(key)) return;
-      var value = safeValue(incoming.get(key));
+      var value = acceptValue(key, incoming.get(key));
       if (value) out.append(key, value);
     });
     return out;

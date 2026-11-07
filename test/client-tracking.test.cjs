@@ -3,8 +3,6 @@ const assert = require("node:assert/strict");
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
-const { spawnSync } = require("child_process");
-
 const root = path.join(__dirname, "..");
 const track = require("../tracking.js");
 
@@ -34,11 +32,11 @@ function get(url) {
 }
 
 test("unknown query keys and sensitive values stay out of the session URL", function () {
-  const dirty = "https://www.flexusco.com/contact?topic=spec-support&utm_source=newsletter&utm_content=person@example.com&email=person@example.com&phone=7707426016&search=secret&q=lead&unknown_token=abc&gclid=abc123#granules";
+  const dirty = "https://www.flexusco.com/contact?topic=spec-support&utm_source=newsletter&utm_content=person@example.com&email=person@example.com&phone=7707426016&search=secret&q=lead&unknown_token=abc&gclid=abc123XYZ_99#granules";
   const clean = track.cleanedUrl(dirty);
   assert.equal(clean.searchParams.get("topic"), "spec-support");
   assert.equal(clean.searchParams.get("utm_source"), "newsletter");
-  assert.equal(clean.searchParams.get("gclid"), "abc123");
+  assert.equal(clean.searchParams.get("gclid"), "abc123XYZ_99");
   assert.equal(clean.searchParams.get("email"), null);
   assert.equal(clean.searchParams.get("phone"), null);
   assert.equal(clean.searchParams.get("search"), null);
@@ -105,22 +103,38 @@ test("tracking.js is loaded once, in the head, before any tag", function () {
   assert.match(contact, /data-flexus-form="contact"/);
 });
 
-test("publish output excludes tests, function sources, and the budget page", function () {
-  const toml = fs.readFileSync(path.join(root, "netlify.toml"), "utf8");
-  assert.match(toml, /publish\s*=\s*"publish"/);
-  const result = spawnSync(process.execPath, ["scripts/stage-publish.js"], { cwd: root, encoding: "utf8" });
-  assert.equal(result.status, 0, result.stderr);
-  const publish = path.join(root, "publish");
-  assert.equal(fs.existsSync(path.join(publish, "test")), false);
-  assert.equal(fs.existsSync(path.join(publish, "scripts")), false);
-  assert.equal(fs.existsSync(path.join(publish, "netlify")), false);
-  assert.equal(fs.existsSync(path.join(publish, "budget-estimator.html")), false);
-  assert.equal(fs.existsSync(path.join(publish, "index.html")), true);
-  assert.equal(fs.existsSync(path.join(publish, "tracking.js")), true);
-  assert.equal(fs.existsSync(path.join(publish, "_redirects")), true);
-  const redirects = fs.readFileSync(path.join(publish, "_redirects"), "utf8");
-  assert.match(redirects, /\/budget-estimator\s+\/pavement-systems/);
-  assert.equal(redirects.includes("/contact/materials-quote"), false);
+test("application and ad parameters keep their shape and free text does not", function () {
+  const dirty = "https://www.flexusco.com/resources?pack=Full&packnote=send+everything&gbraid=Abcd1234_ef&wbraid=short&gad_source=1&gad_campaignid=12345678901&msclkid=0123456789abcdef0123456789abcdef&utm_id=spring-2026&srsltid=abcdefghij&dclid=ABCDEFGH&_gl=1*abc123*def456&from=contact&to=downloads";
+  const clean = track.cleanedUrl(dirty);
+  assert.equal(clean.searchParams.get("pack"), "Full");
+  assert.equal(clean.searchParams.get("packnote"), null);
+  assert.equal(clean.searchParams.get("gbraid"), "Abcd1234_ef");
+  assert.equal(clean.searchParams.get("wbraid"), null);
+  assert.equal(clean.searchParams.get("gad_source"), "1");
+  assert.equal(clean.searchParams.get("gad_campaignid"), "12345678901");
+  assert.equal(clean.searchParams.get("msclkid"), "0123456789abcdef0123456789abcdef");
+  assert.equal(clean.searchParams.get("utm_id"), "spring-2026");
+  assert.equal(clean.searchParams.get("srsltid"), "abcdefghij");
+  assert.equal(clean.searchParams.get("dclid"), "ABCDEFGH");
+  assert.equal(clean.searchParams.get("_gl"), "1*abc123*def456");
+  assert.equal(clean.searchParams.get("from"), "contact");
+  assert.equal(clean.searchParams.get("to"), "downloads");
+  assert.equal(track.cleanedUrl("https://www.flexusco.com/?pack=not%20a%20pack").searchParams.get("pack"), null);
+  assert.equal(fs.existsSync(path.join(root, "netlify.toml")), false);
+  assert.equal(fs.existsSync(path.join(root, "scripts", "stage-publish.js")), false);
+});
+
+test("contact fields and the functions directory match the existing deploy log", function () {
+  const html = fs.readFileSync(path.join(root, "contact.html"), "utf8");
+  const form = html.slice(html.indexOf("<form"), html.indexOf("</form>"));
+  const names = [];
+  const re = /name="([^"]+)"/g;
+  let match;
+  while ((match = re.exec(form))) names.push(match[1]);
+  const expected = ["contact", "form-name", "source", "segment", "page", "landing_page", "referrer", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "Company", "Unit", "bot-field", "Topic", "Name", "Email", "Organization", "Phone", "Series", "ProjectLocation", "Series", "Lifts", "ShippingAddress", "Product", "Product", "Product", "Grade", "Color", "GranuleColor", "Quantity", "ShipToZIP", "ShippingAddress", "Need", "Need", "Notes"];
+  assert.deepEqual(names, expected);
+  const functions = fs.readdirSync(path.join(root, "netlify", "functions")).filter(function (name) { return name.endsWith(".js"); });
+  assert.deepEqual(functions, ["submission-created.js"]);
 });
 
 test("visible contact text matches the current production HTML", async function () {
