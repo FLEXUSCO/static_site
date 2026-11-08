@@ -1,4 +1,6 @@
 # Old URLs. First match wins. Query strings are kept when the target has none.
+# Paths that set topic or to are merged first by netlify/edge-functions/legacy-redirect.js.
+# These rules stay as the fallback and still replace an incoming query.
 /ap                         /pavement-systems/ap            301
 /ap.html                    /pavement-systems/ap            301
 /cp                         /pavement-systems/cp            301
