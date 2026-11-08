@@ -1,78 +1,85 @@
-// Flexus analytics — GA4 event tracking
-(function(){
-  'use strict';
-
+// Client events that enhanced measurement does not already own.
+// Observed 2026-11-06 on property 537730101, stream G-5T6ESYM3SB:
+// Form interactions ON, File downloads ON, Outbound clicks ON.
+// forms and downloads stay false until that Admin toggle is confirmed off
+// and a later deploy changes only the matching flag below.
+// Renaming form_start or file_download does not dedupe the enhanced event.
+// Do not use debug_mode as an exclusion switch.
+(function () {
+  "use strict";
   if (window.__FLEXUS_ANALYTICS_BOUND__) return;
   window.__FLEXUS_ANALYTICS_BOUND__ = true;
+  var track = window.FlexusTrack;
+  if (!track) return;
 
-  function track(eventName, params){
-    if (typeof gtag !== 'function') return;
-    gtag('event', eventName, params || {});
+  var OWNER = { forms: false, downloads: false };
+  var enabled = track.enabledEvents(OWNER);
+
+  function emit(name, params) {
+    if (typeof gtag !== "function") return;
+    if (enabled.indexOf(name) === -1) return;
+    var safe = track.sanitize ? track.sanitize(name, params) : params;
+    if (!safe) return;
+    gtag("event", name, safe);
   }
 
-  // PDF download click tracking
-  // Fires 'file_download' event with file name and series label
-  function bindDownloads(){
-    var links = document.querySelectorAll('a[href$=".pdf"][download], a[href*="/pdfs/"]');
-    links.forEach(function(link){
-      link.addEventListener('click', function(){
-        var href = link.getAttribute('href') || '';
-        var parts = href.split('/');
-        var fileName = parts[parts.length - 1].replace('.pdf','').replace(/_/g,' ');
-        var series = href.indexOf('/ap/') !== -1 ? 'AP' : href.indexOf('/cp/') !== -1 ? 'CP' : 'unknown';
-        track('file_download', {
-          file_name: fileName,
-          file_extension: 'pdf',
-          link_url: href,
-          series: series
+  function topicEnum(form) {
+    var select = form && form.querySelector ? form.querySelector("#topic") : null;
+    return track.topicEnum ? track.topicEnum(select ? select.value : "") : "";
+  }
+
+  if (enabled.indexOf("contact_click") !== -1 || enabled.indexOf("cta_click") !== -1 || enabled.indexOf("file_download") !== -1) {
+    document.addEventListener("click", function (event) {
+      if (!event.isTrusted) return;
+      var el = event.target && event.target.nodeType === 1 ? event.target : (event.target && event.target.parentElement);
+      if (!el || !el.closest) return;
+      var link = el.closest("a[href]");
+      if (!link) return;
+      var href = link.getAttribute("href") || "";
+      if (href.indexOf("tel:") === 0 || href.indexOf("mailto:") === 0) {
+        emit("contact_click", {
+          method: href.indexOf("tel:") === 0 ? "phone" : "email",
+          placement: track.anchorPlacement(link)
         });
-      });
-    });
+        return;
+      }
+      var intent = track.ctaIntent(href);
+      var placement = track.ctaPlacement(link);
+      if (intent && placement) emit("cta_click", { intent: intent, placement: placement });
+      if (enabled.indexOf("file_download") !== -1 && track.pdfEvent) {
+        var pdf = track.pdfEvent(href);
+        if (pdf) emit("file_download", pdf);
+      }
+    }, true);
   }
 
-  // Form submission tracking
-  // Fires before redirect to /thanks — hooks into the forms.js submit flow
-  function bindForms(){
-    document.querySelectorAll('form[data-netlify="true"]').forEach(function(form){
-      form.addEventListener('submit', function(){
-        var name = form.getAttribute('name') || 'unknown';
-        var eventName = 'form_submit';
-        var label = name;
-
-        if (name === 'sample-request')  label = 'Sample Request';
-        if (name === 'spec-pack-request') label = 'Spec Pack Request';
-        if (name === 'installer-application') label = 'Installer Application';
-
-        track(eventName, {
-          form_name: label,
-          form_id: name
-        });
-      }, true); // capture phase — fires before forms.js preventDefault
-    });
+  if (enabled.indexOf("material_select") !== -1 && track.materialEvent) {
+    document.addEventListener("change", function (event) {
+      var params = track.materialEvent(event.target, event.isTrusted);
+      if (params) emit("material_select", params);
+    }, true);
   }
 
-  // Nav CTA clicks (Specification support + Request Sample in header)
-  function bindNavCTAs(){
-    document.querySelectorAll('.nav-actions a.pill, .sheet-cta a.pill').forEach(function(link){
-      link.addEventListener('click', function(){
-        track('nav_cta_click', {
-          cta_label: (link.textContent || '').trim(),
-          destination: link.getAttribute('href') || ''
-        });
-      });
-    });
+  if (enabled.indexOf("form_start") !== -1) {
+    var started = false;
+    document.addEventListener("focusin", function (event) {
+      if (!event.isTrusted || started) return;
+      var form = event.target && event.target.form;
+      if (!form || !form.matches || !form.matches(track.FORM_SELECTOR)) return;
+      started = true;
+      emit("form_start", { form_id: "contact" });
+    }, true);
+    document.addEventListener("submit", function (event) {
+      if (!event.isTrusted) return;
+      var form = event.target;
+      if (!form || !form.matches || !form.matches(track.FORM_SELECTOR)) return;
+      var topic = topicEnum(form);
+      if (!topic) return;
+      if (event.defaultPrevented) {
+        emit("form_error", { form_id: "contact", topic: topic, error_code: "invalid" });
+        return;
+      }
+      emit("form_attempt", { form_id: "contact", topic: topic });
+    }, false);
   }
-
-  function init(){
-    bindDownloads();
-    bindForms();
-    bindNavCTAs();
-  }
-
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
 })();
