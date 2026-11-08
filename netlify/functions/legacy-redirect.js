@@ -53,10 +53,16 @@ var ROUTES = {
   "/installers.html": { dest: "/specifiers", force: { to: "installation" } },
   "/stormwater-bmp": { dest: "/specifiers", force: { to: "stormwater" } },
   "/stormwater-bmp.html": { dest: "/specifiers", force: { to: "stormwater" } },
+  "/leed-specification": { dest: "/specifiers", force: { to: "division-32" } },
+  "/leed-specification.html": { dest: "/specifiers", force: { to: "division-32" } },
+  "/municipal-rfp": { dest: "/specifiers", force: { to: "procurement" } },
+  "/municipal-rfp.html": { dest: "/specifiers", force: { to: "procurement" } },
   "/flexus-final/resources.html": { dest: "/specifiers", force: { to: "downloads" } },
   "/flexus-final/request-sample.html": { dest: "/contact", force: { topic: "sample" } },
   "/flexus-final/installers.html": { dest: "/specifiers", force: { to: "installation" } },
-  "/flexus-final/stormwater-bmp.html": { dest: "/specifiers", force: { to: "stormwater" } }
+  "/flexus-final/stormwater-bmp.html": { dest: "/specifiers", force: { to: "stormwater" } },
+  "/flexus-final/leed-specification.html": { dest: "/specifiers", force: { to: "division-32" } },
+  "/flexus-final/municipal-rfp.html": { dest: "/specifiers", force: { to: "procurement" } }
 };
 
 function acceptValue(key, value) {

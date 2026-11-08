@@ -11,10 +11,10 @@
 /cp_old.html                /pavement-systems/cp            301
 /stormwater-bmp             /.netlify/functions/legacy-redirect 200
 /stormwater-bmp.html        /.netlify/functions/legacy-redirect 200
-/leed-specification         /specifiers?to=division-32      301
-/leed-specification.html    /specifiers?to=division-32      301
-/municipal-rfp              /specifiers?to=procurement      301
-/municipal-rfp.html         /specifiers?to=procurement      301
+/leed-specification         /.netlify/functions/legacy-redirect 200
+/leed-specification.html    /.netlify/functions/legacy-redirect 200
+/municipal-rfp              /.netlify/functions/legacy-redirect 200
+/municipal-rfp.html         /.netlify/functions/legacy-redirect 200
 /resources                  /.netlify/functions/legacy-redirect 200
 /resources.html             /.netlify/functions/legacy-redirect 200
 /budget-estimator           /pavement-systems              301
@@ -41,8 +41,8 @@
 /flexus-final/cp                    /pavement-systems/cp              301
 /flexus-final/cp.html               /pavement-systems/cp              301
 /flexus-final/stormwater-bmp.html   /.netlify/functions/legacy-redirect 200
-/flexus-final/leed-specification.html /specifiers?to=division-32      301
-/flexus-final/municipal-rfp.html    /specifiers?to=procurement        301
+/flexus-final/leed-specification.html /.netlify/functions/legacy-redirect 200
+/flexus-final/municipal-rfp.html    /.netlify/functions/legacy-redirect 200
 /flexus-final/resources.html        /.netlify/functions/legacy-redirect 200
 /flexus-final/budget-estimator.html /pavement-systems                 301
 /flexus-final/installers.html       /.netlify/functions/legacy-redirect 200

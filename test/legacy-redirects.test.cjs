@@ -46,6 +46,12 @@ test("quote and material families keep campaign and product values", function ()
   assert.equal(params(redirectFromUrl("/installers.html?utm_source=newsletter")).get("utm_source"), "newsletter");
   assert.equal(params(redirectFromUrl("/stormwater-bmp?utm_campaign=bmp")).get("to"), "stormwater");
   assert.equal(params(redirectFromUrl("/stormwater-bmp.html?utm_campaign=bmp")).get("utm_campaign"), "bmp");
+  assert.equal(params(redirectFromUrl("/leed-specification?utm_source=newsletter&to=downloads")).get("to"), "division-32");
+  assert.equal(params(redirectFromUrl("/leed-specification.html?utm_source=newsletter")).get("utm_source"), "newsletter");
+  assert.equal(params(redirectFromUrl("/municipal-rfp?utm_medium=cpc&to=stormwater")).get("to"), "procurement");
+  assert.equal(params(redirectFromUrl("/municipal-rfp.html?gclid=abc123XYZ_99")).get("gclid"), "abc123XYZ_99");
+  assert.equal(params(redirectFromUrl("/flexus-final/leed-specification.html?utm_source=newsletter")).get("to"), "division-32");
+  assert.equal(params(redirectFromUrl("/flexus-final/municipal-rfp.html?utm_campaign=rfp")).get("to"), "procurement");
   assert.equal(params(redirectFromUrl("/flexus-final/resources.html?utm_source=newsletter")).get("to"), "downloads");
   assert.equal(params(redirectFromUrl("/flexus-final/request-sample.html")).get("topic"), "sample");
   assert.equal(params(redirectFromUrl("/flexus-final/installers.html?utm_medium=email")).get("to"), "installation");
