@@ -7,7 +7,8 @@ const track = require("../tracking.js");
 const root = path.join(__dirname, "..");
 
 async function load() {
-  return import("../netlify/edge-functions/legacy-redirects.mjs");
+  const src = fs.readFileSync(path.join(root, "netlify/edge-functions/legacy-redirect.js"), "utf8");
+  return import("data:text/javascript;base64," + Buffer.from(src).toString("base64"));
 }
 
 function params(location) {
