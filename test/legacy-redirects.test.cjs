@@ -6,17 +6,16 @@ const track = require("../tracking.js");
 
 const root = path.join(__dirname, "..");
 
-async function load() {
-  const src = fs.readFileSync(path.join(root, "netlify/edge-functions/legacy-redirect.js"), "utf8");
-  return import("data:text/javascript;base64," + Buffer.from(src).toString("base64"));
+function load() {
+  return require("../netlify/functions/legacy-redirect.js");
 }
 
 function params(location) {
   return new URL("https://www.flexusco.com" + location).searchParams;
 }
 
-test("quote and material families keep campaign and product values", async function () {
-  const { redirectFromUrl } = await load();
+test("quote and material families keep campaign and product values", function () {
+  const { redirectFromUrl } = load();
   const quote = redirectFromUrl("/materials/quote?utm_source=newsletter&utm_medium=cpc&utm_campaign=spring&utm_content=ad&utm_term=trail&utm_id=spring01&gclid=abc123XYZ_99&gbraid=Abcd1234_ef&product=colored-granules");
   const query = params(quote);
   assert.equal(quote.startsWith("/contact?"), true);
@@ -53,8 +52,8 @@ test("quote and material families keep campaign and product values", async funct
   assert.equal(params(redirectFromUrl("/flexus-final/stormwater-bmp.html?utm_source=newsletter")).get("to"), "stormwater");
 });
 
-test("the path topic or to wins over a conflicting source value", async function () {
-  const { redirectFromUrl } = await load();
+test("the path topic or to wins over a conflicting source value", function () {
+  const { redirectFromUrl } = load();
   const quote = params(redirectFromUrl("/materials/quote?topic=sample&to=mulch&product=rubber-mulch"));
   assert.equal(quote.get("topic"), "materials-quote");
   assert.equal(quote.get("to"), "mulch");
@@ -70,8 +69,8 @@ test("the path topic or to wins over a conflicting source value", async function
   assert.equal(params(redirectFromUrl("/installers?to=downloads")).get("to"), "installation");
 });
 
-test("unknown keys, mail, phone, and off-site targets are not copied", async function () {
-  const { redirectFromUrl } = await load();
+test("unknown keys, mail, phone, and off-site targets are not copied", function () {
+  const { redirectFromUrl } = load();
   const location = redirectFromUrl("/materials/quote?email=person@example.com&phone=7707426016&name=Ada&next=https://evil.example&url=https://evil.example&redirect=https://evil.example&utm_content=person@example.com&utm_source=%2B14045551212&product=not-a-product&gclid=short");
   const query = params(location);
   assert.equal(query.get("topic"), "materials-quote");
@@ -91,8 +90,8 @@ test("unknown keys, mail, phone, and off-site targets are not copied", async fun
   assert.equal(location.includes("://"), false);
 });
 
-test("encoded values are decoded once and checked, and the fragment is not a destination", async function () {
-  const { redirectFromUrl, redirectLocation } = await load();
+test("encoded values are decoded once and checked, and the fragment is not a destination", function () {
+  const { redirectFromUrl, redirectLocation } = load();
   const encoded = params(redirectFromUrl("/materials/quote?utm_source=news%6Cetter&product=%63olored-granules&grade=5%2F9"));
   assert.equal(encoded.get("utm_source"), "newsletter");
   assert.equal(encoded.get("product"), "colored-granules");
@@ -114,8 +113,27 @@ test("encoded values are decoded once and checked, and the fragment is not a des
   assert.equal(redirectFromUrl("javascript:alert(1)"), null);
 });
 
-test("kept values match the page cleaner, and the edge path list matches the routes", async function () {
-  const legacy = await load();
+test("the function returns a relative redirect and the rules forward the query", async function () {
+  const legacy = load();
+  const response = await legacy.handler({
+    httpMethod: "GET",
+    rawUrl: "https://deploy-preview-11--flexus-site.netlify.app/materials/quote?utm_source=newsletter&product=colored-granules&topic=sample&email=person@example.com#panel",
+    path: "/.netlify/functions/legacy-redirect"
+  });
+  assert.equal(response.statusCode, 301);
+  assert.equal(response.headers.Location.startsWith("/contact?"), true);
+  assert.equal(response.headers.Location.includes("://"), false);
+  assert.equal(response.headers.Location.includes("#"), false);
+  assert.equal(params(response.headers.Location).get("topic"), "materials-quote");
+  assert.equal(params(response.headers.Location).get("product"), "colored-granules");
+  assert.equal(params(response.headers.Location).get("utm_source"), "newsletter");
+  assert.equal(params(response.headers.Location).get("email"), null);
+  const denied = await legacy.handler({ httpMethod: "POST", rawUrl: "https://www.flexusco.com/materials/quote", path: "/materials/quote" });
+  assert.equal(denied.statusCode, 405);
+});
+
+test("kept values match the page cleaner, and the redirect rules do not replace the query", function () {
+  const legacy = load();
   const samples = [
     "newsletter",
     "person@example.com",
@@ -137,11 +155,16 @@ test("kept values match the page cleaner, and the edge path list matches the rou
     });
   });
 
-  const source = fs.readFileSync(path.join(root, "netlify/edge-functions/legacy-redirect.js"), "utf8");
-  const listed = source.slice(source.indexOf("path: ["), source.indexOf("],")).match(/"(\/[^"]+)"/g).map(function (item) { return item.slice(1, -1); });
-  assert.deepEqual(listed, legacy.LEGACY_PATHS);
   const redirects = fs.readFileSync(path.join(root, "_redirects"), "utf8");
+  const lines = redirects.split("\n");
   legacy.LEGACY_PATHS.forEach(function (item) {
-    assert.equal(redirects.includes(item), true, item);
+    const line = lines.find(function (row) { return row.indexOf(item + " ") === 0 || row.indexOf(item + "\t") === 0; });
+    assert.ok(line, item);
+    assert.equal(line.includes("?"), false, line);
+    assert.equal(line.includes("/.netlify/functions/legacy-redirect"), true, line);
+    assert.equal(/\s200\s*$/.test(line), true, line);
   });
+  assert.match(redirects, /^\/ap\s+\/pavement-systems\/ap\s+301$/m);
+  assert.match(redirects, /^\/budget-estimator\s+\/pavement-systems\s+301$/m);
+  assert.equal(fs.existsSync(path.join(root, "netlify/edge-functions")), false);
 });

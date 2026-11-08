@@ -1,5 +1,6 @@
-// Legacy paths whose Netlify rule sets topic or to. A fixed target query
-// replaces the incoming query, so this function merges the allowlisted values.
+// Legacy paths whose redirect target sets topic or to.
+// A target query replaces the incoming query, so these paths are rewritten
+// here with no query of their own. The original query is then merged.
 // Destinations are constants. The path's own topic or to wins.
 
 var TOKEN = /^[A-Za-z0-9][A-Za-z0-9 ._+~-]{0,79}$/;
@@ -58,7 +59,7 @@ var ROUTES = {
   "/flexus-final/stormwater-bmp.html": { dest: "/specifiers", force: { to: "stormwater" } }
 };
 
-export function acceptValue(key, value) {
+function acceptValue(key, value) {
   var rule = RULES[key];
   var text = value == null ? "" : String(value);
   if (!rule || !rule.test(text)) return "";
@@ -77,7 +78,7 @@ function exactPath(pathname) {
   return pathname;
 }
 
-export function redirectLocation(pathname, search) {
+function redirectLocation(pathname, search) {
   var path = exactPath(pathname);
   var route = ROUTES[path];
   if (!route || route.dest.charAt(0) !== "/" || route.dest.indexOf("//") !== -1) return null;
@@ -102,7 +103,7 @@ export function redirectLocation(pathname, search) {
   return location;
 }
 
-export function redirectFromUrl(input) {
+function redirectFromUrl(input) {
   var url;
   try {
     url = new URL(String(input), "https://www.flexusco.com");
@@ -112,51 +113,32 @@ export function redirectFromUrl(input) {
   return redirectLocation(url.pathname, url.search);
 }
 
-var LEGACY_PATHS = Object.keys(ROUTES);
-
-export { LEGACY_PATHS, QUERY_ALLOW };
-
-export default async function legacyRedirect(request) {
-  var current;
-  try {
-    current = new URL(request.url);
-  } catch (_err) {
-    return;
+function requestParts(event) {
+  var source = event || {};
+  if (source.rawUrl) {
+    try {
+      var url = new URL(source.rawUrl);
+      return { pathname: url.pathname, search: url.search };
+    } catch (_err) {}
   }
-  if (current.protocol !== "https:" && current.protocol !== "http:") return;
-  if (current.username || current.password) return;
-  var target = redirectLocation(current.pathname, current.search);
-  if (!target) return;
-  var next = new URL(target, current.origin);
-  if (next.origin !== current.origin) return;
-  if (next.username || next.password || next.hash) return;
-  if (next.pathname + next.search !== target) return;
-  return Response.redirect(next, 301);
+  var search = source.rawQuery ? "?" + String(source.rawQuery).replace(/^\?/, "") : "";
+  return { pathname: source.path || "", search: search };
 }
 
-export const config = {
-  path: [
-    "/materials/quote",
-    "/materials/quote.html",
-    "/materials/rubber-granules",
-    "/materials/rubber-granules.html",
-    "/materials/rubber-mulch",
-    "/materials/rubber-mulch.html",
-    "/materials/rubber-buffings",
-    "/materials/rubber-buffings.html",
-    "/resources",
-    "/resources.html",
-    "/request-sample",
-    "/request-sample.html",
-    "/installers",
-    "/installers.html",
-    "/stormwater-bmp",
-    "/stormwater-bmp.html",
-    "/flexus-final/resources.html",
-    "/flexus-final/request-sample.html",
-    "/flexus-final/installers.html",
-    "/flexus-final/stormwater-bmp.html"
-  ],
-  method: ["GET", "HEAD"],
-  onError: "bypass"
-};
+async function handler(event) {
+  var method = event && event.httpMethod ? String(event.httpMethod).toUpperCase() : "GET";
+  if (method !== "GET" && method !== "HEAD") {
+    return { statusCode: 405, headers: { Allow: "GET, HEAD", "Cache-Control": "no-store" }, body: "" };
+  }
+  var parts = requestParts(event);
+  var target = redirectLocation(parts.pathname, parts.search);
+  if (!target) return { statusCode: 404, headers: { "Cache-Control": "no-store" }, body: "" };
+  return { statusCode: 301, headers: { Location: target, "Cache-Control": "no-store" }, body: "" };
+}
+
+exports.acceptValue = acceptValue;
+exports.redirectLocation = redirectLocation;
+exports.redirectFromUrl = redirectFromUrl;
+exports.LEGACY_PATHS = Object.keys(ROUTES);
+exports.QUERY_ALLOW = QUERY_ALLOW;
+exports.handler = handler;

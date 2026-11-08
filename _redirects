@@ -1,6 +1,6 @@
 # Old URLs. First match wins. Query strings are kept when the target has none.
-# Paths that set topic or to are merged first by netlify/edge-functions/legacy-redirect.js.
-# These rules stay as the fallback and still replace an incoming query.
+# Paths that must set topic or to are rewritten to the legacy-redirect function
+# with no query of their own, so the incoming query is forwarded and then merged.
 /ap                         /pavement-systems/ap            301
 /ap.html                    /pavement-systems/ap            301
 /cp                         /pavement-systems/cp            301
@@ -9,30 +9,30 @@
 /ap_old.html                /pavement-systems/ap            301
 /cp_old                     /pavement-systems/cp            301
 /cp_old.html                /pavement-systems/cp            301
-/stormwater-bmp             /specifiers?to=stormwater       301
-/stormwater-bmp.html        /specifiers?to=stormwater       301
+/stormwater-bmp             /.netlify/functions/legacy-redirect 200
+/stormwater-bmp.html        /.netlify/functions/legacy-redirect 200
 /leed-specification         /specifiers?to=division-32      301
 /leed-specification.html    /specifiers?to=division-32      301
 /municipal-rfp              /specifiers?to=procurement      301
 /municipal-rfp.html         /specifiers?to=procurement      301
-/resources                  /specifiers?to=downloads        301
-/resources.html             /specifiers?to=downloads        301
+/resources                  /.netlify/functions/legacy-redirect 200
+/resources.html             /.netlify/functions/legacy-redirect 200
 /budget-estimator           /pavement-systems              301
 /budget-estimator.html      /pavement-systems              301
 /cost-calculator            /pavement-systems              301
 /pricing                    /pavement-systems              301
-/installers                 /specifiers?to=installation     301
-/installers.html            /specifiers?to=installation     301
-/request-sample             /contact?topic=sample          301
-/request-sample.html        /contact?topic=sample          301
-/materials/quote            /contact?topic=materials-quote 301
-/materials/quote.html       /contact?topic=materials-quote 301
-/materials/rubber-mulch     /materials?to=mulch             301
-/materials/rubber-mulch.html /materials?to=mulch           301
-/materials/rubber-granules  /materials?to=granules         301
-/materials/rubber-granules.html /materials?to=granules     301
-/materials/rubber-buffings  /materials?to=buffings         301
-/materials/rubber-buffings.html /materials?to=buffings     301
+/installers                 /.netlify/functions/legacy-redirect 200
+/installers.html            /.netlify/functions/legacy-redirect 200
+/request-sample             /.netlify/functions/legacy-redirect 200
+/request-sample.html        /.netlify/functions/legacy-redirect 200
+/materials/quote            /.netlify/functions/legacy-redirect 200
+/materials/quote.html       /.netlify/functions/legacy-redirect 200
+/materials/rubber-mulch     /.netlify/functions/legacy-redirect 200
+/materials/rubber-mulch.html /.netlify/functions/legacy-redirect 200
+/materials/rubber-granules  /.netlify/functions/legacy-redirect 200
+/materials/rubber-granules.html /.netlify/functions/legacy-redirect 200
+/materials/rubber-buffings  /.netlify/functions/legacy-redirect 200
+/materials/rubber-buffings.html /.netlify/functions/legacy-redirect 200
 /materials/                  /materials                    301
 
 /flexus-final/index.html            /                                 301
@@ -40,13 +40,13 @@
 /flexus-final/ap.html               /pavement-systems/ap              301
 /flexus-final/cp                    /pavement-systems/cp              301
 /flexus-final/cp.html               /pavement-systems/cp              301
-/flexus-final/stormwater-bmp.html   /specifiers?to=stormwater        301
+/flexus-final/stormwater-bmp.html   /.netlify/functions/legacy-redirect 200
 /flexus-final/leed-specification.html /specifiers?to=division-32      301
 /flexus-final/municipal-rfp.html    /specifiers?to=procurement        301
-/flexus-final/resources.html        /specifiers?to=downloads          301
+/flexus-final/resources.html        /.netlify/functions/legacy-redirect 200
 /flexus-final/budget-estimator.html /pavement-systems                 301
-/flexus-final/installers.html       /specifiers?to=installation       301
-/flexus-final/request-sample.html   /contact?topic=sample             301
+/flexus-final/installers.html       /.netlify/functions/legacy-redirect 200
+/flexus-final/request-sample.html   /.netlify/functions/legacy-redirect 200
 /flexus-final/thanks.html           /thanks                           301
 /flexus-final                       /                                 301
 /flexus-final/                      /                                 301

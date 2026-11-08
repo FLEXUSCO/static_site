@@ -124,7 +124,7 @@ test("application and ad parameters keep their shape and free text does not", fu
   assert.equal(fs.existsSync(path.join(root, "scripts", "stage-publish.js")), false);
 });
 
-test("contact fields and the functions directory match the existing deploy log", function () {
+test("contact fields match the existing deploy log and the functions stay the two known files", function () {
   const html = fs.readFileSync(path.join(root, "contact.html"), "utf8");
   const form = html.slice(html.indexOf("<form"), html.indexOf("</form>"));
   const names = [];
@@ -134,7 +134,7 @@ test("contact fields and the functions directory match the existing deploy log",
   const expected = ["contact", "form-name", "source", "segment", "page", "landing_page", "referrer", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "Company", "Unit", "bot-field", "Topic", "Name", "Email", "Organization", "Phone", "Series", "ProjectLocation", "Series", "Lifts", "ShippingAddress", "Product", "Product", "Product", "Grade", "Color", "GranuleColor", "Quantity", "ShipToZIP", "ShippingAddress", "Need", "Need", "Notes"];
   assert.deepEqual(names, expected);
   const functions = fs.readdirSync(path.join(root, "netlify", "functions")).filter(function (name) { return name.endsWith(".js"); });
-  assert.deepEqual(functions, ["submission-created.js"]);
+  assert.deepEqual(functions.sort(), ["legacy-redirect.js", "submission-created.js"]);
 });
 
 test("visible contact text matches the current production HTML", async function () {
