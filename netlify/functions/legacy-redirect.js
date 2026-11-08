@@ -78,10 +78,12 @@ function exactPath(pathname) {
   if (typeof pathname !== "string") return "";
   if (pathname.length === 0 || pathname.length > 200) return "";
   if (pathname.charAt(0) !== "/") return "";
-  if (pathname.indexOf("//") !== -1) return "";
-  if (/[\r\n\0\\]/.test(pathname)) return "";
-  if (pathname.indexOf("%") !== -1) return "";
-  return pathname;
+  if (/[\r\n\0\\%]/.test(pathname)) return "";
+  // Preview requests keep the slash Netlify's old redirect matcher ignored.
+  // Only repeated slashes are collapsed, and only an exact route is accepted.
+  var collapsed = pathname.replace(/\/{2,}/g, "/").replace(/\/+$/, "");
+  if (!collapsed || collapsed.charAt(0) !== "/" || collapsed.indexOf("//") !== -1) return "";
+  return collapsed;
 }
 
 function redirectLocation(pathname, search) {

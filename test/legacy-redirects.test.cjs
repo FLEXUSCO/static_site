@@ -112,8 +112,21 @@ test("encoded values are decoded once and checked, and the fragment is not a des
   assert.equal(params(hashed).get("topic"), "materials-quote");
 
   assert.equal(redirectFromUrl("/materials%2Fquote?utm_source=newsletter"), null);
+  assert.equal(redirectLocation("/resources/", ""), "/specifiers?to=downloads");
+  assert.equal(redirectLocation("/resources//", ""), "/specifiers?to=downloads");
+  assert.equal(redirectLocation("/materials//quote", ""), "/contact?topic=materials-quote");
+  var slashed = params(redirectLocation("/materials/quote/", "?topic=sample&utm_source=newsletter&product=colored-granules"));
+  assert.equal(slashed.get("topic"), "materials-quote");
+  assert.equal(slashed.get("product"), "colored-granules");
+  assert.equal(slashed.get("utm_source"), "newsletter");
+  var leedSlash = params(redirectLocation("/leed-specification.html/", "?utm_source=newsletter&to=downloads"));
+  assert.equal(leedSlash.get("to"), "division-32");
+  assert.equal(leedSlash.get("utm_source"), "newsletter");
+  assert.equal(redirectLocation("/Resources", ""), null);
+  assert.equal(redirectLocation("/resources%2F", ""), null);
+  assert.equal(redirectLocation("/resources/extra", ""), null);
   assert.equal(redirectFromUrl("/materials/quote/../../contact?topic=sample"), null);
-  assert.equal(redirectFromUrl("/materials/quote.html/"), null);
+  assert.equal(redirectFromUrl("/materials/quote.html/"), "/contact?topic=materials-quote");
   assert.equal(redirectLocation("/materials/quote", "utm_source=newsletter#panel"), null);
   assert.equal(redirectFromUrl("https://evil.example/materials/quote?utm_source=newsletter").startsWith("/contact?"), true);
   assert.equal(redirectFromUrl("javascript:alert(1)"), null);
