@@ -65,7 +65,7 @@ test("homepage structured data is only the website and organization", function (
   assert.equal(data[1]["@type"], "Organization");
   assert.equal(data[1].name, "Flexus Materials Ltd Co");
   assert.equal(data[1].logo, "https://www.flexusco.com/favicon-192.png");
-  assert.equal(data[1].telephone, "+1-678-697-4722");
+  assert.equal(data[1].telephone, "+1-770-742-6016");
   assert.equal(data[1].address.addressLocality, "Atlanta");
   assert.equal(data[1].address.addressRegion, "GA");
   assert.equal(data[1].address.addressCountry, "US");
