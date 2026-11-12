@@ -52,6 +52,18 @@
 /flexus-final/                      /                                 301
 /flexus-final/*                     /                                 301
 
+# Existing HTML files that duplicate a clean URL. Force past the file.
+# The target has no query, so the request query is kept.
+/index.html                 /                                 301!
+/specifiers.html            /specifiers                       301!
+/materials.html             /materials                        301!
+/pavement-ap.html           /pavement-systems/ap              301!
+/pavement-cp.html           /pavement-systems/cp              301!
+/pavement-systems.html      /pavement-systems                 301!
+/projects.html              /projects                         301!
+/about.html                 /about                            301!
+/contact.html               /contact                          301!
+
 # Pretty URLs for the current pages.
 /thanks                     /thanks.html                    200
 /success                    /thanks.html                    200
