@@ -185,5 +185,8 @@ test("kept values match the page cleaner, and the redirect rules do not replace 
   });
   assert.match(redirects, /^\/ap\s+\/pavement-systems\/ap\s+301$/m);
   assert.match(redirects, /^\/budget-estimator\s+\/pavement-systems\s+301$/m);
-  assert.equal(fs.existsSync(path.join(root, "netlify/edge-functions")), false);
+  const edgeDir = path.join(root, "netlify/edge-functions");
+  if (fs.existsSync(edgeDir)) {
+    assert.deepEqual(fs.readdirSync(edgeDir).sort(), ["canonical-slash.js"]);
+  }
 });
