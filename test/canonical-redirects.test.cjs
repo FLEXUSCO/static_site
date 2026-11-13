@@ -26,7 +26,8 @@ test("legacy html duplicates force a query-free 301 to the canonical path", func
     "/pavement-systems.html": "/pavement-systems",
     "/projects.html": "/projects",
     "/about.html": "/about",
-    "/contact.html": "/contact"
+    "/contact.html": "/contact",
+    "/privacy.html": "/privacy"
   };
   Object.keys(expected).forEach(function (from) {
     assert.equal(found[from].to, expected[from], from);
@@ -80,7 +81,7 @@ test("homepage structured data is only the website and organization", function (
   });
 });
 
-test("sitemap dates are the publish date and the eleven canonical urls stay", function () {
+test("sitemap dates are the publish date and the canonical urls stay", function () {
   const xml = fs.readFileSync(path.join(root, "sitemap.xml"), "utf8");
   const locs = xml.match(/<loc>[^<]+<\/loc>/g);
   assert.deepEqual(locs, [
@@ -94,8 +95,9 @@ test("sitemap dates are the publish date and the eleven canonical urls stay", fu
     "<loc>https://www.flexusco.com/projects/athens-root-intrusion-sidewalk</loc>",
     "<loc>https://www.flexusco.com/materials</loc>",
     "<loc>https://www.flexusco.com/about</loc>",
-    "<loc>https://www.flexusco.com/contact</loc>"
+    "<loc>https://www.flexusco.com/contact</loc>",
+    "<loc>https://www.flexusco.com/privacy</loc>"
   ]);
-  assert.equal((xml.match(/<lastmod>2026-11-12<\/lastmod>/g) || []).length, 11);
+  assert.equal((xml.match(/<lastmod>2026-11-12<\/lastmod>/g) || []).length, 12);
   assert.equal(xml.includes("2026-11-02"), false);
 });

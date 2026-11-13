@@ -63,6 +63,7 @@
 /projects.html              /projects                         301!
 /about.html                 /about                            301!
 /contact.html               /contact                          301!
+/privacy.html               /privacy                          301!
 
 # Pretty URLs for the current pages.
 /thanks                     /thanks.html                    200
@@ -77,3 +78,4 @@
 /materials                  /materials.html                 200
 /about                      /about.html                     200
 /contact                    /contact.html                   200
+/privacy                    /privacy.html                   200
