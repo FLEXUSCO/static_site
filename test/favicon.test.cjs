@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const root = path.join(__dirname, "..");
-const pages = ["index.html", "about.html", "contact.html", "materials.html", "pavement-systems.html", "pavement-ap.html", "pavement-cp.html", "projects.html", "mary-esther-azalea-trail.html", "athens-root-intrusion-sidewalk.html", "specifiers.html"];
+const pages = ["index.html", "about.html", "contact.html", "materials.html", "pavement-systems.html", "pavement-ap.html", "pavement-cp.html", "projects.html", "mary-esther-azalea-trail.html", "athens-root-intrusion-sidewalk.html", "specifiers.html", "privacy.html"];
 const GLYPH = "M71 0V700H518V603H191V398H458V303H191V0Z";
 
 test("favicon files are the DM Sans F and the ico contains 16, 32, and 48", function () {
@@ -34,7 +34,7 @@ test("favicon files are the DM Sans F and the ico contains 16, 32, and 48", func
   assert.equal(pngSize("apple-touch-icon.png"), "180x180");
 });
 
-test("the eleven current pages link the favicon and nothing else in the body changed for it", function () {
+test("the current pages link the favicon and nothing else in the body changed for it", function () {
   pages.forEach(function (name) {
     const html = fs.readFileSync(path.join(root, name), "utf8");
     const head = html.split("</head>")[0];
