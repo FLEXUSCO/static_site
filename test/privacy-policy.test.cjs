@@ -49,6 +49,10 @@ test("privacy policy has one h1, every section, and no em dashes", function () {
   assert.equal(html.includes("remains bound by this policy"), false);
   assert.equal(html.includes(">Company.</strong>"), false);
   assert.equal(html.includes("Email: <a href=\"mailto:info@flexusco.com\">info@flexusco.com</a>"), true);
+  assert.equal(html.includes("Mailing address: PO Box 566001, Atlanta, GA 31156"), true);
+  assert.equal(html.includes("Office: Atlanta, GA"), false);
+  assert.equal(html.includes("honors Global Privacy Control"), true);
+  assert.equal(html.includes("does not look for the Global Privacy Control"), false);
   assert.equal(html.includes("\u2014"), false);
   assert.equal(html.includes("\u2013"), false);
   assert.equal(/(?:^|[>\s])F\s+Flexus/.test(html), false);
@@ -61,8 +65,11 @@ test("privacy policy has one h1, every section, and no em dashes", function () {
   const head = html.split("</head>")[0];
   assert.equal((html.match(/src="\/tracking\.js"/g) || []).length, 1);
   assert.equal(head.includes('src="/tracking.js"'), true);
-  assert.equal((html.match(/clarity\.ms\/tag\//g) || []).length, 1);
+  assert.equal(html.includes("clarity.ms"), false);
   assert.equal(html.includes("googletagmanager.com"), false);
+  const tracking = fs.readFileSync(path.join(root, "tracking.js"), "utf8");
+  assert.equal(tracking.includes("globalPrivacyControl === true"), true);
+  assert.equal((tracking.match(/clarity\.ms\/tag\//g) || []).length, 1);
 });
 
 test("privacy policy links use a real address and descriptive text", function () {
