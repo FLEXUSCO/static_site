@@ -16,11 +16,6 @@ function visible(html) {
     .trim();
 }
 
-// The footer Privacy link is new on this branch. Drop it so the rest of each page still has to match production.
-function withoutPrivacyFooterLink(html) {
-  return html.replace(/<a href="\/privacy">Privacy<\/a>/g, "");
-}
-
 function get(url) {
   return new Promise(function (resolve, reject) {
     https.get(url, { headers: { "user-agent": "flexus-static-compare" } }, function (res) {
@@ -145,8 +140,8 @@ test("contact fields match the existing deploy log and the functions stay the tw
 test("visible contact text matches the current production HTML", async function () {
   const live = await get("https://www.flexusco.com/contact");
   const local = fs.readFileSync(path.join(root, "contact.html"), "utf8");
-  assert.equal(visible(withoutPrivacyFooterLink(local)), visible(live));
+  assert.equal(visible(local), visible(live));
   const home = await get("https://www.flexusco.com/");
   const localHome = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  assert.equal(visible(withoutPrivacyFooterLink(localHome)), visible(home));
+  assert.equal(visible(localHome), visible(home));
 });

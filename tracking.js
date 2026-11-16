@@ -261,8 +261,29 @@
     if (target !== now) history.replaceState(null, "", target);
   }
 
+  function globalPrivacyControl(nav) {
+    var target = arguments.length ? nav : (typeof navigator !== "undefined" ? navigator : null);
+    return !!(target && target.globalPrivacyControl === true);
+  }
+
+  function loadClarity() {
+    if (typeof document === "undefined" || typeof window === "undefined") return;
+    if (globalPrivacyControl()) return;
+    if (window.__FLEXUS_CLARITY_BOOTED__) return;
+    window.__FLEXUS_CLARITY_BOOTED__ = true;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      if (y && y.parentNode) y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", "zd6h7tk5io");
+  }
+
   function bootProductionTag() {
     if (typeof document === "undefined" || typeof location === "undefined") return;
+    if (globalPrivacyControl()) return;
     if (!productionHost(location.hostname)) return;
     if (window.__FLEXUS_GTAG_BOOTED__) return;
     window.__FLEXUS_GTAG_BOOTED__ = true;
@@ -281,7 +302,9 @@
     installHistoryGuard();
     rememberAttribution();
     cleanCurrentEntry();
+    if (globalPrivacyControl()) return;
     bootProductionTag();
+    loadClarity();
   }
 
   var api = {
@@ -302,6 +325,8 @@
     materialEvent: materialEvent,
     gaConfig: gaConfig,
     installHistoryGuard: installHistoryGuard,
+    globalPrivacyControl: globalPrivacyControl,
+    loadClarity: loadClarity,
     boot: boot
   };
   root.FlexusTrack = api;
