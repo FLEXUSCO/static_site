@@ -7,18 +7,11 @@ const root = path.join(__dirname, "..");
 const HEADER = '<a href="/pavement-systems" data-path="/pavement-systems">Pavement</a><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><a href="/materials" data-path="/materials">Materials</a><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>';
 const FOOTER = '<nav class="footer-nav" aria-label="Footer"><a href="/">Home</a><a href="/pavement-systems">Pavement</a><a href="/pavement-systems/ap">AP</a><a href="/pavement-systems/cp">CP</a><a href="/specifiers">Specifiers</a><a href="/projects">Projects</a><a href="/materials">Materials</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a></nav>';
 const SECTIONS = [
-  ["who-we-are", "Who we are"],
-  ["information-we-collect", "Information we collect"],
-  ["how-we-use", "How we use information"],
-  ["cookies-and-analytics", "Cookies and analytics"],
-  ["how-we-share", "How we share information"],
-  ["data-retention", "Data retention"],
-  ["data-security", "Data security"],
-  ["your-choices", "Your choices and rights"],
-  ["childrens-privacy", "Children's privacy"],
-  ["third-party-links", "Third-party links"],
-  ["changes", "Changes to this policy"],
-  ["contact-us", "Contact us"]
+  ["what-we-collect", "What We Collect"],
+  ["how-we-use", "How We Use It"],
+  ["who-we-share", "Who We Share It With"],
+  ["your-choices", "Your Choices"],
+  ["contact-us", "Contact Us"]
 ];
 
 function read(name) {
@@ -36,7 +29,10 @@ test("privacy policy has one h1, every section, and no em dashes", function () {
   const h1 = html.match(/<h1\b[^>]*>[\s\S]*?<\/h1>/g) || [];
   assert.equal(h1.length, 1);
   assert.equal(h1[0].includes("Privacy Policy"), true);
-  assert.equal(html.includes("Last updated: November 13, 2026"), true);
+  assert.equal(html.includes("Last updated: November 15, 2026"), true);
+  assert.equal(html.includes("Third-party links"), false);
+  assert.equal(html.includes('id="on-this-page"'), false);
+  assert.equal((html.match(/<nav aria-label="On this page"[\s\S]*?<\/nav>/) || [""])[0].match(/<a /g).length, 5);
   assert.equal(html.includes("Effective date"), false);
   assert.equal(html.includes("sends a notification to our email"), true);
   assert.equal(html.includes("customer records is turned on"), false);
