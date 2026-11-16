@@ -886,6 +886,7 @@ a.swatch-card { text-decoration: none; color: inherit; }
   background: var(--soft);
 }
 .nav-links .nav-menu a.active { font-weight: 600; }
+.nav-code { font-weight: 650; }
 
 .sheet-group { display: grid; gap: 8px; }
 .sheet-split { display: flex; align-items: stretch; gap: 8px; }
@@ -912,7 +913,7 @@ a.swatch-card { text-decoration: none; color: inherit; }
 .sheet-toggle svg { width: 14px; height: 14px; transition: transform .15s ease; }
 .sheet-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 .sheet-sub { display: grid; gap: 8px; padding-left: 12px; }
-.sheet-sub .sheet-link { min-height: 48px; font-weight: 500; background: #fff; }
+.sheet-sub .sheet-link { min-height: 48px; font-weight: 500; background: #fff; justify-content: flex-start; }
 
 /* Pavement hub. These classes are only used on /pavement-systems. */
 .hero.small.hub { min-height: 0; padding: 28px 0 12px; }

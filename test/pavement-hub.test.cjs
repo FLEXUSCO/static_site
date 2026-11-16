@@ -148,8 +148,10 @@ test("every page has the materials menu and granules points at the real section"
     assert.equal(page.includes('href="/materials#buffings"'), true, name);
     assert.equal(page.includes('href="/pavement-systems/ap"'), true, name);
     assert.equal(page.includes('href="/pavement-systems/cp"'), true, name);
-    assert.equal(page.includes("Architectural pavement (AP-200)"), true, name);
-    assert.equal(page.includes("Civil pavement (CP-200)"), true, name);
+    assert.equal(page.includes("AP</span> - Architectural Pavement"), true, name);
+    assert.equal(page.includes("CP</span> - Civil Pavement"), true, name);
+    assert.equal(page.includes("\u2013"), false, name);
+    assert.equal(page.includes("\u2014"), false, name);
     assert.equal(page.includes('aria-controls="materials-menu"'), true, name);
     assert.equal(page.includes('aria-controls="pavement-menu"'), true, name);
     assert.equal(page.includes('aria-expanded="false"'), true, name);
