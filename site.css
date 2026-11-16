@@ -802,12 +802,11 @@ a.swatch-card { text-decoration: none; color: inherit; }
   }
 }
 
-/* Materials menu. The link row is unchanged at rest; the caret opens the list. */
+/* Header dropdowns. Parent links stay real links. No caret. */
 .nav-item {
   position: relative;
   display: flex;
   align-items: center;
-  gap: 2px;
 }
 .nav-item:hover > a,
 .nav-item:focus-within > a,
@@ -849,7 +848,7 @@ a.swatch-card { text-decoration: none; color: inherit; }
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 240px;
+  min-width: 300px;
   margin: 0;
   padding: 10px 0 8px;
   list-style: none;
@@ -870,7 +869,9 @@ a.swatch-card { text-decoration: none; color: inherit; }
   box-shadow: 0 16px 40px rgba(13,13,14,.08);
   z-index: -1;
 }
-.nav-item.is-open > .nav-menu { display: block; }
+.nav-item.is-open > .nav-menu,
+.nav-item:focus-within > .nav-menu { display: block; }
+.nav-item.is-dismissed > .nav-menu { display: none; }
 .nav-links .nav-menu a {
   display: block;
   position: relative;
@@ -910,9 +911,8 @@ a.swatch-card { text-decoration: none; color: inherit; }
 }
 .sheet-toggle svg { width: 14px; height: 14px; transition: transform .15s ease; }
 .sheet-toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
-.sheet-sub { display: none; gap: 8px; padding-left: 12px; }
-.sheet-sub.open { display: grid; }
-.sheet-sub .sheet-link { font-weight: 500; background: #fff; }
+.sheet-sub { display: grid; gap: 8px; padding-left: 12px; }
+.sheet-sub .sheet-link { min-height: 48px; font-weight: 500; background: #fff; }
 
 /* Pavement hub. These classes are only used on /pavement-systems. */
 .hero.small.hub { min-height: 0; padding: 28px 0 12px; }

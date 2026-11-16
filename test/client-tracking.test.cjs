@@ -19,10 +19,10 @@ function visible(html) {
 // The Materials submenu is new on this branch. Drop it so home and contact still match production.
 function withoutMaterialsMenu(html) {
   return html
-    .replace(/<button class="nav-caret"[\s\S]*?<\/button>/g, "")
     .replace(/<ul class="nav-menu"[\s\S]*?<\/ul>/g, "")
-    .replace(/<button class="sheet-toggle"[\s\S]*?<\/button>/g, "")
-    .replace(/<div class="sheet-sub" id="sheet-materials"[\s\S]*?<\/div>/g, "");
+    .replace(/<div class="sheet-sub"[\s\S]*?<\/div>/g, "")
+    .replace(/Rubber Mulch &amp; Granules/g, "Materials")
+    .replace(/Rubber Mulch & Granules/g, "Materials");
 }
 
 function get(url) {

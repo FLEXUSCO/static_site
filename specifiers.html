@@ -37,17 +37,7 @@
   <div class="nav-inner">
     <a class="logo" href="/" style="text-decoration:none;color:inherit;">Flexus™</a>
     <nav class="nav-links" data-nav>
-      <a href="/pavement-systems" data-path="/pavement-systems">Pavement</a><a href="/specifiers" data-path="/specifiers" class="active">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><div class="nav-item has-menu">
-        <a href="/materials" data-path="/materials">Materials</a>
-        <button class="nav-caret" type="button" data-menu-trigger aria-expanded="false" aria-haspopup="true" aria-controls="materials-menu" id="materials-nav-trigger" aria-label="Open Materials menu">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
-        </button>
-        <ul class="nav-menu" id="materials-menu" role="menu" aria-labelledby="materials-nav-trigger">
-          <li role="none"><a role="menuitem" href="/materials#mulch">Rubber Mulch</a></li>
-          <li role="none"><a role="menuitem" href="/materials#granules">Colored Rubber Granules</a></li>
-          <li role="none"><a role="menuitem" href="/materials#buffings">Rubber Buffings</a></li>
-        </ul>
-      </div><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>
+      <div class="nav-item has-menu"><a href="/pavement-systems" data-path="/pavement-systems" aria-haspopup="true" aria-expanded="false" aria-controls="pavement-menu">Pavement</a><ul class="nav-menu" id="pavement-menu" role="menu" aria-label="Pavement"><li role="none"><a role="menuitem" href="/pavement-systems/ap">Architectural pavement (AP-200)</a></li><li role="none"><a role="menuitem" href="/pavement-systems/cp">Civil pavement (CP-200)</a></li></ul></div><a href="/specifiers" data-path="/specifiers" class="active">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><div class="nav-item has-menu"><a href="/materials" data-path="/materials" aria-haspopup="true" aria-expanded="false" aria-controls="materials-menu">Rubber Mulch &amp; Granules</a><ul class="nav-menu" id="materials-menu" role="menu" aria-label="Rubber Mulch and Granules"><li role="none"><a role="menuitem" href="/materials#mulch">Rubber mulch</a></li><li role="none"><a role="menuitem" href="/materials#granules">Colored rubber granules</a></li><li role="none"><a role="menuitem" href="/materials#buffings">Rubber buffings</a></li></ul></div><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>
     </nav>
     <div class="nav-actions">
       <a class="pill primary" href="/contact?topic=spec-support">Specification support</a>
@@ -61,19 +51,7 @@
   <div class="sheet-panel" role="dialog" aria-label="Menu">
     <div class="sheet-head"><div class="sheet-title">Menu</div><button class="sheet-close" id="sheet-close" aria-label="Close menu">✕</button></div>
     <div class="sheet-body" data-nav>
-      <a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><div class="sheet-group">
-        <div class="sheet-split">
-          <a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a>
-          <button class="sheet-toggle" type="button" data-sheet-toggle="sheet-materials" aria-expanded="false" aria-controls="sheet-materials" aria-label="Open Materials submenu">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
-          </button>
-        </div>
-        <div class="sheet-sub" id="sheet-materials" data-sheet-sub>
-          <a class="sheet-link" href="/materials#mulch" data-sheet-link>Rubber Mulch</a>
-          <a class="sheet-link" href="/materials#granules" data-sheet-link>Colored Rubber Granules</a>
-          <a class="sheet-link" href="/materials#buffings" data-sheet-link>Rubber Buffings</a>
-        </div>
-      </div><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
+      <div class="sheet-group"><a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><div class="sheet-sub" id="sheet-pavement"><a class="sheet-link" href="/pavement-systems/ap" data-sheet-link>Architectural pavement (AP-200)</a><a class="sheet-link" href="/pavement-systems/cp" data-sheet-link>Civil pavement (CP-200)</a></div></div><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><div class="sheet-group"><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Rubber Mulch &amp; Granules</a><div class="sheet-sub" id="sheet-materials"><a class="sheet-link" href="/materials#mulch" data-sheet-link>Rubber mulch</a><a class="sheet-link" href="/materials#granules" data-sheet-link>Colored rubber granules</a><a class="sheet-link" href="/materials#buffings" data-sheet-link>Rubber buffings</a></div></div><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
       <div class="sheet-cta"><a class="pill primary" href="/contact?topic=spec-support" data-sheet-link>Specification support</a><a class="pill" href="/contact?topic=sample" data-sheet-link>Request a sample</a></div>
     </div>
   </div>
