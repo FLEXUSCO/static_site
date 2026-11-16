@@ -43,9 +43,15 @@
         });
         return;
       }
+      var label = link.getAttribute("data-cta-label") || "";
       var intent = track.ctaIntent(href);
+      if (!intent && track.intentForLabel) intent = track.intentForLabel(label);
       var placement = track.ctaPlacement(link);
-      if (intent && placement) emit("cta_click", { intent: intent, placement: placement });
+      if (intent && placement) {
+        var params = { intent: intent, placement: placement };
+        if (label) params.cta_label = label;
+        emit("cta_click", params);
+      }
       if (enabled.indexOf("file_download") !== -1 && track.pdfEvent) {
         var pdf = track.pdfEvent(href);
         if (pdf) emit("file_download", pdf);

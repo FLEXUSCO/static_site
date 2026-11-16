@@ -589,3 +589,105 @@ if (heroMedia && !prefersReducedMotion) {
     init();
   }
 })();
+
+// Materials dropdown: hover and keyboard on the header, tap on the sheet chevron.
+(function initMaterialsMenu() {
+  const items = document.querySelectorAll(".has-menu");
+  if (!items.length) return;
+  let suppressOpen = false;
+
+  function setOpen(item, open) {
+    item.classList.toggle("is-open", open);
+    const btn = item.querySelector("[data-menu-trigger]");
+    if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+  }
+
+  function closeMenus() {
+    items.forEach((item) => setOpen(item, false));
+  }
+
+  items.forEach((item) => {
+    const trigger = item.querySelector("[data-menu-trigger]");
+    if (!trigger) return;
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeMenus();
+      setOpen(item, true);
+      const first = item.querySelector(".nav-menu a");
+      if (first) first.focus();
+    });
+    item.addEventListener("mouseenter", () => setOpen(item, true));
+    item.addEventListener("mouseleave", () => {
+      if (!item.contains(document.activeElement)) setOpen(item, false);
+    });
+    item.addEventListener("focusin", () => {
+      if (!suppressOpen) setOpen(item, true);
+    });
+    item.addEventListener("focusout", (e) => {
+      if (!item.contains(e.relatedTarget)) setOpen(item, false);
+    });
+  });
+
+  document.querySelectorAll("[data-sheet-toggle]").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const sub = document.getElementById(btn.getAttribute("data-sheet-toggle"));
+      if (!sub) return;
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      sub.classList.toggle("open", open);
+    });
+  });
+
+  const path = (location.pathname || "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+  if (path === "/materials" && location.hash) {
+    document.querySelectorAll(".nav-menu a, #sheet-materials a").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const hash = href.includes("#") ? href.slice(href.indexOf("#")) : "";
+      a.classList.toggle("active", hash === location.hash);
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const current = document.activeElement;
+    const menu = current && current.closest ? current.closest(".nav-menu") : null;
+    if (!menu) return;
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "Home" && e.key !== "End") return;
+    const links = Array.from(menu.querySelectorAll("a[role='menuitem']"));
+    if (!links.length) return;
+    let index = links.indexOf(current);
+    if (e.key === "ArrowDown") index = (index + 1) % links.length;
+    if (e.key === "ArrowUp") index = (index <= 0 ? links.length : index) - 1;
+    if (e.key === "Home") index = 0;
+    if (e.key === "End") index = links.length - 1;
+    e.preventDefault();
+    links[index].focus();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const sheetOpen = !!(sheet && sheet.classList.contains("open"));
+    const inside = document.activeElement && document.activeElement.closest
+      ? document.activeElement.closest(".has-menu")
+      : null;
+    suppressOpen = true;
+    closeMenus();
+    document.querySelectorAll("[data-sheet-sub].open").forEach((sub) => {
+      sub.classList.remove("open");
+      const toggle = document.querySelector('[data-sheet-toggle="' + sub.id + '"]');
+      if (toggle) toggle.setAttribute("aria-expanded", "false");
+    });
+    if (!sheetOpen) {
+      const trigger = inside && inside.querySelector("[data-menu-trigger]");
+      if (trigger) trigger.focus();
+    }
+    suppressOpen = false;
+  }, true);
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".has-menu") || e.target.closest(".sheet-group")) return;
+    closeMenus();
+  });
+})();

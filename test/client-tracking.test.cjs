@@ -16,9 +16,13 @@ function visible(html) {
     .trim();
 }
 
-// The footer Privacy link is new on this branch. Drop it so the rest of each page still has to match production.
-function withoutPrivacyFooterLink(html) {
-  return html.replace(/<a href="\/privacy">Privacy<\/a>/g, "");
+// The Materials submenu is new on this branch. Drop it so home and contact still match production.
+function withoutMaterialsMenu(html) {
+  return html
+    .replace(/<button class="nav-caret"[\s\S]*?<\/button>/g, "")
+    .replace(/<ul class="nav-menu"[\s\S]*?<\/ul>/g, "")
+    .replace(/<button class="sheet-toggle"[\s\S]*?<\/button>/g, "")
+    .replace(/<div class="sheet-sub" id="sheet-materials"[\s\S]*?<\/div>/g, "");
 }
 
 function get(url) {
@@ -145,8 +149,8 @@ test("contact fields match the existing deploy log and the functions stay the tw
 test("visible contact text matches the current production HTML", async function () {
   const live = await get("https://www.flexusco.com/contact");
   const local = fs.readFileSync(path.join(root, "contact.html"), "utf8");
-  assert.equal(visible(withoutPrivacyFooterLink(local)), visible(live));
+  assert.equal(visible(withoutMaterialsMenu(local)), visible(live));
   const home = await get("https://www.flexusco.com/");
   const localHome = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  assert.equal(visible(withoutPrivacyFooterLink(localHome)), visible(home));
+  assert.equal(visible(withoutMaterialsMenu(localHome)), visible(home));
 });
