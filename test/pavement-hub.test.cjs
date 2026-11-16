@@ -94,7 +94,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("&ndash;"), false);
   assert.equal(html.includes("$"), false);
   assert.equal(/\bprices?\b/i.test(text), false);
-  assert.equal(/\bcosts?\b/i.test(text), false);
+  assert.match(text, /CP costs less than AP/);
+  assert.equal((text.match(/\bcosts?\b/gi) || []).length, 1);
   assert.equal((text.match(/\bpricing\b/gi) || []).length, 2);
   assert.match(text, /Request project pricing/);
   assert.equal((text.match(/Not sure which\?/g) || []).length, 0);
@@ -118,7 +119,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(/\bF\s+Flexus/.test(html), false);
   assert.equal(html.includes("FFlexus"), false);
   assert.equal(html.includes("See AP pavement"), true);
-  assert.match(text, /Four natural palettes for walking paths/);
+  assert.match(text, /Four natural stone palettes/);
+  assert.match(text, /both are used on the same paths/);
   assert.match(text, /It has held up well to a Category 2 hurricane and two small flood events since being installed in the spring of 2026/);
   assert.equal(/also held up well/.test(text), false);
   assert.match(html, /mary-esther\/hero-54-1920\.webp/);

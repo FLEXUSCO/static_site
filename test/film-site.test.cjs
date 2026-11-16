@@ -60,8 +60,10 @@ test("home is a short film page with one hero action", function () {
   assert.match(html, /data-cta-label="pavement_card_cp"/);
   assert.match(html, /data-cta-label="spec_support"/);
   assert.match(html, /Exposed natural aggregate on AP/);
-  assert.match(html, /Porous rubber pavement for parks and trails/);
-  assert.match(html, /Built for cities/);
+  assert.match(html, /Porous rubber pavement for parks, trails and greenways/);
+  assert.match(html, /Two looks/);
+  assert.equal(html.includes("Built for cities"), false);
+  assert.equal(html.includes("public works"), false);
   assert.match(html, /costs less than AP/);
   assert.equal(html.includes("$"), false);
   assert.match(html, /Rubber mulch and granules/);
@@ -70,8 +72,8 @@ test("home is a short film page with one hero action", function () {
   assert.equal((html.match(/<h1\b/g) || []).length, 1);
   assert.match(html, /href="\/projects\/mary-esther-azalea-trail"/);
   assert.match(html, /Flexus Materials Ltd Co in Atlanta sells AP and CP systems/);
-  assert.match(html, /AP-200\. Four natural palettes/);
-  assert.match(html, /CP-200\. The familiar look of asphalt, for public paths\./);
+  assert.match(html, /AP-200\. Four natural stone palettes\./);
+  assert.match(html, /CP-200\. The familiar look of asphalt\./);
   assert.match(html, /Pedestrian only/);
   assert.match(html, /href="\/materials"/);
   assert.match(html, /Category 2 hurricane/);
@@ -85,7 +87,7 @@ test("home is a short film page with one hero action", function () {
 test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   const ap = read("pavement-ap.html");
   const cp = read("pavement-cp.html");
-  assert.match(ap, /Architectural porous pavement\. Exposed natural aggregate and recycled tire rubber/);
+  assert.match(ap, /Same paths as CP: greenways, trails, park paths, sidewalks, and tree wells/);
   assert.match(ap, /class="spec-strip"/);
   assert.match(ap, /spec-code">AP-150,<\/span> <span class="spec-code">AP-200,<\/span> <span class="spec-code">AP-250<\/span>/);
   assert.match(ap, /Polyurethane, 11% min\./);
@@ -116,7 +118,8 @@ test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   ["ap-swatch-sand-dune-800.webp", "ap-swatch-coastal-granite-800.webp", "ap-swatch-charcoal-earth-800.webp", "ap-swatch-natural-trail-800.webp"].forEach(function (file) {
     assert.equal(fs.existsSync(path.join(root, "assets", file)), true, file);
   });
-  assert.match(cp, /Civil porous pavement for public works\. Granite and black recycled tire rubber, poured in place, with the familiar look of asphalt/);
+  assert.match(cp, /Same paths as AP: greenways, trails, park paths, sidewalks, and tree wells/);
+  assert.equal(cp.includes("public works"), false);
   assert.match(cp, /CP-150 at 1\.5 in \(38 mm\), CP-200 at 2\.0 in \(51 mm\), CP-250 at 2\.5 in \(64 mm\)/);
   assert.match(cp, /Textured, exposed granite aggregate/);
   assert.match(cp, /about 10\.34 lb of solids per square foot/);
