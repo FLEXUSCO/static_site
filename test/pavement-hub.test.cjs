@@ -13,7 +13,6 @@ const LABELS = [
   "compare_ap",
   "compare_cp",
   "project_card_mary_esther",
-  "project_card_athens",
   "spec_support"
 ];
 
@@ -84,9 +83,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   const desc = html.match(/<meta name="description" content="([^"]*)"/)[1];
   ["permeable pavement", "porous rubber pavement"].forEach(function (phrase) {
     assert.equal(title.toLowerCase().includes(phrase), true, "title " + phrase);
-    assert.equal(h1.toLowerCase().includes(phrase), true, "h1 " + phrase);
     assert.equal(desc.toLowerCase().includes(phrase), true, "description " + phrase);
   });
+  assert.equal(h1, "Pavement for paths and trails");
   assert.match(html, /<link rel="canonical" href="https:\/\/www\.flexusco\.com\/pavement-systems">/);
   assert.match(html, /<script type="application\/ld\+json">\{"@context":"https:\/\/schema\.org","@type":"BreadcrumbList","itemListElement":\[\{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www\.flexusco\.com\/"\},\{"@type":"ListItem","position":2,"name":"Pavement","item":"https:\/\/www\.flexusco\.com\/pavement-systems"\}\]\}<\/script>/);
   assert.equal(html.includes("\u2014"), false);
@@ -96,10 +95,11 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("$"), false);
   assert.equal(/\bprices?\b/i.test(text), false);
   assert.equal(/\bcosts?\b/i.test(text), false);
-  assert.equal((text.match(/\bpricing\b/gi) || []).length, 1);
+  assert.equal((text.match(/\bpricing\b/gi) || []).length, 2);
   assert.match(text, /Request project pricing/);
-  assert.equal((text.match(/Not sure which\?/g) || []).length, 1);
-  assert.equal((text.match(/Budgeting a project\?/g) || []).length, 1);
+  assert.equal((text.match(/Not sure which\?/g) || []).length, 0);
+  assert.equal((text.match(/Budgeting a project\?/g) || []).length, 0);
+  assert.match(html, /<details id="compare">/);
   assert.equal(/20 years/i.test(text), false);
   assert.equal(/unstable or saturated/i.test(text), false);
   assert.equal(html.includes("Which series"), false);
@@ -107,10 +107,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("specialty aggregate"), false);
   assert.match(text, /Flexus supplies the system and install guidance to the project's contractor\./);
   assert.match(text, /Exposed natural aggregate, 50:50 by volume with recycled tire rubber/);
-  assert.match(text, /stable, well-drained base and proper construction/);
   assert.equal(/The rows below are from the AP and CP pages/.test(text), false);
   assert.match(text, /Black matrix with light granite/);
-  assert.equal((html.match(/CP-200 · Athens, GA/g) || []).length, 2);
+  assert.match(text, /Emerald Coast Drone Pros/);
   assert.equal(/calculator/i.test(html), false);
   assert.equal(/estimator/i.test(html), false);
   assert.equal(/ipema/i.test(html), false);
@@ -119,7 +118,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(/\bF\s+Flexus/.test(html), false);
   assert.equal(html.includes("FFlexus"), false);
   assert.equal(html.includes("See AP pavement"), true);
-  assert.match(html, /ap-swatch-sand-dune-320\.webp" alt="Sand Dune"/);
+  assert.match(text, /Sand Dune and three other palettes/);
+  assert.match(html, /mary-esther\/azalea-46-1920\.webp/);
   assert.equal(html.includes("Coastal Granite</span>"), false);
   assert.equal(html.includes("See CP pavement"), true);
   assert.equal(html.includes("Photo needed"), false);

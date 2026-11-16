@@ -691,3 +691,11 @@ if (heroMedia && !prefersReducedMotion) {
     closeMenus();
   });
 })();
+
+document.querySelectorAll("a[data-open-details]").forEach((a) => {
+  a.addEventListener("click", () => {
+    const id = (a.getAttribute("href") || "").replace(/^#/, "");
+    const el = id ? document.getElementById(id) : null;
+    if (el && el.tagName === "DETAILS") el.open = true;
+  });
+});

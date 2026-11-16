@@ -1087,3 +1087,96 @@ a.budget-card h3 { margin: 0; }
   .media-inset { width: 64px; right: 10px; bottom: 10px; }
   .media-tag { left: 10px; bottom: 10px; max-width: calc(100% - 92px); font-size: 11px; }
 }
+
+/* Film layout for /pavement-systems. Scoped so other pages keep their heroes. */
+.hero.film { min-height: calc(100svh - 72px); padding: 0 0 48px; align-items: flex-end; }
+.hero.film .hero-h1 { max-width: 12ch; margin-bottom: 12px; }
+.hero.film .hero-lede { margin-bottom: 22px; max-width: 28ch; }
+.hero.film .hero-cta { align-items: center; }
+.film-quiet {
+  color: rgba(255,255,255,.82);
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.film-quiet:hover, .film-quiet:focus-visible { color: #fff; }
+.hero.film .hero-attribution { margin-top: 28px; }
+.film-panels { display: grid; grid-template-columns: 1fr 1fr; }
+.film-panel {
+  position: relative;
+  display: block;
+  min-height: 78vh;
+  color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+}
+.film-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.film-shade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,.66) 0%, rgba(0,0,0,.08) 48%);
+}
+.film-copy {
+  position: relative; z-index: 1;
+  min-height: 78vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 56px 6vw 48px;
+}
+.film-panel h2 {
+  margin: 0 0 10px;
+  font-size: clamp(48px, 5vw, 80px);
+  font-weight: 400;
+  letter-spacing: -1.6px;
+  line-height: 0.95;
+  color: #fff;
+}
+.film-panel p { margin: 0 0 18px; max-width: 26ch; font-size: 17px; line-height: 1.45; color: rgba(255,255,255,.9); }
+.film-go { font-size: 13.5px; font-weight: 600; letter-spacing: -0.1px; }
+.film-quote { padding: 120px 0 40px; }
+.film-quote blockquote {
+  margin: 0;
+  max-width: 16em;
+  font-size: clamp(28px, 3.4vw, 48px);
+  font-weight: 400;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+.film-quote figcaption { margin-top: 28px; max-width: 36ch; color: var(--muted); font-size: 14px; line-height: 1.5; }
+.film-quote figcaption a { text-decoration: underline; text-underline-offset: 0.18em; }
+.film-facts { padding: 48px 0 24px; }
+.film-facts ul {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+}
+.film-facts li { margin: 0; font-size: clamp(18px, 1.6vw, 22px); font-weight: 400; letter-spacing: -0.35px; line-height: 1.35; }
+.film-more { padding: 72px 0 40px; }
+.film-more summary {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+  list-style: none;
+  width: fit-content;
+}
+.film-more summary::-webkit-details-marker { display: none; }
+.film-more summary { text-decoration: underline; text-underline-offset: 0.22em; }
+.film-more details[open] summary { margin-bottom: 28px; }
+.film-more .lede { margin-bottom: 20px; }
+.film-spec-link { margin: 22px 0 0; font-size: 13px; }
+.film-spec-link a { color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; }
+.film-close { padding: 80px 0 120px; }
+.film-close p { margin: 0 0 22px; max-width: 36ch; font-size: 22px; font-weight: 400; letter-spacing: -0.4px; line-height: 1.35; }
+@media (max-width: 980px) {
+  .hero.film { min-height: calc(100svh - 150px); padding-bottom: 28px; }
+  .film-panels { grid-template-columns: 1fr; }
+  .film-panel, .film-copy { min-height: 72vh; }
+  .film-copy { padding: 40px 6vw 32px; }
+  .film-quote { padding: 72px 0 16px; }
+  .film-facts ul { grid-template-columns: 1fr 1fr; gap: 28px; }
+  .film-close { padding: 56px 0 96px; }
+  body:has(.hero.film) .site-scroll { padding-bottom: 88px; }
+}
+@media (max-width: 640px) {
+  .film-facts ul { grid-template-columns: 1fr; gap: 18px; }
+  .film-panel, .film-copy { min-height: 64vh; }
+}
