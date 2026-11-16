@@ -162,6 +162,34 @@
   </div>
 </section>
 
+<section class="budget-estimate" id="budget-estimate" aria-labelledby="budget-heading">
+  <div class="wrap-tight">
+    <h2 id="budget-heading">Budget estimate</h2>
+    <p>This is a budget for material and install. Subbase, freight and site work are not included. Request a quote for a firm price.</p>
+    <div class="budget-fields">
+      <fieldset class="budget-choices">
+        <legend>Series</legend>
+        <label><input type="radio" name="budget-series" value="AP"> AP</label>
+        <label><input type="radio" name="budget-series" value="CP"> CP</label>
+      </fieldset>
+      <fieldset class="budget-choices">
+        <legend>Lift</legend>
+        <label><input type="radio" name="budget-lift" value="1.5"> 1.5 in (150)</label>
+        <label><input type="radio" name="budget-lift" value="2"> 2.0 in (200)</label>
+        <label><input type="radio" name="budget-lift" value="2.5"> 2.5 in (250)</label>
+      </fieldset>
+      <div class="field">
+        <label class="label" for="budget-sf">Square feet</label>
+        <input id="budget-sf" type="number" min="1" step="1" inputmode="numeric" autocomplete="off">
+      </div>
+      <p class="budget-result">
+        <span class="label">Budget for material and install</span>
+        <span id="budget-total" aria-live="polite"></span>
+      </p>
+    </div>
+  </div>
+</section>
+
 </main>
 <footer class="footer"><div class="wrap"><div class="footer-inner">
   <div class="footer-top"><div class="footer-title">Flexus™</div><div class="footer-tagline">Permeable Infrastructure for Pedestrian Routes</div></div>
@@ -171,6 +199,7 @@
   <div class="footer-divider" role="presentation"></div>
   <div class="footer-bottom"><span>© 2026 Flexus Materials Ltd Co</span><span class="footer-loc">Atlanta, Georgia</span></div>
 </div></div></footer>
+<script src="/budget.js" defer></script>
 <script src="/site.js" defer></script>
 <script src="/analytics.js" defer></script>
 

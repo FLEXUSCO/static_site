@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("fs");
 const path = require("path");
+const vm = require("node:vm");
 
 const root = path.join(__dirname, "..");
 const track = require("../tracking.js");
@@ -40,6 +41,21 @@ function cardBlock(source, label, occurrence) {
   const end = source.indexOf("</a>", at);
   return source.slice(start, end + 4);
 }
+
+test("budget total is one combined dollar amount", function () {
+  const context = {};
+  vm.runInNewContext(fs.readFileSync(path.join(root, "budget.js"), "utf8"), context);
+  const total = context.FlexusBudget.total;
+  assert.equal(total("CP", "2", 1000), "$8,120");
+  assert.equal(total("CP", "1.5", 1000), "$6,528");
+  assert.equal(total("CP", "2.5", 1000), "$9,713");
+  assert.equal(total("AP", "2", 1000), "$11,600");
+  assert.equal(total("AP", "1.5", 1000), "$9,138");
+  assert.equal(total("AP", "2.5", 1000), "$14,063");
+  assert.equal(total("CP", "2", 0), "");
+  assert.equal(html.includes("data-flexus-form=\"budget"), false);
+  assert.equal(html.includes("googletagmanager"), false);
+});
 
 test("pavement hub cta labels are allowlisted and each card is one link", function () {
   const found = [];
@@ -93,7 +109,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("&mdash;"), false);
   assert.equal(html.includes("&ndash;"), false);
   assert.equal(html.includes("$"), false);
-  assert.equal(/\bprices?\b/i.test(text), false);
+  assert.match(text, /firm price/);
+  assert.equal((text.match(/\bprices?\b/gi) || []).length, 1);
   assert.match(text, /CP costs less than AP/);
   assert.equal((text.match(/\bcosts?\b/gi) || []).length, 1);
   assert.equal((text.match(/\bpricing\b/gi) || []).length, 2);
@@ -112,7 +129,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.match(text, /Black matrix with light granite/);
   assert.match(text, /Emerald Coast Drone Pros/);
   assert.equal(/calculator/i.test(html), false);
-  assert.equal(/estimator/i.test(html), false);
+  assert.match(html, /id="budget-estimate"/);
+  assert.equal(html.includes("$"), false);
   assert.equal(/ipema/i.test(html), false);
   assert.equal(/manufactur/i.test(html), false);
   assert.equal(/\bproduces?\b/i.test(text), false);
