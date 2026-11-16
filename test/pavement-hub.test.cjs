@@ -119,6 +119,8 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(/\bF\s+Flexus/.test(html), false);
   assert.equal(html.includes("FFlexus"), false);
   assert.equal(html.includes("See AP pavement"), true);
+  assert.match(html, /ap-swatch-sand-dune-320\.webp" alt="Sand Dune"/);
+  assert.equal(html.includes("Coastal Granite</span>"), false);
   assert.equal(html.includes("See CP pavement"), true);
   assert.equal(html.includes("Photo needed"), false);
   assert.equal(html.includes("placeholder"), false);
