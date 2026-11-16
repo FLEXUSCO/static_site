@@ -121,7 +121,10 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.match(text, /Four natural palettes for walking paths/);
   assert.match(text, /It has held up well to a Category 2 hurricane and two small flood events since being installed in the spring of 2026/);
   assert.equal(/also held up well/.test(text), false);
-  assert.match(html, /mary-esther\/azalea-46-1920\.webp/);
+  assert.match(html, /mary-esther\/hero-54-1920\.webp/);
+  assert.match(html, /hero-54-phone-900\.webp/);
+  const css = fs.readFileSync(path.join(root, "site.css"), "utf8");
+  assert.match(css, /\.hero\.film \.hero-bg img \{ object-position: center 58%; \}/);
   assert.equal(html.includes("Coastal Granite</span>"), false);
   assert.equal(html.includes("See CP pavement"), true);
   assert.equal(html.includes("Photo needed"), false);
