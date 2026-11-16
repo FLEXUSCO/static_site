@@ -120,8 +120,7 @@
     compare_cp: "series_nav",
     project_card_mary_esther: "project_nav",
     project_card_athens: "project_nav",
-    spec_support: "spec_support",
-    budget_hero: "spec_support"
+    spec_support: "spec_support"
   };
   var MATERIALS = {
     "rubber-mulch": "rubber_mulch",
@@ -157,8 +156,7 @@
       compare_cp: true,
       project_card_mary_esther: true,
       project_card_athens: true,
-      spec_support: true,
-      budget_hero: true
+      spec_support: true
     },
     material: { rubber_mulch: true, colored_granules: true, rubber_buffings: true },
     document: {

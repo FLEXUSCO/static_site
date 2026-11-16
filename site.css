@@ -933,9 +933,6 @@ a.swatch-card { text-decoration: none; color: inherit; }
 .hub-jump { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 13.5px; font-weight: 600; }
 .hub-jump a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
 .hub-jump a:hover, .hub-jump a:focus-visible { border-bottom-color: var(--text); text-decoration: none; }
-.hub-budget { margin: 10px 0 0; max-width: 46ch; font-size: 13px; font-weight: 500; line-height: 1.45; }
-.hub-budget a { color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
-.hub-budget a:hover, .hub-budget a:focus-visible { color: var(--text); }
 main:has(.hero.hub) .section { padding: 56px 0; }
 main:has(.hero.hub) .list { max-width: 72ch; }
 .series-section { padding: 8px 0 28px; }
@@ -1067,7 +1064,6 @@ a.budget-card h3 { margin: 0; }
   .hub-head .h1 { font-size: clamp(26px, 6.8vw, 34px); max-width: none; }
   .hub-head .lede { font-size: 15px; line-height: 1.45; }
   .hub-jump { margin-top: 8px; }
-  .hub-budget { margin-top: 8px; }
   .series-section { padding-top: 8px; }
   .series-grid { grid-template-columns: 1fr; gap: 12px; }
   .series-media { aspect-ratio: 2.45 / 1; }

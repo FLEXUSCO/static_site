@@ -14,8 +14,7 @@ const LABELS = [
   "compare_cp",
   "project_card_mary_esther",
   "project_card_athens",
-  "spec_support",
-  "budget_hero"
+  "spec_support"
 ];
 
 function visible(source) {
@@ -98,12 +97,16 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(/\bprices?\b/i.test(text), false);
   assert.equal(/\bcosts?\b/i.test(text), false);
   assert.equal((text.match(/\bpricing\b/gi) || []).length, 1);
-  assert.match(text, /Budgeting a project\? Send the area and location for project pricing\./);
+  assert.match(text, /Request project pricing/);
+  assert.equal((text.match(/Not sure which\?/g) || []).length, 1);
+  assert.equal((text.match(/Budgeting a project\?/g) || []).length, 1);
   assert.equal(/20 years/i.test(text), false);
   assert.equal(/unstable or saturated/i.test(text), false);
   assert.equal(html.includes("Which series"), false);
-  assert.equal((html.match(/bid the full installed job/g) || []).length, 1);
-  assert.match(text, /50:50 blend, by volume, of specialty aggregate and recycled tire rubber/);
+  assert.equal(html.includes("bid the full installed job"), false);
+  assert.equal(html.includes("specialty aggregate"), false);
+  assert.match(text, /Flexus supplies the system and install guidance to the project's contractor\./);
+  assert.match(text, /Exposed natural aggregate, 50:50 by volume with recycled tire rubber/);
   assert.match(text, /stable, well-drained base and proper construction/);
   assert.equal(/The rows below are from the AP and CP pages/.test(text), false);
   assert.match(text, /Black matrix with light granite/);
@@ -120,7 +123,7 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("Photo needed"), false);
   assert.equal(html.includes("placeholder"), false);
   assert.equal(html.includes("/materials/colored-rubber-granules"), false);
-  assert.match(text, /half stone and half recycled tire rubber/);
+  assert.match(text, /Rock and recycled tire rubber, 50:50 by volume/);
   assert.match(text, /minimum 11 percent by weight/);
   assert.match(text, /1\.5, 2\.0, and 2\.5 inches/);
   assert.match(text, /Pedestrian only/);
