@@ -1247,6 +1247,7 @@ main.airy .card.soft { border: 0; background: transparent; padding: 0; box-shado
   letter-spacing: -0.2px;
   color: var(--text);
 }
+.spec-strip .spec-code { white-space: nowrap; }
 @media (max-width: 980px) {
   .spec-strip { padding: 28px 0 20px; }
   .spec-strip ul { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
