@@ -118,7 +118,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(/\bF\s+Flexus/.test(html), false);
   assert.equal(html.includes("FFlexus"), false);
   assert.equal(html.includes("See AP pavement"), true);
-  assert.match(text, /Sand Dune and three other palettes/);
+  assert.match(text, /Four natural palettes for walking paths/);
+  assert.match(text, /It has held up well to a Category 2 hurricane and two small flood events since being installed in the spring of 2026/);
+  assert.equal(/also held up well/.test(text), false);
   assert.match(html, /mary-esther\/azalea-46-1920\.webp/);
   assert.equal(html.includes("Coastal Granite</span>"), false);
   assert.equal(html.includes("See CP pavement"), true);
