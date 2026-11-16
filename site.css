@@ -1171,6 +1171,7 @@ a.budget-card h3 { margin: 0; }
 .film-more details[open] summary { margin-bottom: 28px; }
 .film-more .lede { margin-bottom: 20px; }
 .film-spec-link { margin: 22px 0 0; font-size: 13px; }
+.film-spec-link a + a { margin-left: 18px; }
 .film-spec-link a { color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; }
 .film-close { padding: 80px 0 120px; }
 .film-close p { margin: 0 0 22px; max-width: 36ch; font-size: 22px; font-weight: 400; letter-spacing: -0.4px; line-height: 1.35; }
@@ -1195,7 +1196,9 @@ a.budget-card h3 { margin: 0; }
 .film-intro .h1 { margin: 0; max-width: 12ch; font-size: clamp(40px, 5vw, 72px); font-weight: 400; letter-spacing: -1.4px; line-height: 0.98; }
 .film-facts.wide ul { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
 .film-facts.wide li { font-size: clamp(16px, 1.3vw, 18px); }
-.film-materials { padding: 8px 0 24px; }
+.film-terms { padding: 8px 0 8px; }
+.film-terms p { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.5; color: var(--text); }
+.film-materials { padding: 28px 0 24px; }
 .film-materials p { margin: 0; max-width: 42ch; color: var(--muted); font-size: 18px; line-height: 1.5; }
 .film-materials a { color: var(--text); text-decoration: underline; text-underline-offset: 0.18em; }
 main.airy .hero.small { min-height: 0; padding: 56px 0 8px; }

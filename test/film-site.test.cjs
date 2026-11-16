@@ -60,6 +60,11 @@ test("home is a short film page with one hero action", function () {
   assert.match(html, /data-cta-label="pavement_card_cp"/);
   assert.match(html, /data-cta-label="spec_support"/);
   assert.match(html, /Exposed natural aggregate on AP/);
+  assert.match(html, /AP-200 and CP-200, poured in place with recycled tire rubber/);
+  assert.match(html, /href="\/projects\/mary-esther-azalea-trail"/);
+  assert.match(html, /Flexus Materials Ltd Co in Atlanta sells AP and CP systems/);
+  assert.match(html, /AP-200\. Four natural palettes/);
+  assert.match(html, /CP-200\. Granite and black rubber/);
   assert.match(html, /Pedestrian only/);
   assert.match(html, /href="\/materials"/);
   assert.match(html, /Category 2 hurricane/);
@@ -73,7 +78,8 @@ test("home is a short film page with one hero action", function () {
 test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   const ap = read("pavement-ap.html");
   const cp = read("pavement-cp.html");
-  assert.match(ap, /Exposed natural aggregate and recycled tire rubber/);
+  assert.match(ap, /Architectural porous pavement\. Exposed natural aggregate and recycled tire rubber/);
+  assert.match(ap, /width="1600" height="898"/);
   assert.match(ap, /AP-150 at 1\.5 in \(38 mm\), AP-200 at 2\.0 in \(51 mm\), AP-250 at 2\.5 in \(64 mm\)/);
   assert.match(ap, /Textured, matte, stone-forward/);
   assert.match(ap, /Minimum 11 percent by weight/);
@@ -93,7 +99,7 @@ test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   ["ap-swatch-sand-dune-800.webp", "ap-swatch-coastal-granite-800.webp", "ap-swatch-charcoal-earth-800.webp", "ap-swatch-natural-trail-800.webp"].forEach(function (file) {
     assert.equal(fs.existsSync(path.join(root, "assets", file)), true, file);
   });
-  assert.match(cp, /Granite and black recycled tire rubber/);
+  assert.match(cp, /Civil porous pavement\. Granite and black recycled tire rubber/);
   assert.match(cp, /CP-150 at 1\.5 in \(38 mm\), CP-200 at 2\.0 in \(51 mm\), CP-250 at 2\.5 in \(64 mm\)/);
   assert.match(cp, /Textured, exposed granite aggregate/);
   assert.match(cp, /about 10\.34 lb of solids per square foot/);
@@ -115,6 +121,8 @@ test("projects and case pages keep documented facts", function () {
   const mary = read("mary-esther-azalea-trail.html");
   const athens = read("athens-root-intrusion-sidewalk.html");
   assert.match(projects, /azalea-01-1920\.webp/);
+  assert.match(projects, /<h1[^>]*>\s*Featured installs\s*<\/h1>/);
+  assert.match(projects, /Mary Esther Azalea Trail/);
   assert.match(projects, /mid-install/);
   assert.match(projects, /data-cta-label="project_card_mary_esther"/);
   assert.match(projects, /data-cta-label="project_card_athens"/);
@@ -160,6 +168,15 @@ test("specifiers and materials keep their detailed facts", function () {
     "This line is separate from permeable pavement"
   ].forEach(function (fact) {
     assert.equal(materials.includes(fact), true, fact);
+  });
+});
+
+test("main pages are indexable and thanks stays noindex", function () {
+  pages.forEach(function (name) {
+    const html = read(name);
+    const robots = (html.match(/<meta name="robots" content="([^"]*)"/) || [])[1] || "";
+    if (name === "thanks.html") assert.equal(robots, "noindex");
+    else assert.equal(/noindex/i.test(robots), false, name);
   });
 });
 
