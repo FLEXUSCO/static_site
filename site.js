@@ -682,6 +682,10 @@ if (heroMedia && !prefersReducedMotion) {
   });
 })();
 
+document.querySelectorAll(".system-link-row a").forEach((a) => {
+  a.addEventListener("click", (event) => event.stopPropagation());
+});
+
 document.querySelectorAll("a[data-open-details]").forEach((a) => {
   a.addEventListener("click", () => {
     const id = (a.getAttribute("href") || "").replace(/^#/, "");

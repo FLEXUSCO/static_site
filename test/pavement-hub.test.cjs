@@ -118,6 +118,12 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal((text.match(/Not sure which\?/g) || []).length, 0);
   assert.equal((text.match(/Budgeting a project\?/g) || []).length, 0);
   assert.match(html, /<details id="compare">/);
+  assert.match(html, /<span>Mix<\/span><strong>Rock and recycled tire rubber, 50:50 by volume\.<\/strong>/);
+  assert.match(html, /<span>Install<\/span><strong>Poured in place\.<\/strong>/);
+  assert.match(html, /<span>Lifts<\/span><strong>Lifts of 1\.5, 2\.0, and 2\.5 inches\.<\/strong>/);
+  assert.match(html, /<span>Use<\/span><strong>Pedestrian only\.<\/strong>/);
+  assert.match(html, /class="system-link-row"/);
+  assert.match(html, /class="system-supply"/);
   assert.equal(/20 years/i.test(text), false);
   assert.equal(/unstable or saturated/i.test(text), false);
   assert.equal(html.includes("Which series"), false);
