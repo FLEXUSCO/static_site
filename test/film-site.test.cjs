@@ -84,6 +84,15 @@ test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   assert.match(ap, /about 9,000 sf/);
   assert.match(ap, /ap_install_guide\.pdf/);
   assert.match(ap, /ap-200-install-800\.webp/);
+  assert.match(ap, /src="\/assets\/ap-swatch-sand-dune-800\.webp"/);
+  assert.match(ap, /ap-swatch-sand-dune\.jpg 1080w/);
+  assert.match(ap, /ap-swatch-coastal-granite-800\.webp/);
+  assert.match(ap, /ap-swatch-charcoal-earth-800\.webp/);
+  assert.match(ap, /ap-swatch-natural-trail-800\.webp/);
+  assert.equal((ap.match(/class="palette-grid"[\s\S]*?<\/div>/)[0].match(/width="1080" height="1080"/g) || []).length, 4);
+  ["ap-swatch-sand-dune-800.webp", "ap-swatch-coastal-granite-800.webp", "ap-swatch-charcoal-earth-800.webp", "ap-swatch-natural-trail-800.webp"].forEach(function (file) {
+    assert.equal(fs.existsSync(path.join(root, "assets", file)), true, file);
+  });
   assert.match(cp, /Granite and black recycled tire rubber/);
   assert.match(cp, /CP-150 at 1\.5 in \(38 mm\), CP-200 at 2\.0 in \(51 mm\), CP-250 at 2\.5 in \(64 mm\)/);
   assert.match(cp, /Textured, exposed granite aggregate/);
@@ -93,6 +102,11 @@ test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   assert.match(cp, /final accessibility compliance is the project designer's responsibility/);
   assert.match(cp, /mid-install/);
   assert.match(cp, /cp-200-athens-800\.webp/);
+  const athensAt = cp.indexOf("<h2 class=\"section-title\">Athens, Georgia</h2>");
+  const athens = cp.slice(athensAt, cp.indexOf("</section>", athensAt));
+  assert.equal(athens.indexOf("Athens project notes") < athens.indexOf("surface-sample"), true);
+  assert.match(athens, /flexus-cp-200-800\.webp/);
+  assert.match(athens, /width="1080" height="1080"/);
   assert.equal(cp.includes("IPEMA"), false);
 });
 
@@ -156,6 +170,8 @@ test("contact form wiring is unchanged", function () {
     assert.equal(html.includes('name="' + name + '"'), true, name);
   });
   assert.equal(html.includes("googletagmanager.com"), false);
+  const css = read("site.css");
+  assert.match(css, /@media \(max-width: 980px\) \{\s*\.nav-actions > a\.pill \{ display: none; \}/);
   assert.match(html, /src="\/tracking\.js"/);
   assert.match(html, /zd6h7tk5io/);
 });
