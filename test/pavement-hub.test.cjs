@@ -105,6 +105,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal((html.match(/bid the full installed job/g) || []).length, 1);
   assert.match(text, /50:50 blend, by volume, of specialty aggregate and recycled tire rubber/);
   assert.match(text, /stable, well-drained base and proper construction/);
+  assert.equal(/The rows below are from the AP and CP pages/.test(text), false);
+  assert.match(text, /Black matrix with light granite/);
+  assert.equal((html.match(/CP-200 · Athens, GA/g) || []).length, 2);
   assert.equal(/calculator/i.test(html), false);
   assert.equal(/estimator/i.test(html), false);
   assert.equal(/ipema/i.test(html), false);

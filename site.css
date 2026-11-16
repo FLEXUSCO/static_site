@@ -933,9 +933,9 @@ a.swatch-card { text-decoration: none; color: inherit; }
 .hub-jump { margin-top: 14px; display: flex; gap: 16px; flex-wrap: wrap; font-size: 13.5px; font-weight: 600; }
 .hub-jump a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
 .hub-jump a:hover, .hub-jump a:focus-visible { border-bottom-color: var(--text); text-decoration: none; }
-.hub-budget { margin: 12px 0 0; max-width: 46ch; font-size: 13.5px; font-weight: 600; line-height: 1.45; }
-.hub-budget a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
-.hub-budget a:hover, .hub-budget a:focus-visible { border-bottom-color: var(--text); text-decoration: none; }
+.hub-budget { margin: 10px 0 0; max-width: 46ch; font-size: 13px; font-weight: 500; line-height: 1.45; }
+.hub-budget a { color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+.hub-budget a:hover, .hub-budget a:focus-visible { color: var(--text); }
 main:has(.hero.hub) .section { padding: 56px 0; }
 main:has(.hero.hub) .list { max-width: 72ch; }
 .series-section { padding: 8px 0 28px; }
