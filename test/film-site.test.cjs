@@ -120,6 +120,7 @@ test("projects and case pages keep documented facts", function () {
   const projects = read("projects.html");
   const mary = read("mary-esther-azalea-trail.html");
   const athens = read("athens-root-intrusion-sidewalk.html");
+  const cp = read("pavement-cp.html");
   assert.match(projects, /azalea-01-1920\.webp/);
   assert.match(projects, /<h1[^>]*>\s*Featured installs\s*<\/h1>/);
   assert.match(projects, /Mary Esther Azalea Trail/);
@@ -131,11 +132,17 @@ test("projects and case pages keep documented facts", function () {
   assert.match(mary, /I highly recommend using this as a great trail material/);
   assert.match(mary, /flexus-azalea-showcase\.mp4/);
   assert.match(mary, /azalea-46-1920\.webp/);
-  assert.match(athens, /Editor: do not add an owner, year, area, or quote/);
+  assert.match(athens, /Editor: do not add an owner, year, or area/);
   assert.match(athens, /Athens, GA/);
   assert.match(athens, /Flexus CP-200/);
   assert.match(athens, /mid-install/);
   assert.equal(/Shawn Lindsey/.test(athens), false);
+  const quote = "Trees and sidewalks have a long history of not getting along, and too often it's the trees that lose. Flexus offers a promising alternative to traditional concrete by accommodating expanding tree roots, flexing rather than cracking, and making repairs much simpler than replacing concrete. It's exciting to have another tool in our toolbox to help trees and sidewalks coexist.";
+  assert.equal(athens.includes(quote), true);
+  assert.equal(cp.includes(quote), true);
+  assert.match(athens, /Mateo Fennell/);
+  assert.match(athens, /Community Forestry Coordinator, Athens-Clarke County/);
+  assert.match(cp, /Community Forestry Coordinator, Athens-Clarke County/);
 });
 
 test("specifiers and materials keep their detailed facts", function () {
