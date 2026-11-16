@@ -163,30 +163,57 @@
 
 <section class="budget-estimate" id="budget-estimate" aria-labelledby="budget-heading">
   <div class="wrap-tight">
-    <h2 id="budget-heading">Budget estimate</h2>
-    <p>This is a budget for material and install. Subbase, freight and site work are not included. Request a quote for a firm price.</p>
-    <div class="budget-fields">
-      <fieldset class="budget-choices">
-        <legend>Series</legend>
-        <label><input type="radio" name="budget-series" value="AP"> AP</label>
-        <label><input type="radio" name="budget-series" value="CP"> CP</label>
-      </fieldset>
-      <fieldset class="budget-choices">
-        <legend>Lift</legend>
-        <label><input type="radio" name="budget-lift" value="1.5"> 1.5 in (150)</label>
-        <label><input type="radio" name="budget-lift" value="2"> 2.0 in (200)</label>
-        <label><input type="radio" name="budget-lift" value="2.5"> 2.5 in (250)</label>
-      </fieldset>
-      <div class="field">
-        <label class="label" for="budget-sf">Square feet</label>
-        <input id="budget-sf" type="number" min="1" step="1" inputmode="numeric" autocomplete="off">
+    <div class="budget-intro">
+      <h2 id="budget-heading">Budget estimate</h2>
+      <p>Configure your path and get a budget in seconds.</p>
+    </div>
+    <div class="budget-layout">
+      <div class="budget-config">
+        <fieldset class="config-series">
+          <legend>Series</legend>
+          <div class="config-series-grid">
+            <label class="config-card">
+              <input class="sr-only" type="radio" name="budget-series" value="AP">
+              <img src="/assets/ap-swatch-sand-dune-320.webp" srcset="/assets/ap-swatch-sand-dune-320.webp 320w, /assets/ap-swatch-sand-dune-800.webp 800w" sizes="240px" width="1080" height="1080" alt="" decoding="async">
+              <span class="config-card-copy">
+                <span class="config-card-name">AP Architectural Pavement</span>
+                <span class="config-card-note">Natural stone look</span>
+              </span>
+            </label>
+            <label class="config-card">
+              <input class="sr-only" type="radio" name="budget-series" value="CP">
+              <img src="/assets/flexus-cp-200-320.webp" srcset="/assets/flexus-cp-200-320.webp 320w, /assets/flexus-cp-200-800.webp 800w" sizes="240px" width="1080" height="1080" alt="" decoding="async">
+              <span class="config-card-copy">
+                <span class="config-card-name">CP Civil Pavement</span>
+                <span class="config-card-note">Asphalt look, lower cost</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="config-lift">
+          <legend>Lift</legend>
+          <div class="config-segment">
+            <label><input class="sr-only" type="radio" name="budget-lift" value="1.5"><span>1.5 in</span></label>
+            <label><input class="sr-only" type="radio" name="budget-lift" value="2"><span>2.0 in</span></label>
+            <label><input class="sr-only" type="radio" name="budget-lift" value="2.5"><span>2.5 in</span></label>
+          </div>
+        </fieldset>
+        <div class="config-area">
+          <label class="label" for="budget-sf">Square feet</label>
+          <div class="config-sf">
+            <input id="budget-sf" type="text" inputmode="numeric" autocomplete="off" enterkeyhint="done" aria-describedby="budget-fine">
+            <span class="config-suffix" aria-hidden="true">SF</span>
+          </div>
+        </div>
       </div>
-      <p class="budget-result">
-        <span class="label">Budget for material and install</span>
-        <span id="budget-total" aria-live="polite"></span>
-      </p>
-      <p class="budget-follow">Send us the project and we'll follow up with a firm number. No commitment.</p>
-      <p class="budget-quote-row"><a class="budget-quote" id="budget-quote" href="/contact?topic=spec-support">Get a quote for your project</a></p>
+      <aside class="budget-summary">
+        <p class="label">Budget for material and install</p>
+        <p id="budget-total" aria-live="polite"></p>
+        <p class="budget-recap" id="budget-recap"></p>
+        <a class="budget-quote" id="budget-quote" href="/contact?topic=spec-support">Get a quote for your project</a>
+        <p class="budget-follow">Send us the project and we'll follow up with a firm number. No commitment.</p>
+        <p class="budget-fine" id="budget-fine">Budget only. Subbase, freight and site work are not included.</p>
+      </aside>
     </div>
   </div>
 </section>

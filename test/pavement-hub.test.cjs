@@ -52,6 +52,7 @@ test("budget total is one combined dollar amount", function () {
   assert.equal(total("AP", "2", 1000), "$11,600");
   assert.equal(total("AP", "1.5", 1000), "$9,138");
   assert.equal(total("AP", "2.5", 1000), "$14,063");
+  assert.equal(total("AP", "2", 4500), "$52,200");
   assert.equal(total("CP", "2", 0), "");
   assert.equal(html.includes("data-flexus-form=\"budget"), false);
   assert.equal(html.includes("googletagmanager"), false);
@@ -109,10 +110,11 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("&mdash;"), false);
   assert.equal(html.includes("&ndash;"), false);
   assert.equal(html.includes("$"), false);
-  assert.match(text, /firm price/);
-  assert.equal((text.match(/\bprices?\b/gi) || []).length, 1);
+  assert.match(text, /Budget only\. Subbase, freight and site work are not included\./);
+  assert.equal((text.match(/\bprices?\b/gi) || []).length, 0);
   assert.match(text, /CP costs less than AP/);
-  assert.equal((text.match(/\bcosts?\b/gi) || []).length, 1);
+  assert.match(text, /Asphalt look, lower cost/);
+  assert.equal((text.match(/\bcosts?\b/gi) || []).length, 2);
   assert.equal((text.match(/\bpricing\b/gi) || []).length, 2);
   assert.match(text, /Request project pricing/);
   assert.equal((text.match(/Not sure which\?/g) || []).length, 0);
@@ -139,6 +141,10 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.match(html, /Get a quote for your project/);
   assert.match(html, /No commitment/);
   assert.match(html, /id="budget-quote" href="\/contact\?topic=spec-support"/);
+  assert.match(html, /class="config-card"/);
+  assert.match(html, /class="config-segment"/);
+  assert.match(html, /inputmode="numeric"/);
+  assert.match(html, /Configure your path and get a budget in seconds/);
   assert.equal(html.includes("$"), false);
   assert.equal(/ipema/i.test(html), false);
   assert.equal(/manufactur/i.test(html), false);
