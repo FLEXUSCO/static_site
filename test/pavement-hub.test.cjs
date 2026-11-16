@@ -14,7 +14,8 @@ const LABELS = [
   "compare_cp",
   "project_card_mary_esther",
   "project_card_athens",
-  "spec_support"
+  "spec_support",
+  "budget_hero"
 ];
 
 function visible(source) {
@@ -22,6 +23,7 @@ function visible(source) {
     .replace(/<script[\s\S]*?<\/script>/gi, " ")
     .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
     .replace(/&ldquo;|&rdquo;|&amp;/g, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -94,8 +96,15 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("&ndash;"), false);
   assert.equal(html.includes("$"), false);
   assert.equal(/\bprices?\b/i.test(text), false);
-  assert.equal(/\bpricing\b/i.test(text), false);
   assert.equal(/\bcosts?\b/i.test(text), false);
+  assert.equal((text.match(/\bpricing\b/gi) || []).length, 1);
+  assert.match(text, /Budgeting a project\? Send the area and location for project pricing\./);
+  assert.equal(/20 years/i.test(text), false);
+  assert.equal(/unstable or saturated/i.test(text), false);
+  assert.equal(html.includes("Which series"), false);
+  assert.equal((html.match(/bid the full installed job/g) || []).length, 1);
+  assert.match(text, /50:50 blend, by volume, of specialty aggregate and recycled tire rubber/);
+  assert.match(text, /stable, well-drained base and proper construction/);
   assert.equal(/calculator/i.test(html), false);
   assert.equal(/estimator/i.test(html), false);
   assert.equal(/ipema/i.test(html), false);
