@@ -150,7 +150,14 @@ test("visible contact text matches the current production HTML", async function 
   const live = await get("https://www.flexusco.com/contact");
   const local = fs.readFileSync(path.join(root, "contact.html"), "utf8");
   assert.equal(visible(withoutMaterialsMenu(local)), visible(live));
-  const home = await get("https://www.flexusco.com/");
+});
+
+test("home keeps the production structured data and drops the old bid line", function () {
   const localHome = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  assert.equal(visible(withoutMaterialsMenu(localHome)), visible(home));
+  assert.match(localHome, /"@type":"WebSite"/);
+  assert.match(localHome, /"name":"Flexus Materials"/);
+  assert.match(localHome, /hero-54-1920\.webp/);
+  assert.equal(localHome.includes("bid the full installed job"), false);
+  assert.equal(localHome.includes("specialty aggregate"), false);
+  assert.equal(localHome.includes("hero-video"), false);
 });

@@ -120,6 +120,7 @@
     compare_cp: "series_nav",
     project_card_mary_esther: "project_nav",
     project_card_athens: "project_nav",
+    see_pavement: "series_nav",
     spec_support: "spec_support"
   };
   var MATERIALS = {
@@ -156,6 +157,7 @@
       compare_cp: true,
       project_card_mary_esther: true,
       project_card_athens: true,
+      see_pavement: true,
       spec_support: true
     },
     material: { rubber_mulch: true, colored_granules: true, rubber_buffings: true },

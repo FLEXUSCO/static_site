@@ -105,7 +105,7 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("Which series"), false);
   assert.equal(html.includes("bid the full installed job"), false);
   assert.equal(html.includes("specialty aggregate"), false);
-  assert.match(text, /Flexus supplies the system and install guidance to the project's contractor\./);
+  assert.match(text, /Supply only, with install guidance for your contractor, or supplied and installed by Flexus\./);
   assert.match(text, /Exposed natural aggregate, 50:50 by volume with recycled tire rubber/);
   assert.equal(/The rows below are from the AP and CP pages/.test(text), false);
   assert.match(text, /Black matrix with light granite/);
