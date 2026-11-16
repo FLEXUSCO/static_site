@@ -22,6 +22,24 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var series = params.get("series") || "";
+  var lift = params.get("lift") || "";
+  var sf = params.get("sf") || "";
+  if (series !== "AP" && series !== "CP") return;
+  if (lift !== "1.5" && lift !== "2" && lift !== "2.5") return;
+  if (!sf || sf.length > 7 || sf.charAt(0) === "0") return;
+  for (var i = 0; i < sf.length; i++) {
+    var code = sf.charCodeAt(i);
+    if (code < 48 || code > 57) return;
+  }
+  var liftLabel = { "1.5": "1.5 in", "2": "2.0 in", "2.5": "2.5 in" };
+  window.__flexusBudgetSeries = series;
+  window.__flexusBudgetNote = "Budget request: " + series + " series, " + liftLabel[lift] + " lift, " + sf + " square feet.";
+})();
+</script>
 <script src="/tracking.js"></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -276,6 +294,13 @@
   if (requested === 'spec' || requested === 'spec-pack') requested = 'spec-support';
   if (requested === 'materials' || requested === 'quote') requested = 'materials-quote';
   if (panels[requested]) topic.value = requested;
+  if (window.__flexusBudgetNote && !document.getElementById("notes").value) {
+    document.getElementById("notes").value = window.__flexusBudgetNote;
+  }
+  if (window.__flexusBudgetSeries) {
+    var specSeries = document.getElementById("spec-series");
+    if (specSeries) specSeries.value = window.__flexusBudgetSeries;
+  }
   var product = params.get('product');
   if (product) {
     document.querySelectorAll('input[name="Product"]').forEach(function (el) {

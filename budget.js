@@ -19,11 +19,25 @@
   if (!box) return;
   var out = document.getElementById("budget-total");
   var area = document.getElementById("budget-sf");
+  var quote = document.getElementById("budget-quote");
+
+  function quoteHref(series, lift, sf) {
+    var href = "/contact?topic=spec-support";
+    var area = Number(sf);
+    if (!series || !lift || !(area > 0)) return href;
+    return href
+      + "&series=" + encodeURIComponent(series)
+      + "&lift=" + encodeURIComponent(String(lift))
+      + "&sf=" + encodeURIComponent(String(Math.round(area)));
+  }
 
   function read() {
     var series = box.querySelector('input[name="budget-series"]:checked');
     var lift = box.querySelector('input[name="budget-lift"]:checked');
-    out.textContent = total(series && series.value, lift && lift.value, area.value);
+    var seriesValue = series && series.value;
+    var liftValue = lift && lift.value;
+    out.textContent = total(seriesValue, liftValue, area.value);
+    if (quote) quote.setAttribute("href", quoteHref(seriesValue, liftValue, area.value));
   }
 
   box.addEventListener("input", read);

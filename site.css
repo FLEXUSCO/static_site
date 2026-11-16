@@ -1228,6 +1228,29 @@ a.budget-card h3 { margin: 0; }
   letter-spacing: -1px;
   line-height: 1.1;
 }
+.budget-follow {
+  margin: 8px 0 0;
+  max-width: 42ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.budget-quote-row { margin: 12px 0 0; }
+.budget-quote {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.budget-quote:hover,
+.budget-quote:focus-visible { border-color: var(--text); }
 @media (max-width: 640px) {
   .budget-estimate { padding-bottom: 72px; }
   .budget-fields .field input { font-size: 16px; }

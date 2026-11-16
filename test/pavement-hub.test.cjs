@@ -130,6 +130,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.match(text, /Emerald Coast Drone Pros/);
   assert.equal(/calculator/i.test(html), false);
   assert.match(html, /id="budget-estimate"/);
+  assert.match(html, /Get a quote for your project/);
+  assert.match(html, /No commitment/);
+  assert.match(html, /id="budget-quote" href="\/contact\?topic=spec-support"/);
   assert.equal(html.includes("$"), false);
   assert.equal(/ipema/i.test(html), false);
   assert.equal(/manufactur/i.test(html), false);
