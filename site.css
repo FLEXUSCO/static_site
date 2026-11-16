@@ -1198,8 +1198,23 @@ a.budget-card h3 { margin: 0; }
 .film-intro .h1 { margin: 0; max-width: 12ch; font-size: clamp(40px, 5vw, 72px); font-weight: 400; letter-spacing: -1.4px; line-height: 0.98; }
 .film-facts.wide ul { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 28px; }
 .film-facts.wide li { font-size: clamp(16px, 1.3vw, 18px); }
-.film-terms { padding: 8px 0 8px; }
-.film-terms p { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.5; color: var(--text); }
+.film-story { padding: 56px 0 8px; }
+.film-story h2 {
+  margin: 0 0 16px;
+  max-width: 16ch;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+}
+.film-story p {
+  margin: 0 0 14px;
+  max-width: 46ch;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--text);
+}
+.film-story .film-spec-link { margin: 4px 0 0; font-size: 15px; }
 .film-materials { padding: 28px 0 24px; }
 .film-materials p { margin: 0; max-width: 42ch; color: var(--muted); font-size: 18px; line-height: 1.5; }
 .film-materials a { color: var(--text); text-decoration: underline; text-underline-offset: 0.18em; }

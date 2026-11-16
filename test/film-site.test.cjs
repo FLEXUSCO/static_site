@@ -60,7 +60,12 @@ test("home is a short film page with one hero action", function () {
   assert.match(html, /data-cta-label="pavement_card_cp"/);
   assert.match(html, /data-cta-label="spec_support"/);
   assert.match(html, /Exposed natural aggregate on AP/);
-  assert.match(html, /AP-200 and CP-200, poured in place with recycled tire rubber/);
+  assert.match(html, /Porous rubber pavement for parks and trails/);
+  assert.match(html, /Built around trees/);
+  assert.match(html, /Rubber mulch and granules/);
+  assert.match(html, /tree wells/);
+  assert.match(html, /super sacks/);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
   assert.match(html, /href="\/projects\/mary-esther-azalea-trail"/);
   assert.match(html, /Flexus Materials Ltd Co in Atlanta sells AP and CP systems/);
   assert.match(html, /AP-200\. Four natural palettes/);
