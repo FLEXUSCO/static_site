@@ -1209,6 +1209,13 @@ a.budget-card h3 { margin: 0; }
 .config-series legend,
 .config-lift legend,
 .config-area .label { margin-bottom: 10px; }
+.config-area .label {
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--text);
+}
 .config-series-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .config-card {
   position: relative;
