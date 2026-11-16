@@ -1100,6 +1100,7 @@ a.budget-card h3 { margin: 0; }
 .hero.film .film-quiet { color: #fff; }
 .hero.film .hero-h1 { max-width: 12ch; margin-bottom: 12px; }
 .hero.film .hero-lede { margin-bottom: 22px; max-width: 28ch; }
+.hero.film .wrap-tight.hero-inner .hero-lede { max-width: 40ch; }
 .hero.film .hero-cta { align-items: center; }
 .film-quiet {
   color: rgba(255,255,255,.82);
@@ -1211,6 +1212,45 @@ main.airy .card.soft { border: 0; background: transparent; padding: 0; box-shado
 }
 @media (max-width: 640px) {
   .film-facts.wide ul { grid-template-columns: 1fr; }
+}
+
+.spec-strip { padding: 40px 0 32px; }
+.spec-strip ul {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.spec-strip li {
+  margin: 0;
+  min-width: 0;
+  padding: 2px 20px 2px 22px;
+  border-left: 1px solid var(--line);
+}
+.spec-strip li:first-child { padding-left: 0; border-left: 0; }
+.spec-strip span {
+  display: block;
+  margin: 0 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.spec-strip strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  color: var(--text);
+}
+@media (max-width: 980px) {
+  .spec-strip { padding: 28px 0 20px; }
+  .spec-strip ul { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+  .spec-strip li { padding: 0; border-left: 0; }
 }
 
 /* Phone already has the bottom bar, so the header pill is not repeated. */

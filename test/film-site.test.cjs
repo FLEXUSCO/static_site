@@ -79,6 +79,14 @@ test("AP and CP keep cut-sheet facts under a short spec strip", function () {
   const ap = read("pavement-ap.html");
   const cp = read("pavement-cp.html");
   assert.match(ap, /Architectural porous pavement\. Exposed natural aggregate and recycled tire rubber/);
+  assert.match(ap, /class="spec-strip"/);
+  assert.match(ap, /AP-150 · AP-200 · AP-250/);
+  assert.match(ap, /<span>Palettes<\/span>/);
+  assert.match(cp, /class="spec-strip"/);
+  assert.match(cp, /CP-150 · CP-200 · CP-250/);
+  assert.match(cp, /Exposed granite/);
+  assert.match(cp, /Black with light granite/);
+  assert.match(cp, /<span>Use<\/span><strong>Pedestrian only<\/strong>/);
   assert.match(ap, /width="1600" height="898"/);
   assert.match(ap, /AP-150 at 1\.5 in \(38 mm\), AP-200 at 2\.0 in \(51 mm\), AP-250 at 2\.5 in \(64 mm\)/);
   assert.match(ap, /Textured, matte, stone-forward/);
