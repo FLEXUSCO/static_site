@@ -25,6 +25,8 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
 
 /* Inline links match the text around them. Buttons, nav, and cards keep their own styles. */
 a:where(:any-link) {
@@ -1176,6 +1178,8 @@ a.budget-card h3 { margin: 0; }
 .film-spec-link a + a { margin-left: 18px; }
 .film-spec-link a { color: var(--muted); text-decoration: underline; text-underline-offset: 0.18em; }
 .film-close { padding: 80px 0 120px; }
+.home-supply { padding: 36px 0 80px; }
+.home-supply .system-supply { margin-top: 0; }
 .budget-estimate {
   margin-top: 48px;
   padding: 64px 0 80px;

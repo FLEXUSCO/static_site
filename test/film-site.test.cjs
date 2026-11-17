@@ -64,7 +64,14 @@ test("home is a short film page with one hero action", function () {
   assert.match(html, /data-cta-label="pavement_card_ap"/);
   assert.match(html, /data-cta-label="pavement_card_cp"/);
   assert.match(html, /data-cta-label="spec_support"/);
-  assert.match(html, /Exposed natural aggregate on AP/);
+  assert.match(html, /<span>Mix<\/span><strong>Rock and recycled tire rubber, 50:50 by volume\.<\/strong>/);
+  assert.match(html, /<span>Aggregate<\/span><strong>Exposed natural aggregate on AP\. Granite on CP\.<\/strong>/);
+  assert.match(html, /<span>Install<\/span><strong>Poured in place\.<\/strong>/);
+  assert.match(html, /<span>Use<\/span><strong>Pedestrian only\.<\/strong>/);
+  assert.match(html, /class="system-supply"/);
+  const css = read("site.css");
+  assert.match(css, /h1, h2, h3 \{ text-wrap: balance; \}/);
+  assert.match(css, /p \{ text-wrap: pretty; \}/);
   assert.match(html, /Porous rubber pavement for parks, trails and greenways/);
   assert.match(html, /Two looks/);
   assert.equal(html.includes("Built for cities"), false);
