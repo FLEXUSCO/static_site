@@ -1099,7 +1099,7 @@ a.budget-card h3 { margin: 0; }
 }
 .hero.film .hero-lede,
 .hero.film .film-quiet { color: #fff; }
-.hero.film .hero-h1 { max-width: 12ch; margin-bottom: 12px; }
+.hero.film .hero-h1 { max-width: 16ch; margin-bottom: 12px; font-size: clamp(40px, 4.2vw, 68px); }
 .hero.film .hero-lede { margin-bottom: 22px; max-width: 28ch; }
 .hero.film .wrap-tight.hero-inner .hero-lede { max-width: 40ch; }
 .hero.film .hero-cta { align-items: center; }
@@ -1181,7 +1181,7 @@ a.budget-card h3 { margin: 0; }
   padding: 64px 0 80px;
   background: #f3f1ee;
 }
-.budget-intro { max-width: 36rem; margin-bottom: 36px; }
+.budget-intro { max-width: 68ch; margin-bottom: 36px; }
 .budget-estimate h2 {
   margin: 0 0 12px;
   font-size: clamp(32px, 4vw, 48px);
@@ -1191,7 +1191,7 @@ a.budget-card h3 { margin: 0; }
 }
 .budget-intro p {
   margin: 0;
-  max-width: 36ch;
+  max-width: 68ch;
   font-size: 17px;
   line-height: 1.5;
   color: var(--muted);

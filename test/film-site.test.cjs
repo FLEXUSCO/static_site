@@ -57,8 +57,8 @@ test("sitewide copy keeps the supply line and documented aggregate wording", fun
 test("home is a short film page with one hero action", function () {
   const html = read("index.html");
   const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-  assert.equal(h1, "Paths for parks and trails");
-  assert.equal(h1.split(" ").length, 5);
+  assert.equal(h1, "Porous rubber pavement for parks, trails and greenways");
+  assert.equal((html.match(/Porous rubber pavement for parks, trails and greenways/g) || []).length, 1);
   assert.match(html, /hero-54-phone-640\.webp/);
   assert.match(html, /data-cta-label="see_pavement"/);
   assert.match(html, /data-cta-label="pavement_card_ap"/);

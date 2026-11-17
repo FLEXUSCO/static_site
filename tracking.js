@@ -121,7 +121,8 @@
     project_card_mary_esther: "project_nav",
     project_card_athens: "project_nav",
     see_pavement: "series_nav",
-    spec_support: "spec_support"
+    spec_support: "spec_support",
+    budget_quote: "spec_support"
   };
   var MATERIALS = {
     "rubber-mulch": "rubber_mulch",
@@ -158,7 +159,8 @@
       project_card_mary_esther: true,
       project_card_athens: true,
       see_pavement: true,
-      spec_support: true
+      spec_support: true,
+      budget_quote: true
     },
     material: { rubber_mulch: true, colored_granules: true, rubber_buffings: true },
     document: {

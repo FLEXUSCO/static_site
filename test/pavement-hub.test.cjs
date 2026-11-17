@@ -14,7 +14,8 @@ const LABELS = [
   "compare_ap",
   "compare_cp",
   "project_card_mary_esther",
-  "spec_support"
+  "spec_support",
+  "budget_quote"
 ];
 
 function visible(source) {
@@ -98,11 +99,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   const title = html.match(/<title>([^<]*)<\/title>/)[1];
   const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
   const desc = html.match(/<meta name="description" content="([^"]*)"/)[1];
-  ["permeable pavement", "porous rubber pavement"].forEach(function (phrase) {
-    assert.equal(title.toLowerCase().includes(phrase), true, "title " + phrase);
-    assert.equal(desc.toLowerCase().includes(phrase), true, "description " + phrase);
-  });
-  assert.equal(h1, "Pavement for paths and trails");
+  assert.equal(title, "Permeable Pavement Cost Estimator: AP and CP | Flexus");
+  assert.equal(desc, "Porous rubber pavement for greenways, trails, park paths, sidewalks and tree wells. Compare AP and CP, then estimate a material and install budget by square foot.");
+  assert.equal(h1, "Permeable rubber pavement for paths and trails");
   assert.match(html, /<link rel="canonical" href="https:\/\/www\.flexusco\.com\/pavement-systems">/);
   assert.match(html, /<script type="application\/ld\+json">\{"@context":"https:\/\/schema\.org","@type":"BreadcrumbList","itemListElement":\[\{"@type":"ListItem","position":1,"name":"Home","item":"https:\/\/www\.flexusco\.com\/"\},\{"@type":"ListItem","position":2,"name":"Pavement","item":"https:\/\/www\.flexusco\.com\/pavement-systems"\}\]\}<\/script>/);
   assert.equal(html.includes("\u2014"), false);
@@ -111,11 +110,13 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.equal(html.includes("&ndash;"), false);
   assert.equal((html.match(/\$/g) || []).length, 1);
   assert.equal(html.includes("$11,600"), true);
-  assert.match(text, /Budget only\. Subbase, freight and site work are not included\./);
+  assert.match(text, /Pick AP or CP, a lift of 1\.5, 2\.0 or 2\.5 inches, and your square footage\./);
+  assert.match(text, /Subbase, freight and site work are not included\./);
+  assert.match(text, /Budget only\./);
   assert.equal((text.match(/\bprices?\b/gi) || []).length, 0);
   assert.match(text, /CP costs less than AP/);
   assert.match(text, /Asphalt look, lower cost/);
-  assert.equal((text.match(/\bcosts?\b/gi) || []).length, 2);
+  assert.equal((text.match(/\bcosts?\b/gi) || []).length, 4);
   assert.equal((text.match(/\bpricing\b/gi) || []).length, 2);
   assert.match(text, /Request project pricing/);
   assert.equal((text.match(/Not sure which\?/g) || []).length, 0);
@@ -150,7 +151,9 @@ test("pavement hub keeps the phrases, canonical, and breadcrumb, with no prices 
   assert.match(html, /class="config-card"/);
   assert.match(html, /class="config-segment"/);
   assert.match(html, /inputmode="numeric"/);
-  assert.match(html, /Configure your path and get a budget in seconds/);
+  assert.match(html, /<h2 id="budget-heading">Permeable pavement cost estimator<\/h2>/);
+  assert.match(html, /data-cta-label="budget_quote"/);
+  assert.equal(track.intentForLabel("budget_quote"), "spec_support");
   assert.equal((html.match(/\$/g) || []).length, 1);
   assert.equal(html.includes("$11,600"), true);
   assert.equal(/ipema/i.test(html), false);
