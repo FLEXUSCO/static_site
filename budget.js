@@ -105,4 +105,5 @@
 
   box.addEventListener("input", read);
   box.addEventListener("change", read);
+  read();
 })(typeof globalThis !== "undefined" ? globalThis : this);

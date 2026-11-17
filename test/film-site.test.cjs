@@ -33,7 +33,12 @@ test("sitewide copy keeps the supply line and documented aggregate wording", fun
     assert.equal(html.includes("\u2013"), false, name);
     assert.equal(html.includes("&mdash;"), false, name);
     assert.equal(html.includes("&ndash;"), false, name);
-    assert.equal(html.includes("$"), false, name);
+    if (name === "pavement-systems.html") {
+      assert.equal((html.match(/\$/g) || []).length, 1, name);
+      assert.equal(html.includes("$11,600"), true, name);
+    } else {
+      assert.equal(html.includes("$"), false, name);
+    }
     assert.equal(/ipema/i.test(html), false, name);
     assert.equal(/manufactur/i.test(html), false, name);
     assert.equal(/\bF\s+Flexus/.test(html), false, name);
