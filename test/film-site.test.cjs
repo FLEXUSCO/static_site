@@ -1,0 +1,233 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+const fs = require("fs");
+const path = require("path");
+
+const root = path.join(__dirname, "..");
+const track = require("../tracking.js");
+const SUPPLY = "Supply only, with install guidance for your contractor, or supplied and installed by Flexus.";
+
+function read(name) {
+  return fs.readFileSync(path.join(root, name), "utf8");
+}
+
+function visible(source) {
+  return source
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&ldquo;|&rdquo;|&amp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+const pages = fs.readdirSync(root).filter(function (name) { return name.endsWith(".html"); });
+
+test("sitewide copy keeps the supply line and documented aggregate wording", function () {
+  pages.forEach(function (name) {
+    const html = read(name);
+    assert.equal(html.includes("specialty aggregate"), false, name);
+    assert.equal(html.includes("bid the full installed job"), false, name);
+    assert.equal(html.includes("\u2014"), false, name);
+    assert.equal(html.includes("\u2013"), false, name);
+    assert.equal(html.includes("&mdash;"), false, name);
+    assert.equal(html.includes("&ndash;"), false, name);
+    if (name === "pavement-systems.html") {
+      assert.equal((html.match(/\$/g) || []).length, 1, name);
+      assert.equal(html.includes("$11,600"), true, name);
+    } else {
+      assert.equal(html.includes("$"), false, name);
+    }
+    assert.equal(/ipema/i.test(html), false, name);
+    assert.equal(/manufactur/i.test(html), false, name);
+    assert.equal(/\bF\s+Flexus/.test(html), false, name);
+    assert.equal(html.includes("FFlexus"), false, name);
+  });
+  ["index.html", "pavement-systems.html", "specifiers.html", "about.html"].forEach(function (name) {
+    assert.equal(read(name).includes(SUPPLY), true, name);
+  });
+  assert.equal(track.intentForLabel("see_pavement"), "series_nav");
+  assert.deepEqual(
+    track.sanitize("cta_click", { intent: "series_nav", placement: "body", cta_label: "see_pavement" }),
+    { intent: "series_nav", placement: "body", cta_label: "see_pavement" }
+  );
+});
+
+test("home is a short film page with one hero action", function () {
+  const html = read("index.html");
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)[1].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  assert.equal(h1, "Porous rubber pavement for parks, trails and greenways");
+  assert.equal((html.match(/Porous rubber pavement for parks, trails and greenways/g) || []).length, 1);
+  assert.match(html, /hero-54-phone-640\.webp/);
+  assert.match(html, /data-cta-label="see_pavement"/);
+  assert.match(html, /data-cta-label="pavement_card_ap"/);
+  assert.match(html, /data-cta-label="pavement_card_cp"/);
+  assert.match(html, /data-cta-label="spec_support"/);
+  assert.match(html, /<span>Mix<\/span><strong>Rock and recycled tire rubber, 50:50 by volume\.<\/strong>/);
+  assert.match(html, /<span>Aggregate<\/span><strong>Exposed natural aggregate on AP\. Granite on CP\.<\/strong>/);
+  assert.match(html, /<span>Install<\/span><strong>Poured in place\.<\/strong>/);
+  assert.match(html, /<span>Use<\/span><strong>Pedestrian only\.<\/strong>/);
+  assert.match(html, /class="system-supply"/);
+  const css = read("site.css");
+  assert.match(css, /h1, h2, h3 \{ text-wrap: balance; \}/);
+  assert.match(css, /p \{ text-wrap: pretty; \}/);
+  assert.match(html, /Porous rubber pavement for parks, trails and greenways/);
+  assert.match(html, /Two looks/);
+  assert.equal(html.includes("Built for cities"), false);
+  assert.equal(html.includes("public works"), false);
+  assert.match(html, /costs less than AP/);
+  assert.equal(html.includes("$"), false);
+  assert.match(html, /Rubber mulch and granules/);
+  assert.match(html, /tree wells/);
+  assert.match(html, /super sacks/);
+  assert.equal((html.match(/<h1\b/g) || []).length, 1);
+  assert.match(html, /href="\/projects\/mary-esther-azalea-trail"/);
+  assert.match(html, /Flexus Materials Ltd Co in Atlanta sells AP and CP systems/);
+  assert.match(html, /AP-200\. Four natural stone palettes\./);
+  assert.match(html, /CP-200\. The familiar look of asphalt\./);
+  assert.match(html, /Pedestrian only/);
+  assert.match(html, /href="\/materials"/);
+  assert.match(html, /Category 2 hurricane/);
+  assert.equal(/also held up well/.test(visible(html)), false);
+  const hero = html.slice(html.indexOf('<section class="hero film">'), html.indexOf("</section>"));
+  assert.equal((hero.match(/<a\b/g) || []).length, 1);
+  assert.equal(html.includes("calculator"), false);
+  assert.equal(/\bproduces?\b/i.test(visible(html)), false);
+});
+
+test("AP and CP keep cut-sheet facts under a short spec strip", function () {
+  const ap = read("pavement-ap.html");
+  const cp = read("pavement-cp.html");
+  assert.match(ap, /Same paths as CP: greenways, trails, park paths, sidewalks, and tree wells/);
+  assert.match(ap, /class="spec-strip"/);
+  assert.match(ap, /spec-code">AP-150,<\/span> <span class="spec-code">AP-200,<\/span> <span class="spec-code">AP-250<\/span>/);
+  assert.match(ap, /Polyurethane, 11% min\./);
+  assert.match(ap, /<span>Palettes<\/span>/);
+  assert.match(cp, /class="spec-strip"/);
+  assert.match(cp, /spec-code">CP-150,<\/span> <span class="spec-code">CP-200,<\/span> <span class="spec-code">CP-250<\/span>/);
+  assert.match(cp, /Polyurethane, 11% min\./);
+  assert.match(cp, /Exposed granite/);
+  assert.match(cp, /Black with light granite/);
+  assert.match(cp, /<span>Use<\/span><strong>Pedestrian only<\/strong>/);
+  assert.match(ap, /width="1600" height="898"/);
+  assert.match(ap, /AP-150 at 1\.5 in \(38 mm\), AP-200 at 2\.0 in \(51 mm\), AP-250 at 2\.5 in \(64 mm\)/);
+  assert.match(ap, /Textured, matte, stone-forward/);
+  assert.match(ap, /Minimum 11 percent by weight/);
+  assert.match(ap, /Sand Dune, Coastal Granite, Charcoal Earth, Natural Trail/);
+  assert.match(ap, /Not for vehicles/);
+  assert.match(ap, /botanical gardens, zoo paths, courtyards/);
+  assert.match(ap, /maximum cross slope of 2 percent/);
+  assert.match(ap, /about 9,000 sf/);
+  assert.match(ap, /ap_install_guide\.pdf/);
+  assert.match(ap, /ap-200-install-800\.webp/);
+  assert.match(ap, /src="\/assets\/ap-swatch-sand-dune-800\.webp"/);
+  assert.match(ap, /ap-swatch-sand-dune\.jpg 1080w/);
+  assert.match(ap, /ap-swatch-coastal-granite-800\.webp/);
+  assert.match(ap, /ap-swatch-charcoal-earth-800\.webp/);
+  assert.match(ap, /ap-swatch-natural-trail-800\.webp/);
+  assert.equal((ap.match(/class="palette-grid"[\s\S]*?<\/div>/)[0].match(/width="1080" height="1080"/g) || []).length, 4);
+  ["ap-swatch-sand-dune-800.webp", "ap-swatch-coastal-granite-800.webp", "ap-swatch-charcoal-earth-800.webp", "ap-swatch-natural-trail-800.webp"].forEach(function (file) {
+    assert.equal(fs.existsSync(path.join(root, "assets", file)), true, file);
+  });
+  assert.match(cp, /Same paths as AP: greenways, trails, park paths, sidewalks, and tree wells/);
+  assert.equal(cp.includes("public works"), false);
+  assert.match(cp, /CP-150 at 1\.5 in \(38 mm\), CP-200 at 2\.0 in \(51 mm\), CP-250 at 2\.5 in \(64 mm\)/);
+  assert.match(cp, /Textured, exposed granite aggregate/);
+  assert.match(cp, /about 10\.34 lb of solids per square foot/);
+  assert.match(cp, /11 to 12\.5 percent by weight of total solids/);
+  assert.match(cp, /suitable for ADA-aligned pedestrian routes when it is installed over a compliant subbase/);
+  assert.match(cp, /final accessibility compliance is the project designer's responsibility/);
+  assert.match(cp, /mid-install/);
+  assert.match(cp, /cp-200-athens-800\.webp/);
+  const athensAt = cp.indexOf("<h2 class=\"section-title\">Athens, Georgia</h2>");
+  const athens = cp.slice(athensAt, cp.indexOf("</section>", athensAt));
+  assert.equal(athens.indexOf("Athens project notes") < athens.indexOf("surface-sample"), true);
+  assert.match(athens, /flexus-cp-200-800\.webp/);
+  assert.match(athens, /width="1080" height="1080"/);
+  assert.equal(cp.includes("IPEMA"), false);
+});
+
+test("projects and case pages keep documented facts", function () {
+  const projects = read("projects.html");
+  const mary = read("mary-esther-azalea-trail.html");
+  const athens = read("athens-root-intrusion-sidewalk.html");
+  const cp = read("pavement-cp.html");
+  assert.match(projects, /azalea-01-1920\.webp/);
+  assert.match(projects, /<h1[^>]*>\s*Featured installs\s*<\/h1>/);
+  assert.match(projects, /Mary Esther Azalea Trail/);
+  assert.match(projects, /mid-install/);
+  assert.match(projects, /data-cta-label="project_card_mary_esther"/);
+  assert.match(projects, /data-cta-label="project_card_athens"/);
+  assert.match(mary, /City of Mary Esther, FL/);
+  assert.match(mary, /About 9,000 sf/);
+  assert.match(mary, /I highly recommend using this as a great trail material/);
+  assert.match(mary, /flexus-azalea-showcase\.mp4/);
+  assert.match(mary, /azalea-46-1920\.webp/);
+  assert.match(athens, /Editor: do not add an owner, year, or area/);
+  assert.match(athens, /Athens, GA/);
+  assert.match(athens, /Flexus CP-200/);
+  assert.match(athens, /mid-install/);
+  assert.equal(/Shawn Lindsey/.test(athens), false);
+  const quote = "Trees and sidewalks have a long history of not getting along, and too often it's the trees that lose. Flexus offers a promising alternative to traditional concrete by accommodating expanding tree roots, flexing rather than cracking, and making repairs much simpler than replacing concrete. It's exciting to have another tool in our toolbox to help trees and sidewalks coexist.";
+  assert.equal(athens.includes(quote), true);
+  assert.equal(cp.includes(quote), true);
+  assert.match(athens, /Mateo Fennell/);
+  assert.match(athens, /Community Forestry Coordinator, Athens-Clarke County/);
+  assert.match(cp, /Community Forestry Coordinator, Athens-Clarke County/);
+});
+
+test("specifiers and materials keep their detailed facts", function () {
+  const spec = read("specifiers.html");
+  const materials = read("materials.html");
+  [
+    "CSI Division 32",
+    "ASTM D698",
+    "95 percent Standard Proctor",
+    "ASTM No. 57",
+    "ASTM No. 2",
+    "50°F and rising",
+    "not more than 104°F",
+    "Initial set 4 to 8 hours",
+    "Working time about 20 minutes at 70°F",
+    "recommended maximum cross slope of 2 percent",
+    "MS4",
+    "voids the system warranty",
+    SUPPLY
+  ].forEach(function (fact) {
+    assert.equal(spec.includes(fact), true, fact);
+  });
+  [
+    "50 lb bags",
+    "Black, Forest Green, Green, Teal Green, Espresso, Brown, Cedar, Gold, and Red",
+    "5/9 mesh",
+    "6/16 mesh",
+    "10-20 mesh",
+    "Infill",
+    "This line is separate from permeable pavement"
+  ].forEach(function (fact) {
+    assert.equal(materials.includes(fact), true, fact);
+  });
+});
+
+test("main pages are indexable and thanks stays noindex", function () {
+  pages.forEach(function (name) {
+    const html = read(name);
+    const robots = (html.match(/<meta name="robots" content="([^"]*)"/) || [])[1] || "";
+    if (name === "thanks.html") assert.equal(robots, "noindex");
+    else assert.equal(/noindex/i.test(robots), false, name);
+  });
+});
+
+test("contact form wiring is unchanged", function () {
+  const html = read("contact.html");
+  assert.match(html, /<form name="contact" method="POST" data-netlify="true" data-flexus-form="contact" netlify-honeypot="bot-field" action="\/thanks\?from=contact">/);
+  ["form-name", "source", "segment", "page", "landing_page", "referrer", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "bot-field"].forEach(function (name) {
+    assert.equal(html.includes('name="' + name + '"'), true, name);
+  });
+  assert.equal(html.includes("googletagmanager.com"), false);
+  const css = read("site.css");
+  assert.match(css, /@media \(max-width: 980px\) \{\s*\.nav-actions > a\.pill \{ display: none; \}/);
+  assert.match(html, /src="\/tracking\.js"/);
+  assert.match(html, /zd6h7tk5io/);
+});

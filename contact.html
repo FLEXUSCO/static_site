@@ -22,6 +22,24 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var series = params.get("series") || "";
+  var lift = params.get("lift") || "";
+  var sf = params.get("sf") || "";
+  if (series !== "AP" && series !== "CP") return;
+  if (lift !== "1.5" && lift !== "2" && lift !== "2.5") return;
+  if (!sf || sf.length > 7 || sf.charAt(0) === "0") return;
+  for (var i = 0; i < sf.length; i++) {
+    var code = sf.charCodeAt(i);
+    if (code < 48 || code > 57) return;
+  }
+  var liftLabel = { "1.5": "1.5 in", "2": "2.0 in", "2.5": "2.5 in" };
+  window.__flexusBudgetSeries = series;
+  window.__flexusBudgetNote = "Budget request: " + series + " series, " + liftLabel[lift] + " lift, " + sf + " square feet.";
+})();
+</script>
 <script src="/tracking.js"></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -37,7 +55,7 @@
   <div class="nav-inner">
     <a class="logo" href="/" style="text-decoration:none;color:inherit;">Flexus™</a>
     <nav class="nav-links" data-nav>
-      <a href="/pavement-systems" data-path="/pavement-systems">Pavement</a><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><a href="/materials" data-path="/materials">Materials</a><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact" class="active">Contact</a>
+      <div class="nav-item has-menu"><a href="/pavement-systems" data-path="/pavement-systems" aria-haspopup="true" aria-expanded="false" aria-controls="pavement-menu">Pavement</a><ul class="nav-menu" id="pavement-menu" role="menu" aria-label="Pavement"><li role="none"><a role="menuitem" href="/pavement-systems/ap"><span class="nav-code">AP</span> - Architectural Pavement</a></li><li role="none"><a role="menuitem" href="/pavement-systems/cp"><span class="nav-code">CP</span> - Civil Pavement</a></li></ul></div><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects">Projects</a><div class="nav-item has-menu"><a href="/materials" data-path="/materials" aria-haspopup="true" aria-expanded="false" aria-controls="materials-menu">Rubber Mulch &amp; Granules</a><ul class="nav-menu" id="materials-menu" role="menu" aria-label="Rubber Mulch and Granules"><li role="none"><a role="menuitem" href="/materials#mulch">Rubber mulch</a></li><li role="none"><a role="menuitem" href="/materials#granules">Colored rubber granules</a></li><li role="none"><a role="menuitem" href="/materials#buffings">Rubber buffings</a></li></ul></div><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact" class="active">Contact</a>
     </nav>
     <div class="nav-actions">
       <a class="pill primary" href="/contact?topic=spec-support">Specification support</a>
@@ -51,13 +69,13 @@
   <div class="sheet-panel" role="dialog" aria-label="Menu">
     <div class="sheet-head"><div class="sheet-title">Menu</div><button class="sheet-close" id="sheet-close" aria-label="Close menu">✕</button></div>
     <div class="sheet-body" data-nav>
-      <a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
+      <div class="sheet-group"><a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><div class="sheet-sub" id="sheet-pavement"><a class="sheet-link" href="/pavement-systems/ap" data-sheet-link><span class="nav-code">AP</span> - Architectural Pavement</a><a class="sheet-link" href="/pavement-systems/cp" data-sheet-link><span class="nav-code">CP</span> - Civil Pavement</a></div></div><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><div class="sheet-group"><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Rubber Mulch &amp; Granules</a><div class="sheet-sub" id="sheet-materials"><a class="sheet-link" href="/materials#mulch" data-sheet-link>Rubber mulch</a><a class="sheet-link" href="/materials#granules" data-sheet-link>Colored rubber granules</a><a class="sheet-link" href="/materials#buffings" data-sheet-link>Rubber buffings</a></div></div><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
       <div class="sheet-cta"><a class="pill primary" href="/contact?topic=spec-support" data-sheet-link>Specification support</a><a class="pill" href="/contact?topic=sample" data-sheet-link>Request a sample</a></div>
     </div>
   </div>
 </div>
 
-<main>
+<main class="airy">
 
 <section class="hero small">
   <div class="wrap hero-inner">
@@ -276,6 +294,13 @@
   if (requested === 'spec' || requested === 'spec-pack') requested = 'spec-support';
   if (requested === 'materials' || requested === 'quote') requested = 'materials-quote';
   if (panels[requested]) topic.value = requested;
+  if (window.__flexusBudgetNote && !document.getElementById("notes").value) {
+    document.getElementById("notes").value = window.__flexusBudgetNote;
+  }
+  if (window.__flexusBudgetSeries) {
+    var specSeries = document.getElementById("spec-series");
+    if (specSeries) specSeries.value = window.__flexusBudgetSeries;
+  }
   var product = params.get('product');
   if (product) {
     document.querySelectorAll('input[name="Product"]').forEach(function (el) {

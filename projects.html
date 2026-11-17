@@ -37,7 +37,7 @@
   <div class="nav-inner">
     <a class="logo" href="/" style="text-decoration:none;color:inherit;">Flexus™</a>
     <nav class="nav-links" data-nav>
-      <a href="/pavement-systems" data-path="/pavement-systems">Pavement</a><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects" class="active">Projects</a><a href="/materials" data-path="/materials">Materials</a><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>
+      <div class="nav-item has-menu"><a href="/pavement-systems" data-path="/pavement-systems" aria-haspopup="true" aria-expanded="false" aria-controls="pavement-menu">Pavement</a><ul class="nav-menu" id="pavement-menu" role="menu" aria-label="Pavement"><li role="none"><a role="menuitem" href="/pavement-systems/ap"><span class="nav-code">AP</span> - Architectural Pavement</a></li><li role="none"><a role="menuitem" href="/pavement-systems/cp"><span class="nav-code">CP</span> - Civil Pavement</a></li></ul></div><a href="/specifiers" data-path="/specifiers">Specifiers</a><a href="/projects" data-path="/projects" class="active">Projects</a><div class="nav-item has-menu"><a href="/materials" data-path="/materials" aria-haspopup="true" aria-expanded="false" aria-controls="materials-menu">Rubber Mulch &amp; Granules</a><ul class="nav-menu" id="materials-menu" role="menu" aria-label="Rubber Mulch and Granules"><li role="none"><a role="menuitem" href="/materials#mulch">Rubber mulch</a></li><li role="none"><a role="menuitem" href="/materials#granules">Colored rubber granules</a></li><li role="none"><a role="menuitem" href="/materials#buffings">Rubber buffings</a></li></ul></div><a href="/about" data-path="/about">About</a><a href="/contact" data-path="/contact">Contact</a>
     </nav>
     <div class="nav-actions">
       <a class="pill primary" href="/contact?topic=spec-support">Specification support</a>
@@ -51,36 +51,39 @@
   <div class="sheet-panel" role="dialog" aria-label="Menu">
     <div class="sheet-head"><div class="sheet-title">Menu</div><button class="sheet-close" id="sheet-close" aria-label="Close menu">✕</button></div>
     <div class="sheet-body" data-nav>
-      <a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Materials</a><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
+      <div class="sheet-group"><a class="sheet-link" href="/pavement-systems" data-path="/pavement-systems" data-sheet-link>Pavement</a><div class="sheet-sub" id="sheet-pavement"><a class="sheet-link" href="/pavement-systems/ap" data-sheet-link><span class="nav-code">AP</span> - Architectural Pavement</a><a class="sheet-link" href="/pavement-systems/cp" data-sheet-link><span class="nav-code">CP</span> - Civil Pavement</a></div></div><a class="sheet-link" href="/specifiers" data-path="/specifiers" data-sheet-link>Specifiers</a><a class="sheet-link" href="/projects" data-path="/projects" data-sheet-link>Projects</a><div class="sheet-group"><a class="sheet-link" href="/materials" data-path="/materials" data-sheet-link>Rubber Mulch &amp; Granules</a><div class="sheet-sub" id="sheet-materials"><a class="sheet-link" href="/materials#mulch" data-sheet-link>Rubber mulch</a><a class="sheet-link" href="/materials#granules" data-sheet-link>Colored rubber granules</a><a class="sheet-link" href="/materials#buffings" data-sheet-link>Rubber buffings</a></div></div><a class="sheet-link" href="/about" data-path="/about" data-sheet-link>About</a><a class="sheet-link" href="/contact" data-path="/contact" data-sheet-link>Contact</a>
       <div class="sheet-cta"><a class="pill primary" href="/contact?topic=spec-support" data-sheet-link>Specification support</a><a class="pill" href="/contact?topic=sample" data-sheet-link>Request a sample</a></div>
     </div>
   </div>
 </div>
 
-<main>
+<main class="film">
 
-<section class="hero small">
-  <div class="wrap hero-inner">
-    <div class="eyebrow">Projects</div>
-    <h1 class="h1" style="max-width:14ch;">Featured installs</h1>
-    <p class="lede">Our work, with the photographs and facts on each page.</p>
+<section class="film-intro">
+  <div class="wrap">
+    <h1 class="h1">Featured installs</h1>
   </div>
 </section>
-<section class="section rule">
-  <div class="wrap-tight">
-    <div class="grid2">
-      <a class="card" href="/projects/mary-esther-azalea-trail" style="text-decoration:none;color:inherit;display:block;">
-        <img class="photo" src="/assets/ap-200-install.jpg" alt="Flexus AP-200 trail at Azalea Park, City of Mary Esther, Florida" style="margin-bottom:16px;">
-        <h3>Mary Esther Azalea Trail</h3>
-        <p>Our work. City of Mary Esther, FL. Azalea Park. AP-200, about 9,000 sf. Installed spring 2026. Quote from Shawn Lindsey, Public Works Director.</p>
-      </a>
-      <a class="card" href="/projects/athens-root-intrusion-sidewalk" style="text-decoration:none;color:inherit;display:block;">
-        <img class="photo" src="/assets/cp-200-athens.webp" alt="Flexus CP-200 path around a tree in Athens, Georgia" style="margin-bottom:16px;">
-        <h3>Athens root-intrusion sidewalk</h3>
-        <p>Athens, Georgia. CP-200 replaced a concrete path displaced by tree roots.</p>
-      </a>
-    </div>
-  </div>
+
+<section class="film-panels" aria-label="Projects">
+  <a class="film-panel" href="/projects/mary-esther-azalea-trail" data-cta-label="project_card_mary_esther">
+    <img src="/assets/mary-esther/azalea-01-1920.webp" srcset="/assets/mary-esther/azalea-01-640.webp 640w, /assets/mary-esther/azalea-01-960.webp 960w, /assets/mary-esther/azalea-01-1280.webp 1280w, /assets/mary-esther/azalea-01-1920.webp 1920w, /assets/mary-esther/azalea-01-2400.webp 2400w" sizes="(min-width: 981px) 50vw, 100vw" width="2400" height="1348" alt="Flexus AP-200 trail curving through oaks and pines at Azalea Park, Mary Esther, Florida, with a wooden fence beyond the trees" loading="lazy" decoding="async">
+    <span class="film-shade" aria-hidden="true"></span>
+    <span class="film-copy">
+      <h2>Mary Esther Azalea Trail</h2>
+      <p>AP-200. Azalea Park.</p>
+      <span class="film-go">Read the case study</span>
+    </span>
+  </a>
+  <a class="film-panel" href="/projects/athens-root-intrusion-sidewalk" data-cta-label="project_card_athens">
+    <img src="/assets/cp-200-athens.webp" srcset="/assets/cp-200-athens-800.webp 800w, /assets/cp-200-athens.webp 1200w" sizes="(min-width: 981px) 50vw, 100vw" width="1200" height="717" alt="Flexus CP-200 sidewalk mid-install around a large tree in Athens, Georgia, where concrete had been displaced by roots" loading="lazy" decoding="async">
+    <span class="film-shade" aria-hidden="true"></span>
+    <span class="film-copy">
+      <h2>Athens</h2>
+      <p>CP-200, mid-install.</p>
+      <span class="film-go">Read the notes</span>
+    </span>
+  </a>
 </section>
 
 </main>

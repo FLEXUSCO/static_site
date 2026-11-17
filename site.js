@@ -589,3 +589,107 @@ if (heroMedia && !prefersReducedMotion) {
     init();
   }
 })();
+
+// Header dropdowns: hover with a short close delay, and keyboard focus.
+(function initNavMenus() {
+  const items = document.querySelectorAll(".has-menu");
+  if (!items.length) return;
+  let suppressOpen = false;
+  const closeDelay = 200;
+
+  function setOpen(item, open) {
+    item.classList.toggle("is-open", open);
+    const link = item.querySelector(":scope > a");
+    if (link && link.hasAttribute("aria-expanded")) {
+      link.setAttribute("aria-expanded", open ? "true" : "false");
+    }
+  }
+
+  function closeMenus() {
+    items.forEach((item) => setOpen(item, false));
+  }
+
+  function scheduleClose(item) {
+    clearTimeout(item._closeTimer);
+    item._closeTimer = setTimeout(() => {
+      if (item.matches(":hover") || item.contains(document.activeElement)) return;
+      setOpen(item, false);
+    }, closeDelay);
+  }
+
+  items.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      clearTimeout(item._closeTimer);
+      item.classList.remove("is-dismissed");
+      setOpen(item, true);
+    });
+    item.addEventListener("mouseleave", () => scheduleClose(item));
+    item.addEventListener("focusin", () => {
+      if (suppressOpen) return;
+      clearTimeout(item._closeTimer);
+      item.classList.remove("is-dismissed");
+      setOpen(item, true);
+    });
+    item.addEventListener("focusout", (e) => {
+      if (!item.contains(e.relatedTarget)) scheduleClose(item);
+    });
+  });
+
+  const path = (location.pathname || "/").replace(/\.html$/, "").replace(/\/+$/, "") || "/";
+  if (path === "/materials" && location.hash) {
+    document.querySelectorAll(".nav-menu a, #sheet-materials a").forEach((a) => {
+      const href = a.getAttribute("href") || "";
+      const hash = href.includes("#") ? href.slice(href.indexOf("#")) : "";
+      a.classList.toggle("active", hash === location.hash);
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    const current = document.activeElement;
+    const menu = current && current.closest ? current.closest(".nav-menu") : null;
+    if (!menu) return;
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp" && e.key !== "Home" && e.key !== "End") return;
+    const links = Array.from(menu.querySelectorAll("a[role='menuitem']"));
+    if (!links.length) return;
+    let index = links.indexOf(current);
+    if (e.key === "ArrowDown") index = (index + 1) % links.length;
+    if (e.key === "ArrowUp") index = (index <= 0 ? links.length : index) - 1;
+    if (e.key === "Home") index = 0;
+    if (e.key === "End") index = links.length - 1;
+    e.preventDefault();
+    links[index].focus();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const sheetOpen = !!(sheet && sheet.classList.contains("open"));
+    const inside = document.activeElement && document.activeElement.closest
+      ? document.activeElement.closest(".has-menu")
+      : null;
+    suppressOpen = true;
+    closeMenus();
+    if (inside) {
+      inside.classList.add("is-dismissed");
+      const parent = inside.querySelector(":scope > a");
+      if (!sheetOpen && parent) parent.focus();
+    }
+    suppressOpen = false;
+  }, true);
+
+  document.addEventListener("click", (e) => {
+    if (e.target.closest(".has-menu") || e.target.closest(".sheet-group")) return;
+    closeMenus();
+  });
+})();
+
+document.querySelectorAll(".system-link-row a").forEach((a) => {
+  a.addEventListener("click", (event) => event.stopPropagation());
+});
+
+document.querySelectorAll("a[data-open-details]").forEach((a) => {
+  a.addEventListener("click", () => {
+    const id = (a.getAttribute("href") || "").replace(/^#/, "");
+    const el = id ? document.getElementById(id) : null;
+    if (el && el.tagName === "DETAILS") el.open = true;
+  });
+});

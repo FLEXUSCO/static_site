@@ -113,6 +113,17 @@
     sample: "pavement_sample",
     "materials-quote": "materials_quote"
   };
+  var LABEL_INTENT = {
+    pavement_card_ap: "series_nav",
+    pavement_card_cp: "series_nav",
+    compare_ap: "series_nav",
+    compare_cp: "series_nav",
+    project_card_mary_esther: "project_nav",
+    project_card_athens: "project_nav",
+    see_pavement: "series_nav",
+    spec_support: "spec_support",
+    budget_quote: "spec_support"
+  };
   var MATERIALS = {
     "rubber-mulch": "rubber_mulch",
     "colored-granules": "colored_granules",
@@ -139,7 +150,18 @@
     method: { phone: true, email: true },
     placement: { header: true, body: true, footer: true, mobile: true },
     cta_placement: { header: true, body: true, mobile: true },
-    intent: { spec_support: true, pavement_sample: true, materials_quote: true },
+    intent: { spec_support: true, pavement_sample: true, materials_quote: true, series_nav: true, project_nav: true },
+    cta_label: {
+      pavement_card_ap: true,
+      pavement_card_cp: true,
+      compare_ap: true,
+      compare_cp: true,
+      project_card_mary_esther: true,
+      project_card_athens: true,
+      see_pavement: true,
+      spec_support: true,
+      budget_quote: true
+    },
     material: { rubber_mulch: true, colored_granules: true, rubber_buffings: true },
     document: {
       ap_product_overview: true, ap_install_guide: true, ap_details: true,
@@ -152,6 +174,8 @@
   };
 
   function topicEnum(value) { return TOPIC[value] || ""; }
+
+  function intentForLabel(label) { return LABEL_INTENT[label] || ""; }
 
   function valueOk(key, value, eventName) {
     if (key === "selected") return typeof value === "boolean";
@@ -169,6 +193,10 @@
     for (var i = 0; i < required.length; i++) {
       if (!valueOk(required[i], src[required[i]], name)) return null;
       out[required[i]] = src[required[i]];
+    }
+    if (name === "cta_click" && src.cta_label != null && src.cta_label !== "") {
+      if (!valueOk("cta_label", src.cta_label, name)) return null;
+      out.cta_label = src.cta_label;
     }
     return out;
   }
@@ -298,6 +326,7 @@
     anchorPlacement: anchorPlacement,
     ctaPlacement: ctaPlacement,
     ctaIntent: ctaIntent,
+    intentForLabel: intentForLabel,
     pdfEvent: pdfEvent,
     materialEvent: materialEvent,
     gaConfig: gaConfig,
