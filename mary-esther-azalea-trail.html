@@ -23,13 +23,6 @@
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <script src="/tracking.js"></script>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "zd6h7tk5io");
-</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.flexusco.com/"},{"@type":"ListItem","position":2,"name":"Projects","item":"https://www.flexusco.com/projects"},{"@type":"ListItem","position":3,"name":"Mary Esther Azalea Trail","item":"https://www.flexusco.com/projects/mary-esther-azalea-trail"}]}</script>
 </head>
 <body>
@@ -91,9 +84,14 @@
       <blockquote>&ldquo;The trail was well received by the public who commented on how it was better on their joints, but still able to support pedestrian and wheelchair access. It has also held up well to a Category 2 Hurricane and two small flood events since being installed in the spring of 2026. I highly recommend using this as a great trail material.&rdquo;</blockquote>
       <figcaption><strong>Shawn Lindsey</strong><br>Public Works Director, City of Mary Esther, FL</figcaption>
     </figure>
-    <video class="photo" style="margin-top:18px;" controls preload="none" poster="/assets/flexus-hero-poster.jpg" width="1920" height="1080" loading="lazy" aria-label="Flexus AP-200 trail at Azalea Park, Mary Esther, Florida. The film ends on a title card: Flexus AP-200, Azalea Park, Mary Esther, FL.">
-      <source src="/assets/flexus-azalea-showcase.mp4" type="video/mp4">
-    </video>
+    <div class="video-still">
+      <video id="azalea-film" class="photo" playsinline webkit-playsinline preload="none" poster="/assets/flexus-hero-poster.jpg" width="1920" height="1080" aria-label="Flexus AP-200 trail at Azalea Park, Mary Esther, Florida. The film ends on a title card: Flexus AP-200, Azalea Park, Mary Esther, FL.">
+        <source src="/assets/flexus-azalea-showcase.mp4" type="video/mp4">
+      </video>
+      <button class="video-play" type="button" aria-controls="azalea-film" aria-label="Play video">
+        <span class="video-play-icon" aria-hidden="true"></span>
+      </button>
+    </div>
     <p class="film-spec-link"><a href="/projects/athens-root-intrusion-sidewalk">Athens sidewalk</a></p>
   </div>
 </section>

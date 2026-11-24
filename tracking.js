@@ -6,6 +6,7 @@
   "use strict";
 
   var MEASUREMENT_ID = "G-5T6ESYM3SB";
+  var CLARITY_ID = "zd6h7tk5io";
   var PRODUCTION_HOSTS = { "www.flexusco.com": true, "flexusco.com": true };
   var TOKEN = /^[A-Za-z0-9][A-Za-z0-9 ._+~-]{0,79}$/;
   var CLICK = /^[A-Za-z0-9_-]{8,250}$/;
@@ -305,11 +306,27 @@
     window.gtag("config", MEASUREMENT_ID, gaConfig());
   }
 
+  function bootClarity() {
+    if (typeof document === "undefined" || typeof location === "undefined") return;
+    if (!productionHost(location.hostname)) return;
+    if (window.__FLEXUS_CLARITY_BOOTED__) return;
+    window.__FLEXUS_CLARITY_BOOTED__ = true;
+    (function (c, l, a, r, i, t, y) {
+      c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+      t = l.createElement(r);
+      t.async = 1;
+      t.src = "https://www.clarity.ms/tag/" + i;
+      y = l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t, y);
+    })(window, document, "clarity", "script", CLARITY_ID);
+  }
+
   function boot() {
     installHistoryGuard();
     rememberAttribution();
     cleanCurrentEntry();
     bootProductionTag();
+    bootClarity();
   }
 
   var api = {

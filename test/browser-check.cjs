@@ -146,7 +146,7 @@ async function main() {
   const leaked = [];
   client.on("Network.responseReceived", function (params) {
     const url = params.response && params.response.url || "";
-    if (/google-analytics\.com|analytics\.google\.com|googletagmanager\.com|google\.com\/g\/collect/.test(url)) leaked.push(url);
+    if (/google-analytics\.com|analytics\.google\.com|googletagmanager\.com|google\.com\/g\/collect|clarity\.ms/.test(url)) leaked.push(url);
   });
   await client.send("Network.enable");
   await client.send("Page.enable");
@@ -161,7 +161,8 @@ async function main() {
     utm: (document.querySelector('[name="utm_source"]') || {}).value || "",
     gclid: (document.querySelector('[name="gclid"]') || {}).value || "",
     referrer: (document.querySelector('[name="referrer"]') || {}).value || "",
-    gtag: typeof window.gtag
+    gtag: typeof window.gtag,
+    clarity: typeof window.clarity
   })`);
   if (cleaned.search.includes("email=") || cleaned.search.includes("unknown_token") || cleaned.search.includes("search=") || cleaned.search.includes("person@example.com")) {
     throw new Error("address bar kept a sensitive query " + cleaned.search);
@@ -173,6 +174,7 @@ async function main() {
   if (cleaned.utm !== "newsletter" || cleaned.gclid !== "abc123XYZ_99") throw new Error("form attribution missing " + JSON.stringify(cleaned));
   if (cleaned.attr.utm_source !== "newsletter" || cleaned.attr.landing_page.includes("email=")) throw new Error("stash leaked or dropped attribution");
   if (cleaned.gtag !== "undefined") throw new Error("local host booted production gtag");
+  if (cleaned.clarity !== "undefined") throw new Error("local host booted Clarity");
 
   const history = await evalJson(client, `(() => {
     history.pushState(null, "", "/contact?email=person@example.com&topic=sample&q=secret");
@@ -344,9 +346,20 @@ async function syntheticPayloads(server) {
   const client = await cdp(page.webSocketDebuggerUrl);
   const collects = [];
   const paused = [];
+  let claritySeen = false;
   client.on("Fetch.requestPaused", function (params) {
     const url = params.request && params.request.url || "";
     paused.push(url);
+    if (url.includes("clarity.ms")) {
+      claritySeen = true;
+      client.send("Fetch.fulfillRequest", {
+        requestId: params.requestId,
+        responseCode: 200,
+        responseHeaders: [{ name: "Content-Type", value: "text/javascript" }],
+        body: Buffer.from("").toString("base64")
+      }).catch(function () {});
+      return;
+    }
     if (url.includes("gtag/js")) {
       client.send("Fetch.fulfillRequest", {
         requestId: params.requestId,
@@ -362,7 +375,8 @@ async function syntheticPayloads(server) {
   await client.send("Fetch.enable", { patterns: [
     { urlPattern: "*googletagmanager.com*", requestStage: "Request" },
     { urlPattern: "*google-analytics.com*", requestStage: "Request" },
-    { urlPattern: "*analytics.google.com*", requestStage: "Request" }
+    { urlPattern: "*analytics.google.com*", requestStage: "Request" },
+    { urlPattern: "*clarity.ms*", requestStage: "Request" }
   ] });
   await client.send("Page.enable");
   await client.send("Runtime.enable");
@@ -411,6 +425,7 @@ async function syntheticPayloads(server) {
   const download = collects.map(function (url) { return new URL(url); }).find(function (url) { return url.searchParams.get("en") === "file_download"; });
   const outbound = collects.map(function (url) { return new URL(url); }).filter(function (url) { return url.searchParams.get("en") === "click"; });
   if (!pageHit) throw new Error("no intercepted page_view " + JSON.stringify(collects));
+  if (!claritySeen) throw new Error("Clarity did not load on www.flexusco.com");
   const dl = pageHit.searchParams.get("dl") || "";
   const dr = pageHit.searchParams.get("dr") || "";
   if (dl.includes("person@example.com") || dl.includes("user@secret") || !dl.includes("pack=Full") || !dl.includes("gbraid=Abcd1234_ef")) {

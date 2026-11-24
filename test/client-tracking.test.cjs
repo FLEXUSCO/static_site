@@ -101,6 +101,7 @@ test("tracking.js is loaded once, in the head, before any tag", function () {
     assert.equal(heads.includes('src="/tracking.js"'), true, name);
     assert.equal(body.includes('src="/tracking.js"'), false, name);
     assert.equal(html.includes("googletagmanager.com"), false, name);
+    assert.equal(html.includes("clarity.ms"), false, name);
     assert.equal(html.includes("generate_lead"), false, name);
   });
   const site = fs.readFileSync(path.join(root, "site.js"), "utf8");
