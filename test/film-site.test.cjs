@@ -163,6 +163,14 @@ test("projects and case pages keep documented facts", function () {
   assert.match(mary, /About 9,000 sf/);
   assert.match(mary, /I highly recommend using this as a great trail material/);
   assert.match(mary, /flexus-azalea-showcase\.mp4/);
+  assert.match(mary, /class="video-still"/);
+  assert.match(mary, /class="video-play"/);
+  assert.match(mary, /playsinline/);
+  assert.match(mary, /controls/);
+  pages.forEach(function (name) {
+    if (name === "mary-esther-azalea-trail.html") return;
+    assert.equal(read(name).includes("<video"), false, name);
+  });
   assert.match(mary, /azalea-46-1920\.webp/);
   assert.match(athens, /Editor: do not add an owner, year, or area/);
   assert.match(athens, /Athens, GA/);
@@ -197,6 +205,12 @@ test("specifiers and materials keep their detailed facts", function () {
   ].forEach(function (fact) {
     assert.equal(spec.includes(fact), true, fact);
   });
+  assert.match(spec, /<summary>Weather and cure, from the guides\.<\/summary>/);
+  assert.match(spec, /<summary>Flexus pavement is an exterior walking surface\.<\/summary>/);
+  assert.match(spec, /CSI Division 32, Exterior Improvements\./);
+  assert.equal((spec.match(/<summary>Supply only, with install guidance for your contractor, or supplied and installed by Flexus\.<\/summary>/g) || []).length, 2);
+  assert.match(spec, /href="\/assets\/pdfs\/ap\/ap_install_guide\.pdf">AP installation guide<\/a>/);
+  assert.match(spec, /href="\/assets\/pdfs\/cp\/cp_install_guide\.pdf">CP installation guide<\/a>/);
   [
     "50 lb bags",
     "Black, Forest Green, Green, Teal Green, Espresso, Brown, Cedar, Gold, and Red",
@@ -229,5 +243,10 @@ test("contact form wiring is unchanged", function () {
   const css = read("site.css");
   assert.match(css, /@media \(max-width: 980px\) \{\s*\.nav-actions > a\.pill \{ display: none; \}/);
   assert.match(html, /src="\/tracking\.js"/);
-  assert.match(html, /zd6h7tk5io/);
+  assert.equal(html.includes("clarity.ms"), false);
+  assert.equal(html.includes("zd6h7tk5io"), false);
+  const tracking = read("tracking.js");
+  assert.match(tracking, /zd6h7tk5io/);
+  assert.match(tracking, /function bootClarity/);
+  assert.match(tracking, /productionHost\(location\.hostname\)/);
 });

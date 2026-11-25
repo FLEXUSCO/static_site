@@ -693,3 +693,31 @@ document.querySelectorAll("a[data-open-details]").forEach((a) => {
     if (el && el.tagName === "DETAILS") el.open = true;
   });
 });
+
+document.querySelectorAll(".video-still").forEach((frame) => {
+  const video = frame.querySelector("video");
+  const button = frame.querySelector(".video-play");
+  if (!video || !button) return;
+  video.playsInline = true;
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "");
+  const revealControls = () => {
+    video.controls = true;
+    frame.classList.add("is-playing");
+    button.hidden = true;
+  };
+  button.addEventListener("click", () => {
+    video.controls = true;
+    video.playsInline = true;
+    const pending = video.play();
+    revealControls();
+    if (pending && typeof pending.catch === "function") {
+      pending.catch(() => {
+        video.controls = false;
+        frame.classList.remove("is-playing");
+        button.hidden = false;
+      });
+    }
+  });
+  video.addEventListener("play", revealControls);
+});
